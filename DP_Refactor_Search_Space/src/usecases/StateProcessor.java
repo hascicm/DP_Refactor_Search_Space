@@ -45,21 +45,21 @@ public class StateProcessor {
 	
 	public static void applyDependencyRepair(State state, DependencyRepair repair){
 		
-		if(repair.getDependencyType() == DependencyType.CAUSE){
+		if(repair.getDependencies().containsKey(DependencyType.CAUSE)){
 			
 			List<SmellOccurance> newSmellOccurances = new ArrayList<SmellOccurance>();
 			
-			for(SmellType smellType : repair.getRelatedSmells()){
+			for(SmellType smellType : repair.getDependencies().get(DependencyType.CAUSE)){
 				newSmellOccurances.add(new SmellOccurance(smellType));
 			}
 			
 			state.getSmells().addAll(newSmellOccurances);
 		}
 		
-		if(repair.getDependencyType() == DependencyType.SOLVE){
+		if(repair.getDependencies().containsKey(DependencyType.SOLVE)){
 			
 			List<SmellOccurance> tempSmellOccurances = new ArrayList<SmellOccurance>();
-			for(SmellType smellType : repair.getRelatedSmells()){
+			for(SmellType smellType : repair.getDependencies().get(DependencyType.SOLVE)){
 				
 				boolean isSolved = false;
 				
@@ -118,7 +118,7 @@ public class StateProcessor {
 			
 			if(map.containsKey(so.getSmell())){
 				
-				int temp = map.get(so);
+				int temp = map.get(so.getSmell());
 				temp++;
 				map.put(so.getSmell(), temp);
 						
