@@ -4,7 +4,7 @@ public class SmellType {
 	private int id;
 	private String name;
 	private String description;
-	private int weight = 5; //the priority of smell
+	private int weight = 5; //the priority of smell : 1 - most accepted; 10 - unwanted (Default - 5)
 
 	
 	public SmellType() {

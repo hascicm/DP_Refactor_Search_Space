@@ -146,6 +146,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		int result = 0;	
 
 		result += r.getToState().getFittnes();
+		result += r.getUsedRepair().getWeight();
 		
 		return result; 
 	}

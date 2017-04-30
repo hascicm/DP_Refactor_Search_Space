@@ -6,7 +6,7 @@ public class Repair {
 	private String name;
 	private String description;
 	List<SmellType> smells;
-	
+	private int weight = 3; //priority of repair 1 - most used; 5 - least used. (Default - 3)
 	
 	public Repair(String name, List<SmellType> smells) {
 		super();
@@ -30,6 +30,12 @@ public class Repair {
 	}
 	public void setSmells(List<SmellType> smells) {
 		this.smells = smells;
+	}
+	public int getWeight() {
+		return weight;
+	}
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 	
 }
