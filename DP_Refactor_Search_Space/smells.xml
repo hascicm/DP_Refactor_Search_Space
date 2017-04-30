@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<smells>
+	<smell>
+		<id>0</id>
+		<name>LongMethod</name>
+		<priority>5</priority>
+	</smell>
+</smells>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<repairs>
+	<repair>
+		<id>1</id>
+		<name>ExtractMethod</name>
+		<description>...</description>
+		<priority>1</priority>
+		<smellName>LongMethod</smellName>
+	</repair>
+</repairs>
