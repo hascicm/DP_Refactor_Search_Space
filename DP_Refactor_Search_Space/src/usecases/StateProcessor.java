@@ -6,6 +6,7 @@ import java.util.List;
 import entities.DependencyRepair;
 import entities.DependencyType;
 import entities.Repair;
+import entities.SmellType;
 import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;
 
@@ -15,7 +16,7 @@ public class StateProcessor {
 		
 		State resultState = applyBasicRepair(baseState, repair, smellOccurance);
 		
-		//Is it possible to change to Visitor pattern (repair.visit(state))
+		//TODO preprobit na repair.applyOnState() s vyuzitim override
 		if(repair instanceof DependencyRepair){
 			applyDependencyRepair(resultState, (DependencyRepair) repair);
 		}
@@ -40,17 +41,44 @@ public class StateProcessor {
 		return resultState;
 	}
 	
-	public static void applyDependencyRepair(State baseState, DependencyRepair repair){
+	public static void applyDependencyRepair(State state, DependencyRepair repair){
 		
 		if(repair.getDependencyType() == DependencyType.CAUSE){
 			
-			//List<Smell>
+			List<SmellOccurance> newSmellOccurances = new ArrayList<SmellOccurance>();
 			
+			for(SmellType smellType : repair.getRelatedSmells()){
+				newSmellOccurances.add(new SmellOccurance(smellType));
+			}
 			
+			state.getSmells().addAll(newSmellOccurances);
 		}
 		
-		
-		
+		if(repair.getDependencyType() == DependencyType.SOLVE){
+			
+			List<SmellOccurance> tempSmellOccurances = new ArrayList<SmellOccurance>();
+			for(SmellType smellType : repair.getRelatedSmells()){
+				
+				boolean isSolved = false;
+				
+				for(SmellOccurance smellOccurance : state.getSmells()){
+				
+					if(smellOccurance.getSmell() == smellType){
+					
+						tempSmellOccurances.add(smellOccurance);
+						isSolved = true;
+					}
+				}
+				
+				if(isSolved)
+					continue;
+			}
+			
+			for(SmellOccurance smellOccurance : tempSmellOccurances){
+				state.getSmells().remove(smellOccurance);
+			}
+			
+		}	
 	}
 	
 	

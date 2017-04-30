@@ -39,6 +39,7 @@ public class BasicDataProvider implements DataProvider{
 		SmellType smell_1 = new SmellType("Smell_1");
 		SmellType smell_2 = new SmellType("Smell_2");
 		SmellType smell_3 = new SmellType("Smell_3");
+		SmellType smell_4 = new SmellType("Smell_4");
 		
 		
 		smell_2.setWeight(8);
@@ -47,6 +48,7 @@ public class BasicDataProvider implements DataProvider{
 		this.smells.add(smell_1);
 		this.smells.add(smell_2);
 		this.smells.add(smell_3);
+		this.smells.add(smell_4);
 		
 		this.repairs = new LinkedList<Repair>();
 		
@@ -61,14 +63,26 @@ public class BasicDataProvider implements DataProvider{
 		repair_2.setWeight(5);
 		
 		List<SmellType> r3_smells = new LinkedList<SmellType>();
-		r2_smells.add(smell_3);
-		DependencyRepair repair_3 = new DependencyRepair("Repair_2", r2_smells, DependencyType.CAUSE);
-		repair_2.setWeight(1);
+		r3_smells.add(smell_2);
+		DependencyRepair repair_3 = new DependencyRepair("Repair_3", r3_smells, DependencyType.CAUSE);
+		repair_3.setWeight(1);
+		List<SmellType> r3_smells_related = new LinkedList<SmellType>();
+		r3_smells_related.add(smell_3);
+		repair_3.setRelatedSmells(r3_smells_related);
+		
+		List<SmellType> r4_smells = new LinkedList<SmellType>();
+		r4_smells.add(smell_1);
+		DependencyRepair repair_4 = new DependencyRepair("Repair_4", r4_smells, DependencyType.SOLVE);
+		
+		List<SmellType> r4_smells_related = new LinkedList<SmellType>();
+		r4_smells_related.add(smell_3);
+		repair_4.setRelatedSmells(r4_smells_related);
 		
 		
 		this.repairs.add(repair_1);
 		this.repairs.add(repair_2);
 		this.repairs.add(repair_3);
+		this.repairs.add(repair_4);
 		
 		//init root state
 		this.root = new State();
