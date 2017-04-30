@@ -4,15 +4,15 @@ import java.util.List;
 
 public class DependencyRepair extends Repair {
 	
-	public DependencyRepair(String name, List<SmellType> smells) {
+	private DependencyType dependencyType;
+	
+	public DependencyRepair(String name, List<SmellType> smells, DependencyType dependencyType) {
 		super(name, smells);
-		// TODO Auto-generated constructor stub
+		this.dependencyType = dependencyType;
 	}
 	
 	List<SmellType> relatedSmells;
 	DependencyType type;
-	
-	
 	
 	public List<SmellType> getRelatedSmells() {
 		return relatedSmells;
@@ -26,5 +26,10 @@ public class DependencyRepair extends Repair {
 	public void setType(DependencyType type) {
 		this.type = type;
 	}
-		
+	public DependencyType getDependencyType() {
+		return dependencyType;
+	}
+	public void setDependencyType(DependencyType dependencyType) {
+		this.dependencyType = dependencyType;
+	}	
 }
