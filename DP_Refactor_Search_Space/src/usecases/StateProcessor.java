@@ -69,7 +69,9 @@ public class StateProcessor {
 					
 						tempSmellOccurances.add(smellOccurance);
 						isSolved = true;
+						break;
 					}
+					
 				}
 				
 				if(isSolved)

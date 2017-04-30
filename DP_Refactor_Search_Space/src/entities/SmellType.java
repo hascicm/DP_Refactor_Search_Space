@@ -18,6 +18,11 @@ public class SmellType {
 	public SmellType(String name) {
 		this.name = name;
 	}
+	
+	public SmellType(String name, int weight) {
+		this.name = name;
+		this.weight = weight;
+	}
 
 	public int getId() {
 		return id;

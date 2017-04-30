@@ -13,7 +13,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	private Set<State> visitedStates;
 	private PriorityQueue<GraphRelation> queue;
 	private State localMinimum = null;
-	private final int MAX_depth = 10;
+	private final int MAX_NODE = 15000;
 	
 	@Override
 	public List<Relation> findPath(State rootState, RelationCreator relationCreator) {
@@ -54,19 +54,18 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			//get next state for visiting
 			currentRelation = this.queue.remove().relation;
 			currentState = currentRelation.getToState();
-			currentState.setId(id++);
+			
 			
 			//Skip the state contains same smells as any of visited state (node)
 			if(isVisited(currentState)){
 				continue;
 			}
 			
+			currentState.setId(id++); 
+			
 			//DEBUG
-			System.out.println();
-			System.out.println("S_" +  currentRelation.getFromState().getId() + " : " + currentRelation.getFromState().getFittnes() + " ( " + currentRelation.getFromState() +")");
-			System.out.println(currentRelation.getUsedRepair().getName() + " ( " + currentRelation.getFixedSmellOccurance().getSmell().getName() + " )");
-			System.out.println("S_" +  currentRelation.getToState().getId() + " : " + currentRelation.getToState().getFittnes() + " ( " + currentRelation.getToState() +")");
-			System.out.println();
+			if(id % 1000 == 0)
+				System.out.println(id);
 			//DEBUG
 			
 			//if currentState is better then local minimum
@@ -88,8 +87,9 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			//add just created relations to queue
 			this.addRelationsToQueue(currentState.getRelations());
 			
-			//TODO depth control
-			//If more then K then break
+			if(currentState.getId() > MAX_NODE){
+				break;
+			}
 		}
 		
 		//RESULT
@@ -98,7 +98,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		System.out.println("RESULT");
 		currentState = this.localMinimum;
 		while(currentState.getSourceRelation() != null){
-			System.out.println(currentState);
+			System.out.println("S_" + currentState.getId() + " [" + currentState.getFittnes() + ", " +currentState.getSmells().size() + "] " + currentState);
 			System.out.println(currentState.getSourceRelation().getUsedRepair().getName());
 			currentState = currentState.getSourceRelation().getFromState();
 		}

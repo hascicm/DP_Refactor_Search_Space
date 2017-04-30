@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Repair {
@@ -13,6 +14,14 @@ public class Repair {
 		this.name = name;
 		this.smells = smells;
 	}
+	
+	public Repair(String name, SmellType smell) {
+		super();
+		this.name = name;
+		this.smells = new ArrayList<SmellType>();
+		this.smells.add(smell);
+	}
+	
 	public String getName() {
 		return name;
 	}

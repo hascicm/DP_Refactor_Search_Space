@@ -118,6 +118,7 @@ public class RelationCreator {
 			Relation rel = new Relation();
 			rel.setUsedRepair(rep);
 			relations.add(rel);
+			return relations;
 		}
 		
 		if(repair.getDependencies().containsKey(DependencyType.CAUSE) ){
@@ -128,6 +129,7 @@ public class RelationCreator {
 			Relation rel = new Relation();
 			rel.setUsedRepair(rep);
 			relations.add(rel);
+			return relations;
 		}
 		
 		if(repair.getDependencies().containsKey(DependencyType.SOLVE) ){
@@ -138,6 +140,7 @@ public class RelationCreator {
 			Relation rel = new Relation();
 			rel.setUsedRepair(rep);
 			relations.add(rel);
+			return relations;
 		}
 		
 		

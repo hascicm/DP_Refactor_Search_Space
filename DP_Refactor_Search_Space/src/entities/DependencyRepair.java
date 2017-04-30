@@ -16,6 +16,10 @@ public class DependencyRepair extends Repair {
 		this.dependencies = new HashMap<DependencyType, List<SmellType>>();
 	}
 		
+	public DependencyRepair(String name, SmellType smell) {
+		super(name, smell);
+		this.dependencies = new HashMap<DependencyType, List<SmellType>>();
+	}
 	
 	public Map<DependencyType, List<SmellType>> getDependencies() {
 		return dependencies;
