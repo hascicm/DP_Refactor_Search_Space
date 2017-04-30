@@ -22,6 +22,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 		//init queue
 		this.queue = new PriorityQueue<GraphRelation>();
+		this.visitedStates = new HashSet<State>();
 		
 		//init visited state
 		this.visitedStates = new HashSet<State>();
@@ -34,6 +35,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		relationCreator.addRelationsToState(rootState);
 		applyRepair(rootState.getRelations());
 		calculateEndNodeFitness(rootState.getRelations());
+		this.visitedStates.add(rootState);
 		
 		
 		//DEBUG
@@ -54,7 +56,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			currentState = currentRelation.getToState();
 			currentState.setId(id++);
 			
-			//TODO Check the control of visited state
+			//Skip the state contains same smells as any of visited state (node)
+			if(isVisited(currentState)){
+				continue;
+			}
 			
 			//DEBUG
 			System.out.println();
@@ -78,6 +83,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			//create end state of relations
 			applyRepair(currentState.getRelations());
 			calculateEndNodeFitness(currentState.getRelations());
+			this.visitedStates.add(currentState);
 			
 			//add just created relations to queue
 			this.addRelationsToQueue(currentState.getRelations());
@@ -166,4 +172,17 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			rel.setToState(s);
 		}
 	}
+	
+	private boolean isVisited(State s){
+		
+		for(State visitedState : this.visitedStates){
+			
+			if(StateProcessor.isEquals(s, visitedState)){
+				return true;
+			}	
+		}
+		
+		return false;
+	}
+	
 }

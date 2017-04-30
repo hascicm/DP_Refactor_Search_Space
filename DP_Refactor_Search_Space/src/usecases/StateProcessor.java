@@ -1,7 +1,9 @@
 package usecases;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import entities.DependencyRepair;
 import entities.DependencyType;
@@ -81,5 +83,52 @@ public class StateProcessor {
 		}	
 	}
 	
+	
+	public static boolean isEquals(State s1, State s2){
+		
+		if(s1.getSmells().size() == s2.getSmells().size()){
+			
+			Map<SmellType, Integer> stateMap1 = makeSmellMap(s1);
+			Map<SmellType, Integer> stateMap2 = makeSmellMap(s2);
+			
+			for(SmellType st1 : stateMap1.keySet()){
+				
+				if(!stateMap2.containsKey(st1)){
+					return false;
+				}
+				
+				if(stateMap1.get(st1) != stateMap2.get(st1)){
+					return false;
+				}
+				
+			}
+			
+			return true;
+		
+		}else{
+			return false;
+		}
+	}
+	
+	private static Map<SmellType, Integer> makeSmellMap(State s){
+		
+		Map<SmellType, Integer> map = new HashMap<SmellType, Integer>();
+		
+		for(SmellOccurance so : s.getSmells()){
+			
+			if(map.containsKey(so.getSmell())){
+				
+				int temp = map.get(so);
+				temp++;
+				map.put(so.getSmell(), temp);
+						
+			}else{
+				map.put(so.getSmell(), 1);
+			}
+			
+		}
+		
+		return map;
+	}
 	
 }
