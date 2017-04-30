@@ -2,12 +2,9 @@ package configuration;
 
 import entities.Model;
 
-
 public class Main {
 	
-
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {	
 		Model model = new Model();
 		model.findRefactoringPath();
 	}

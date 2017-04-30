@@ -1,7 +1,6 @@
 package usecases;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import entities.Repair;
@@ -19,41 +18,48 @@ public class RelationCreator {
 		this.smellTypes = smellTypes;
 		this.repairs = repairs;
 	}
+	
 	public List<SmellType> getSmellTypes() {
 		return smellTypes;
 	}
+	
 	public void setSmellTypes(List<SmellType> smellTypes) {
 		this.smellTypes = smellTypes;
 	}
+	
 	public List<Repair> getRepairs() {
 		return repairs;
 	}
+	
 	public void setRepairs(List<Repair> repairs) {
 		this.repairs = repairs;
 	}
 	
 	public void addRelationsToState(State state){
 		
-		List<Relation> allRelations = new ArrayList<Relation>();	
+		List<Relation> newRelations = new ArrayList<Relation>();	
+		
 		for(SmellOccurance so : state.getSmells()){
-			allRelations.addAll(this.createRelationsToSmellOccurance(so));
+			newRelations.addAll(this.assignRelationsToSmellOccurance(so));
 		}
 		
-		this.addFromState(allRelations, state);
-		state.setRelations(allRelations);
+		this.assignFromStateToRelation(newRelations, state);
+		state.setRelations(newRelations);
 	}
 	
-	private List<Relation> createRelationsToSmellOccurance(SmellOccurance so){
+	private List<Relation> assignRelationsToSmellOccurance(SmellOccurance smellOccurance){
 		
 		List<Relation> relations = new ArrayList<Relation>();
 		
-		for(Repair r : this.repairs){
-			for(SmellType s : r.getSmells()){
-				if(so.getSmell() == s){
-					Relation rel = new Relation();
-					rel.setFixedSmellOccurance(so);
-					rel.setUsedRepair(r);
-					relations.add(rel);
+		for(Repair repair : this.repairs){
+			
+			for(SmellType smell : repair.getSmells()){
+				
+				if(smellOccurance.getSmell() == smell){
+					Relation newRel = new Relation();
+					newRel.setFixedSmellOccurance(smellOccurance);
+					newRel.setUsedRepair(repair);
+					relations.add(newRel);
 				}
 			}
 		}
@@ -61,10 +67,12 @@ public class RelationCreator {
 		return relations;
 	}
 	
-	private void addFromState(List<Relation> rels, State state){
+	private void assignFromStateToRelation(List<Relation> rels, State state){
+		
 		for(Relation r : rels){
 			r.setFromState(state);
 		}
+		
 	}
 	
 }

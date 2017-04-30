@@ -42,14 +42,14 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 		Relation currentRelation = null;
 		State currentState = null;
+		
 		while(!this.queue.isEmpty()){
 			
-			//TODO Check the control of visited state
-			
-			
-			
+			//get next state for visiting
 			currentRelation = this.queue.remove().relation;
 			currentState = currentRelation.getToState();
+			
+			//TODO Check the control of visited state
 			
 			//DEBUG
 			System.out.println("(" + currentRelation.getUsedRepair().getName() + ") :" + currentState);
@@ -57,17 +57,20 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			
 			//if currentState is better then local minimum
 			if(currentState.getFittnes() < this.localMinimum.getFittnes()){
+				
 				this.localMinimum = currentState;
 				
 				if(localMinimum.getFittnes() == 0)
 					break;
 			}
 			
-		
+			//add set of relations to actual node
 			relationCreator.addRelationsToState(currentState);
+			//create end state of relations
 			applyRepair(currentState.getRelations());
 			calculateEndNodeFitness(currentState.getRelations());
 			
+			//add just created relations to queue
 			this.addRelationsToQueue(currentState.getRelations());
 			
 			//TODO depth control
@@ -95,8 +98,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 		for(Relation rel: relations){
 			StateEvaluator.calculateFitness(rel.getToState());
-		}
-		
+		}	
 	}
 
 
@@ -122,22 +124,19 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			super();
 			this.relation = relation;
 		}
-
-
+		
 		@Override
 		public int compareTo(GraphRelation o) {
 				return Integer.compare(calculateHeuristic(this.getRelation()), calculateHeuristic(o.getRelation()));
-		}
-				
+		}			
 	}
 	
 	
 	private static int calculateHeuristic(Relation r){
 		
-		int result = 0;
-		
+		int result = 0;	
+
 		result += r.getToState().getFittnes();
-		
 		
 		return result; 
 	}
@@ -150,11 +149,11 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	}*/
 	
 	private void applyRepair(List<Relation> rels){
+		
 		for(Relation rel : rels){
 			State s = StateProcessor.applyRepair(rel.getFromState(), rel.getUsedRepair(), rel.getFixedSmellOccurance());
 			s.setSourceRelation(rel);
 			rel.setToState(s);
 		}
 	}
-	
 }

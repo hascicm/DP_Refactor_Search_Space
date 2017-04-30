@@ -1,6 +1,6 @@
 package usecases;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Repair;
@@ -11,16 +11,20 @@ public class StateProcessor {
 
 	public static State applyRepair(State baseState, Repair repair, SmellOccurance smellOccurance){
 		
+		//TODO different logic for simple/solve/cause repair
+		
 		State resultState = new State();
 		
-		List<SmellOccurance> temp = new LinkedList<SmellOccurance>();		
+		//for the simply repair without dependency 
+		List<SmellOccurance> smellOccuranceList = new ArrayList<SmellOccurance>();		
+		
 		for(SmellOccurance so : baseState.getSmells()){
 			if(so != smellOccurance){
-				temp.add(so);
+				smellOccuranceList.add(so);
 			}
 		}
 		
-		resultState.setSmells(temp);
+		resultState.setSmells(smellOccuranceList);
 		return resultState;
 	}
 	
