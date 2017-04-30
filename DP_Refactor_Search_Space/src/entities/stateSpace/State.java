@@ -3,6 +3,7 @@ package entities.stateSpace;
 import java.util.List;
 
 public class State {
+	private long id;
 	private List<SmellOccurance> smells;
 	private double fittnes;
 	private List<Relation> relations;
@@ -41,12 +42,19 @@ public class State {
 	public Relation getSourceRelation() {
 		return sourceRelation;
 	}
-
-
+	
 	public void setSourceRelation(Relation sourceRelation) {
 		this.sourceRelation = sourceRelation;
 	}
-	
+		
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public String toString(){
 		
 		StringBuilder sb = new StringBuilder();

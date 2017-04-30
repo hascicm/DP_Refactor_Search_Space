@@ -38,6 +38,9 @@ public class BasicDataProvider implements DataProvider{
 		SmellType smell_2 = new SmellType("Smell_2");
 		SmellType smell_3 = new SmellType("Smell_3");
 		
+		smell_2.setWeight(8);
+		smell_3.setWeight(3);
+		
 		this.smells.add(smell_1);
 		this.smells.add(smell_2);
 		this.smells.add(smell_3);

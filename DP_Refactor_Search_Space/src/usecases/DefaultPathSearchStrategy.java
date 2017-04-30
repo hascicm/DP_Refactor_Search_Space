@@ -18,6 +18,8 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	@Override
 	public List<Relation> findPath(State rootState, RelationCreator relationCreator) {
 		
+		long id = 0;
+		
 		//init queue
 		this.queue = new PriorityQueue<GraphRelation>();
 		
@@ -27,13 +29,15 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		this.localMinimum = rootState;
 		
 		//init rootState
+		rootState.setId(id++);
 		StateEvaluator.calculateFitness(rootState);
 		relationCreator.addRelationsToState(rootState);
 		applyRepair(rootState.getRelations());
 		calculateEndNodeFitness(rootState.getRelations());
 		
+		
 		//DEBUG
-		System.out.println(rootState);
+		System.out.println("S_" +  rootState.getId() + " : " + rootState.getFittnes() + " ( " + rootState +")");
 		//DEBUG
 		
 		
@@ -48,11 +52,16 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			//get next state for visiting
 			currentRelation = this.queue.remove().relation;
 			currentState = currentRelation.getToState();
+			currentState.setId(id++);
 			
 			//TODO Check the control of visited state
 			
 			//DEBUG
-			System.out.println("(" + currentRelation.getUsedRepair().getName() + ") :" + currentState);
+			System.out.println();
+			System.out.println("S_" +  currentRelation.getFromState().getId() + " : " + currentRelation.getFromState().getFittnes() + " ( " + currentRelation.getFromState() +")");
+			System.out.println(currentRelation.getUsedRepair().getName() + " ( " + currentRelation.getFixedSmellOccurance().getSmell().getName() + " )");
+			System.out.println("S_" +  currentRelation.getToState().getId() + " : " + currentRelation.getToState().getFittnes() + " ( " + currentRelation.getToState() +")");
+			System.out.println();
 			//DEBUG
 			
 			//if currentState is better then local minimum

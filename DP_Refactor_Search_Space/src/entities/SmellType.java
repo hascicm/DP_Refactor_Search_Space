@@ -4,6 +4,7 @@ public class SmellType {
 	private int id;
 	private String name;
 	private String description;
+	private int weight = 5; //the priority of smell
 
 	
 	public SmellType() {
@@ -42,4 +43,12 @@ public class SmellType {
 		this.description = description;
 	}
 
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+	
 }

@@ -1,11 +1,19 @@
 package usecases;
 
+import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;
 
 public class StateEvaluator {
 
 	public static void calculateFitness(State state){
-		state.setFittnes(state.getSmells().size());
+		
+		int fitness = 0;
+		
+		for(SmellOccurance smellOccurance : state.getSmells()){
+			fitness += smellOccurance.getSmell().getWeight();
+		}
+		
+		state.setFittnes(fitness);
 	}
 	
 }
