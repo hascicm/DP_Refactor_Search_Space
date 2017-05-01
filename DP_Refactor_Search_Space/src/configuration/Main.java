@@ -2,13 +2,13 @@ package configuration;
 
 
 
-import entities.Model;
+import entities.RefactorProcessOptimizer;
 
 
 public class Main {
 	
 	public static void main(String[] args) {	
-		Model model = new Model();
+		RefactorProcessOptimizer model = new RefactorProcessOptimizer();
 		model.findRefactoringPath();
 	}
 }

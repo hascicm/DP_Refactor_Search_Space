@@ -5,7 +5,7 @@ import java.util.List;
 public class State {
 	private long id;
 	private List<SmellOccurance> smells;
-	private double fittnes;
+	private double fitness;
 	private List<Relation> relations;
 	private Relation sourceRelation = null;
 
@@ -19,13 +19,13 @@ public class State {
 	}
 
 
-	public double getFittnes() {
-		return fittnes;
+	public double getFitness() {
+		return fitness;
 	}
 
 
-	public void setFittnes(double fittnes) {
-		this.fittnes = fittnes;
+	public void setFitness(double fitness) {
+		this.fitness = fitness;
 	}
 
 

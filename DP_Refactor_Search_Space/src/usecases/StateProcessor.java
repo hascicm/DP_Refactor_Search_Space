@@ -20,13 +20,13 @@ public class StateProcessor {
 		
 		//TODO preprobit na repair.applyOnState() s vyuzitim override
 		if(repair instanceof DependencyRepair){
-			applyDependencyRepair(resultState, (DependencyRepair) repair);
+			applyDependencies(resultState, (DependencyRepair) repair);
 		}
 		
 		return resultState;
 	}
 	
-	public static State applyBasicRepair(State baseState, Repair repair, SmellOccurance smellOccurance){
+	private static State applyBasicRepair(State baseState, Repair repair, SmellOccurance smellOccurance){
 		
 		State resultState = new State();
 		
@@ -43,7 +43,7 @@ public class StateProcessor {
 		return resultState;
 	}
 	
-	public static void applyDependencyRepair(State state, DependencyRepair repair){
+	private static void applyDependencies(State state, DependencyRepair repair){
 		
 		if(repair.getDependencies().containsKey(DependencyType.CAUSE)){
 			
@@ -133,4 +133,15 @@ public class StateProcessor {
 		return map;
 	}
 	
+		
+	public static void calculateFitness(State state){
+		
+		int fitness = 0;
+		
+		for(SmellOccurance smellOccurance : state.getSmells()){
+			fitness += smellOccurance.getSmell().getWeight();
+		}
+		
+		state.setFitness(fitness);
+	}
 }

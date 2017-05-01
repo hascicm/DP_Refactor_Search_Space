@@ -6,30 +6,25 @@ import entities.stateSpace.State;
 import usecases.DefaultPathSearchStrategy;
 import usecases.PathSearchStrategy;
 import usecases.RelationCreator;
-import usecases.StateEvaluator;
 
-public class Model {
-	private State root; 
+public class RefactorProcessOptimizer {
 	
 	private DataProvider dataProvider;
 	private PathSearchStrategy pathSearchStrategy;
-	private RelationCreator relationCreator;
-	
-	public Model(){
+		
+	public RefactorProcessOptimizer(){
 		init();	
 	}
 
 	private void init() {
 		this.dataProvider = new BasicDataProvider();
-		this.root = this.dataProvider.getRootState();
-		this.relationCreator = new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs());
-		this.pathSearchStrategy = new DefaultPathSearchStrategy();
+		this.pathSearchStrategy = new DefaultPathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
 			
 	}
 
 	public void findRefactoringPath(){
 		
-		this.pathSearchStrategy.findPath(this.root, this.relationCreator);
+		this.pathSearchStrategy.findPath(this.dataProvider.getRootState());
 		
 	}
 	
