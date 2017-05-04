@@ -9,7 +9,7 @@ import entities.stateSpace.State;
 
 public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
-	private final int MAX_DEPTH = 15000;
+	private final int MAX_DEPTH = 7;
 	
 	public DefaultPathSearchStrategy(RelationCreator relationCreator) {
 		super(relationCreator);
@@ -36,19 +36,20 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			}
 			
 			currentState.setId(lastStateId++); 
-									
+			
+			
 			//if currentState is better then local minimum
 			if(currentState.getFitness() < this.localMinimum.getFitness()){
 				
 				this.localMinimum = currentState;
 				
-				if(localMinimum.getFitness() == 0)
-					break;
 			}
 			
-			if(currentState.getDepth() <= MAX_DEPTH){
+			if(currentState.getDepth() < MAX_DEPTH){
 				expandCurrentState(currentState);
 			}
+			
+			System.out.println(currentState.getDepth() + ", " + currentState.getFitness() + ", " + (this.localMinimum.getDepth()+ this.localMinimum.getFitness()));
 			
 		}
 		
