@@ -8,6 +8,7 @@ public class State {
 	private double fitness;
 	private List<Relation> relations;
 	private Relation sourceRelation = null;
+	private int depth;
 
 	public List<Relation> getRelations() {
 		return relations;
@@ -53,6 +54,14 @@ public class State {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
 	}
 
 	public String toString(){

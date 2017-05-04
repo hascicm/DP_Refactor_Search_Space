@@ -28,6 +28,7 @@ public abstract class PathSearchStrategy {
 		for(Relation rel : rels){
 			State s = StateProcessor.applyRepair(rel.getFromState(), rel.getUsedRepair(), rel.getFixedSmellOccurance());
 			s.setSourceRelation(rel);
+			s.setDepth(rel.getFromState().getDepth() + 1);
 			rel.setToState(s);
 		}
 	}
@@ -82,7 +83,7 @@ public abstract class PathSearchStrategy {
 			this.queue.add(new GraphRelation(r));
 	}
 	
-	protected void initRoot(State rootState) {
+	protected void init(State rootState) {
 		// init queue
 		this.queue = new PriorityQueue<GraphRelation>();
 		this.visitedStates = new HashSet<State>();
@@ -93,6 +94,7 @@ public abstract class PathSearchStrategy {
 		this.localMinimum = rootState;
 
 		// init rootState
+		rootState.setDepth(0);
 		rootState.setId(lastStateId++);
 		StateProcessor.calculateFitness(rootState);
 		relationCreator.addRelationsToState(rootState);

@@ -9,7 +9,7 @@ import entities.stateSpace.State;
 
 public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
-	private final int MAX_NODE = 15000;
+	private final int MAX_DEPTH = 15000;
 	
 	public DefaultPathSearchStrategy(RelationCreator relationCreator) {
 		super(relationCreator);
@@ -18,7 +18,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	@Override
 	public List<Relation> findPath(State rootState) {
 			
-		initRoot(rootState);
+		init(rootState);
 			
 		Relation currentRelation = null;
 		State currentState = null;
@@ -46,11 +46,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 					break;
 			}
 			
-			expandCurrentState(currentState);
-						
-			if(currentState.getId() > MAX_NODE){
-				break;
+			if(currentState.getDepth() <= MAX_DEPTH){
+				expandCurrentState(currentState);
 			}
+			
 		}
 		
 		//RESULT
@@ -70,10 +69,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		for(Relation r : results){
 			System.out.println("-------------");
 			currentState = r.getFromState();
-			System.out.println("S_" + currentState+ " [" + currentState.getFitness() + ", " +currentState.getSmells().size() + "] " + currentState);
+			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
 			System.out.println(r.getUsedRepair().getName());
 			currentState = r.getToState();
-			System.out.println("S_" + currentState+ " [" + currentState.getFitness() + ", " +currentState.getSmells().size() + "] " + currentState);
+			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
 		}
 		System.out.println(currentState);
 		//DEBUG		
@@ -86,6 +85,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 
 		result += r.getToState().getFitness();
 		result += r.getUsedRepair().getWeight();
+		result += r.getToState().getDepth();
 		
 		return result; 
 	}
