@@ -15,11 +15,48 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		super(relationCreator);
 	}
 	
+	
 	@Override
 	public List<Relation> findPath(State rootState) {
 			
 		init(rootState);
+		
+		start(rootState);
+		
+		//RESULT
+		List<Relation> results = new ArrayList<Relation>();
+		
+		State currentState = this.localMinimum;
+		while(currentState.getSourceRelation() != null){
+			results.add(currentState.getSourceRelation());
+			currentState = currentState.getSourceRelation().getFromState();
+		}
+		
+		Collections.reverse(results);
 			
+		/*//DEBUG
+		System.out.println("");
+		System.out.println("RESULT");
+		for(Relation r : results){
+			System.out.println("-------------");
+			currentState = r.getFromState();
+			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
+			System.out.println(r.getUsedRepair().getName());
+			currentState = r.getToState();
+			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
+		}
+		System.out.println(currentState);
+		//DEBUG	*/	
+		return results;
+	}
+
+
+	protected void start(State rootState) {
+		
+		this.lastStateId = 0;
+		// add relations from rootState to queue
+		this.addRelationsToQueue(rootState.getRelations());
+		
 		Relation currentRelation = null;
 		State currentState = null;
 		
@@ -49,35 +86,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 				expandCurrentState(currentState);
 			}
 			
-			System.out.println(currentState.getDepth() + ", " + currentState.getFitness() + ", " + (this.localMinimum.getDepth()+ this.localMinimum.getFitness()));
+			//System.out.println(currentState.getDepth() + ", " + currentState.getFitness() + ", " + (this.localMinimum.getDepth()+ this.localMinimum.getFitness()));
 			
 		}
 		
-		//RESULT
-		List<Relation> results = new ArrayList<Relation>();
-		
-		currentState = this.localMinimum;
-		while(currentState.getSourceRelation() != null){
-			results.add(currentState.getSourceRelation());
-			currentState = currentState.getSourceRelation().getFromState();
-		}
-		
-		Collections.reverse(results);
-			
-		//DEBUG
-		System.out.println("");
-		System.out.println("RESULT");
-		for(Relation r : results){
-			System.out.println("-------------");
-			currentState = r.getFromState();
-			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
-			System.out.println(r.getUsedRepair().getName());
-			currentState = r.getToState();
-			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
-		}
-		System.out.println(currentState);
-		//DEBUG		
-		return results;
 	}	
 
 	protected int calculateHeuristic(Relation r){

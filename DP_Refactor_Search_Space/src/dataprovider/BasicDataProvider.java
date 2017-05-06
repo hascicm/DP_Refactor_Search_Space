@@ -160,7 +160,7 @@ public class BasicDataProvider implements DataProvider{
 		this.root.getSmells().add(new SmellOccurance(smell_incompleteLibraryPath));
 		this.root.getSmells().add(new SmellOccurance(smell_longParameterList));		
 		this.root.getSmells().add(new SmellOccurance(smell_dataClass));
-		this.root.getSmells().add(new SmellOccurance(smell_largeClass));		
+		this.root.getSmells().add(new SmellOccurance(smell_largeClass));	
 		//this.root.getSmells().add(new SmellOccurance(smell_temporaryField));
 		
 	}

@@ -102,8 +102,7 @@ public abstract class PathSearchStrategy {
 		calculateEndNodeFitness(rootState.getRelations());
 		this.visitedStates.add(rootState);
 
-		// add relations from rootState to queue
-		this.addRelationsToQueue(rootState.getRelations());
+		
 	}
 	
 	protected void expandCurrentState(State currentState){
