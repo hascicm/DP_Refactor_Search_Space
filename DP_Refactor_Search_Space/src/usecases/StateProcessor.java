@@ -142,6 +142,13 @@ public class StateProcessor {
 			fitness += smellOccurance.getSmell().getWeight();
 		}
 		
+		State currentState = state;
+		while(currentState.getSourceRelation() != null){
+			fitness += currentState.getSourceRelation().getUsedRepair().getWeight();
+			currentState = currentState.getSourceRelation().getFromState();
+		}
+		
+		
 		state.setFitness(fitness);
 	}
 }

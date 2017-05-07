@@ -175,8 +175,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 		int result = 0;	
 
 		result += r.getToState().getFitness();
-		result += r.getUsedRepair().getWeight();
-		result += r.getToState().getDepth();
+		
 		
 		return result; 
 	}
