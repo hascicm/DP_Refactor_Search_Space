@@ -20,9 +20,8 @@ public abstract class PathSearchStrategy {
 		this.relationCreator = relationCreator;
 	}
 	
-	public abstract List<Relation> findPath(State rootState);
-	protected abstract int calculateHeuristic(Relation r);
-		
+	public abstract List<Relation> findPath(State rootState, int depth);
+			
 	protected void applyRepair(List<Relation> rels){
 		
 		for(Relation rel : rels){
@@ -44,6 +43,10 @@ public abstract class PathSearchStrategy {
 		}
 		
 		return false;
+	}
+	
+	protected int calculateHeuristic(Relation r){
+		return (int) r.getToState().getFitness(); 
 	}
 	
 	protected void calculateEndNodeFitness(List<Relation> relations) {
@@ -83,25 +86,15 @@ public abstract class PathSearchStrategy {
 			this.queue.add(new GraphRelation(r));
 	}
 	
-	protected void init(State rootState) {
-		// init queue
-		this.queue = new PriorityQueue<GraphRelation>();
-		this.visitedStates = new HashSet<State>();
-
-		// init visited state
-		this.visitedStates = new HashSet<State>();
-		this.visitedStates.add(rootState);
-		this.localMinimum = rootState;
-
+	protected void init(State rootState, int depth) {
+		
 		// init rootState
-		rootState.setDepth(0);
+		rootState.setDepth(depth);
 		rootState.setId(lastStateId++);
 		StateProcessor.calculateFitness(rootState);
 		relationCreator.addRelationsToState(rootState);
 		applyRepair(rootState.getRelations());
 		calculateEndNodeFitness(rootState.getRelations());
-		this.visitedStates.add(rootState);
-
 		
 	}
 	
@@ -109,13 +102,10 @@ public abstract class PathSearchStrategy {
 		
 		//add set of relations to actual node
 		relationCreator.addRelationsToState(currentState);
+		
 		//create end state of relations
 		applyRepair(currentState.getRelations());
 		calculateEndNodeFitness(currentState.getRelations());
-		this.visitedStates.add(currentState);
-		
-		//add just created relations to queue
-		this.addRelationsToQueue(currentState.getRelations());
 	}
 	
 }

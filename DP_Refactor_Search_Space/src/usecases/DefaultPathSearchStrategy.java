@@ -2,14 +2,17 @@ package usecases;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import entities.stateSpace.Relation;
 import entities.stateSpace.State;
+import usecases.PathSearchStrategy.GraphRelation;
 
 public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
-	private final int MAX_DEPTH = 8;
+	private final int MAX_DEPTH = 7;
 	
 	public DefaultPathSearchStrategy(RelationCreator relationCreator) {
 		super(relationCreator);
@@ -17,9 +20,9 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	
 	
 	@Override
-	public List<Relation> findPath(State rootState) {
+	public List<Relation> findPath(State rootState, int depth) {
 			
-		init(rootState);
+		init(rootState, depth);
 		
 		start(rootState);
 		
@@ -92,15 +95,29 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 	}	
 
-	protected int calculateHeuristic(Relation r){
+	protected void init(State rootState, int depth) {
+		super.init(rootState, depth);
 		
-		int result = 0;	
+		// init queue
+		this.queue = new PriorityQueue<GraphRelation>();
+		this.visitedStates = new HashSet<State>();
 
-		result += r.getToState().getFitness();
-		result += r.getUsedRepair().getWeight();
-		result += r.getToState().getDepth();
+		// init visited state
+		this.visitedStates = new HashSet<State>();
+		this.visitedStates.add(rootState);
+		this.localMinimum = rootState;
+	
+		this.visitedStates.add(rootState);		
+	}
 		
-		return result; 
+protected void expandCurrentState(State currentState){
+		
+		super.expandCurrentState(currentState);
+		
+		this.visitedStates.add(currentState);
+		
+		//add just created relations to queue
+		this.addRelationsToQueue(currentState.getRelations());
 	}
 	
 }

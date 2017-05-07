@@ -46,7 +46,8 @@ public class Agent implements Runnable{
 		List<Relation> tempPath = null;
 		for(Relation rel : this.rootRelations){
 			
-			tempPath = this.pathSearchStrategy.findPath(rel.getToState());
+			//TODO prerobit depth parameter
+			tempPath = this.pathSearchStrategy.findPath(rel.getToState(), 1);
 			
 			if(this.bestPath != null){
 				

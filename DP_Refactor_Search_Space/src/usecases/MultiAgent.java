@@ -17,7 +17,7 @@ public class MultiAgent {
 	public List<Relation> findPath(State rootState,PathSearchStrategy strategy){
 		
 			
-		strategy.init(rootState);
+		strategy.init(rootState, 0);
 		
 		
 		List<Agent> agents = new ArrayList<Agent>();

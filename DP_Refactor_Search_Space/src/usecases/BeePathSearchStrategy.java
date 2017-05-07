@@ -1,7 +1,6 @@
 package usecases;
 
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -11,12 +10,12 @@ import entities.stateSpace.State;
 
 public class BeePathSearchStrategy extends PathSearchStrategy {
 	
-	private static int NUM_ITER = 2000;
-	private static int NUM_BEES = 40; 
-	private static int NUM_EMPLOYED_BEES = 20;
-	private static int NUM_ONLOOKER_BEES = 20;
+	private static int NUM_ITER = 500;
+	private static int NUM_BEES = 8; 
+	private static int NUM_EMPLOYED_BEES = 4;
+	private static int NUM_ONLOOKER_BEES = 4;
 	private static int SCOUT_MAX_DEPTH = 20;
-	private static int PATCH_SIZE = 3;
+	private static int PATCH_SIZE = 2;
 	private List<Bee> bees;
 	
 	public BeePathSearchStrategy(RelationCreator relationCreator) {
@@ -25,14 +24,14 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 	}
 
 	@Override
-	public List<Relation> findPath(State rootState) {
+	public List<Relation> findPath(State rootState, int depth) {
 		
 		List<Bee> employeeBees = new ArrayList<Bee>();
 		List<Bee> onlookerBees = new ArrayList<Bee>();
 		List<Bee> fittestBees = new ArrayList<Bee>();
 		List<Bee> remainingBees = new ArrayList<Bee>();
 		
-		this.init(rootState);
+		this.init(rootState, depth);
 		
 		this.initPopulation(rootState);
 		
@@ -41,7 +40,9 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			this.evaluatePopulation(this.bees);
 			
 			Collections.sort(this.bees);
-			printBees(bees, i);
+			//DEBUG
+			printBees(bees);
+			//DEBUG
 			
 			//best <num> of states (employed bees)
 			employeeBees.clear();
@@ -62,10 +63,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			int numOfRecruitBees = 0;
 			for(Bee b : employeeBees){
 				b.getRecruitedBees().clear();
-				
-				//add self to recruited bee - for the further comparison
-				//b.getRecruitedBees().add(b);
-				
+								
 				Bee tempBee = null;
 				for(int j = 0; j < b.getNumForRecruit(); j++){
 					tempBee = onlookerBees.get(numOfRecruitBees++);
@@ -108,10 +106,32 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			}
 		}
 		
+		Collections.sort(this.bees);
 		
+		List<Relation> results = new ArrayList<Relation>();
+		State currentState = this.bees.get(0).getVisitedState();
+		while(currentState.getSourceRelation() != null){
+			results.add(currentState.getSourceRelation());
+			currentState = currentState.getSourceRelation().getFromState();
+		}
 		
+		Collections.reverse(results);
 		
-		return null;
+		//DEBUG
+		System.out.println("");
+		System.out.println("RESULT");
+		for(Relation r : results){
+			System.out.println("-------------");
+			currentState = r.getFromState();
+			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
+			System.out.println(r.getUsedRepair().getName());
+			currentState = r.getToState();
+			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
+		}
+		System.out.println(currentState);
+		//DEBUG
+		
+		return results;
 	}
 
 	private void calculateProbabilityForRecruit(List<Bee> employeeBees) {
@@ -136,48 +156,22 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 				
 			}
 			
-		}
-		
-		
+		}		
 	}
 
 
 	private void evaluatePopulation(List<Bee> bees) {
 		for(Bee b: bees){
 			b.setHeuristic(this.calculateHeuristic(b.getVisitedState().getSourceRelation()));
-		}
-		
-	}
-
-	@Override
-	protected void init(State rootState) {
-		rootState.setDepth(0);
-		rootState.setId(lastStateId++);
-		StateProcessor.calculateFitness(rootState);
-		relationCreator.addRelationsToState(rootState);
-		applyRepair(rootState.getRelations());
-		calculateEndNodeFitness(rootState.getRelations());
+		}	
 	}
 	
-	private void initPopulation(State rootState) {
-		
-		for(int i = 0; i < NUM_BEES; i++){
-			
+	private void initPopulation(State rootState) {	
+		for(int i = 0; i < NUM_BEES; i++){	
 			Bee b = new Bee();
 			exploreSpace(b, rootState, SCOUT_MAX_DEPTH);
 			this.bees.add(b);
 		}
-	}
-
-	@Override
-	protected int calculateHeuristic(Relation r) {
-		
-		int result = 0;	
-
-		result += r.getToState().getFitness();
-		
-		
-		return result; 
 	}
 
 	private void exploreSpace(Bee bee, State state, int maxDepth){
@@ -198,25 +192,12 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 				
 			indexOfSelectedRelation = random.nextInt(currentState.getRelations().size()); 
 
-			currentState = currentState.getRelations().get(indexOfSelectedRelation).getToState();
-			
-		
+			currentState = currentState.getRelations().get(indexOfSelectedRelation).getToState();	
 		}
 		
 		bee.setVisitedState(currentState);
 	}
-	
-	@Override
-	protected void expandCurrentState(State currentState){
 		
-		//add set of relations to actual node
-		relationCreator.addRelationsToState(currentState);
-		//create end state of relations
-		applyRepair(currentState.getRelations());
-		calculateEndNodeFitness(currentState.getRelations());
-				
-	}
-	
 	private class Bee implements Comparable<Bee>{
 		
 		State visitedState;
@@ -269,25 +250,10 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 		public void setNumForRecruit(int numForRecruit) {
 			this.numForRecruit = numForRecruit;
 		}
-		
-		
-		
+				
 	}
 
-	private void printBees(List<Bee> bees, int i){
-		/*int i = 1;
-		for(Bee b : bees){
-			//System.out.println(i++ + ". [ Fitness:" + b.getHeuristic() + ", Depth:"+ b.getVisitedState().getDepth() +", PTR: "+ b.getProbabilityToRecruit() +"] - " + b.getVisitedState());
-			//System.out.println(b.getProbabilityToRecruit() + " " + b.getNumForRecruit());
-			System.out.println(i++ + ". [ Fitness:" + b.getHeuristic() + ", Depth:"+ b.getVisitedState().getDepth() +", PTR: "+ b.getProbabilityToRecruit() +"] - " + b.getVisitedState());
-			
-			
-			
-		}
-		System.out.println("");
-		System.out.println("");
-		System.out.println("----------------");*/
-		
-		System.out.println(i + "," + (bees.get(0).getHeuristic() + bees.get(0).getVisitedState().getFitness()));
+	private void printBees(List<Bee> bees){		
+		System.out.println((bees.get(0).getHeuristic()));
 	}
 }
