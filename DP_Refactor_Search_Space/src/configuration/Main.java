@@ -11,8 +11,8 @@ public class Main {
 		RefactorProcessOptimizer model = new RefactorProcessOptimizer();
 		model.findRefactoringPath();
 		
-		//System.out.println("");
-		//System.out.println("Time: ");
-		//System.out.println(((startTime - System.currentTimeMillis())/1000.0));
+		System.out.println("");
+		System.out.println("Time: ");
+		System.out.println(((startTime - System.currentTimeMillis())/1000.0));
 	}
 }

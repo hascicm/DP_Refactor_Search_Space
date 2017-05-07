@@ -12,7 +12,7 @@ import usecases.PathSearchStrategy.GraphRelation;
 
 public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
-	private final int MAX_DEPTH = 7;
+	private final int MAX_DEPTH = 10;
 	
 	public DefaultPathSearchStrategy(RelationCreator relationCreator) {
 		super(relationCreator);

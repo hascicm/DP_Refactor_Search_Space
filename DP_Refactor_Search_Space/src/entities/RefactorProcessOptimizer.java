@@ -20,15 +20,15 @@ public class RefactorProcessOptimizer {
 	private void init() {
 		this.dataProvider = new BasicDataProvider();
 		this.pathSearchStrategy = new DefaultPathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
-		this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
+		//this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
 	}
 
 	public void findRefactoringPath(){
 		MultiAgent ma = new MultiAgent();
 		ma.findPath(this.dataProvider.getRootState(), this.pathSearchStrategy);
 		
-		this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
-		this.pathSearchStrategy.findPath(this.dataProvider.getRootState(), 0);
+		//this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
+		//this.pathSearchStrategy.findPath(this.dataProvider.getRootState(), 0);
 		
 	}
 	
