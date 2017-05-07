@@ -3,6 +3,7 @@ package entities;
 import dataprovider.BasicDataProvider;
 import dataprovider.DataProvider;
 import entities.stateSpace.State;
+import usecases.BeePathSearchStrategy;
 import usecases.DefaultPathSearchStrategy;
 import usecases.MultiAgent;
 import usecases.PathSearchStrategy;
@@ -19,13 +20,15 @@ public class RefactorProcessOptimizer {
 
 	private void init() {
 		this.dataProvider = new BasicDataProvider();
-		this.pathSearchStrategy = new DefaultPathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
-		
+		//this.pathSearchStrategy = new DefaultPathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
+		this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
 	}
 
 	public void findRefactoringPath(){
-		MultiAgent ma = new MultiAgent();
-		ma.findPath(this.dataProvider.getRootState(), this.pathSearchStrategy);
+		//MultiAgent ma = new MultiAgent();
+		//ma.findPath(this.dataProvider.getRootState(), this.pathSearchStrategy);
+		
+		this.pathSearchStrategy.findPath(this.dataProvider.getRootState());
 		
 	}
 	
