@@ -65,5 +65,6 @@ public class Agent implements Runnable{
 				this.bestPath = tempPath;
 			}
 		}	
+		
 	}
 }

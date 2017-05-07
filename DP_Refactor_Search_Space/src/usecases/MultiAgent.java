@@ -2,6 +2,9 @@ package usecases;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Lists;
 
@@ -18,26 +21,25 @@ public class MultiAgent {
 		
 		
 		List<Agent> agents = new ArrayList<Agent>();
-		List<Thread> threads = new ArrayList<Thread>();
+		
 		
 		int subListSize = rootState.getRelations().size() / NUM_AGENT;
 		List<List<Relation>> subLists = Lists.partition(rootState.getRelations(), subListSize);
 		
+				
+		ExecutorService taskExecutor = Executors.newFixedThreadPool(NUM_AGENT);
 		for(int i = 0; i < NUM_AGENT; i++){
 			Agent a = new Agent(subLists.get(i), new DefaultPathSearchStrategy(strategy.relationCreator));
+			taskExecutor.execute(a);
 			agents.add(a);
-			threads.add(new Thread(a));		
+		}
+		taskExecutor.shutdown();
+		try {
+			taskExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		
-		for(Thread t : threads){
-			try {
-				t.start();
-				t.join();
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-		}
 		
 		
 		List<Relation> res = null;
