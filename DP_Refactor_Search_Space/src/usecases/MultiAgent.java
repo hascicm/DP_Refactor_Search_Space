@@ -12,7 +12,7 @@ import entities.stateSpace.*;
 
 public class MultiAgent {
 	
-	private static int NUM_AGENT = 14;
+	private static int NUM_AGENT = 10;
 	
 	public List<Relation> findPath(State rootState,PathSearchStrategy strategy){
 		

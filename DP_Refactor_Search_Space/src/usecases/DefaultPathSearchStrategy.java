@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 
 import entities.stateSpace.Relation;
 import entities.stateSpace.State;
-import usecases.PathSearchStrategy.GraphRelation;
+
 
 public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
