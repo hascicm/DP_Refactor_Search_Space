@@ -24,11 +24,11 @@ public class RefactorProcessOptimizer {
 	}
 
 	public void findRefactoringPath(){
-		MultiAgent ma = new MultiAgent();
-		ma.findPath(this.dataProvider.getRootState(), this.pathSearchStrategy);
+		//MultiAgent ma = new MultiAgent();
+		//ma.findPath(this.dataProvider.getRootState(), this.pathSearchStrategy);
 		
 		//this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
-		//this.pathSearchStrategy.findPath(this.dataProvider.getRootState(), 0);
+		this.pathSearchStrategy.findPath(this.dataProvider.getRootState(), 0);
 		
 	}
 	
