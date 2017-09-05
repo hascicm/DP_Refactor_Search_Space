@@ -1,9 +1,7 @@
 package usecases;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import entities.DependencyRepair;
 import entities.DependencyType;
@@ -26,11 +24,11 @@ public class StateProcessor {
 		return resultState;
 	}
 	
+	//for the simply repair without dependency just remove smell occurance
 	private static State applyBasicRepair(State baseState, Repair repair, SmellOccurance smellOccurance){
 		
 		State resultState = new State();
 		
-		//for the simply repair without dependency 
 		List<SmellOccurance> smellOccuranceList = new ArrayList<SmellOccurance>();		
 		
 		for(SmellOccurance so : baseState.getSmells()){
@@ -84,56 +82,7 @@ public class StateProcessor {
 			
 		}	
 	}
-	
-	
-	public static boolean isEquals(State s1, State s2){
-		
-		if(s1.getSmells().size() == s2.getSmells().size()){
 			
-			Map<SmellType, Integer> stateMap1 = makeSmellMap(s1);
-			Map<SmellType, Integer> stateMap2 = makeSmellMap(s2);
-			
-			for(SmellType st1 : stateMap1.keySet()){
-				
-				if(!stateMap2.containsKey(st1)){
-					return false;
-				}
-				
-				if(stateMap1.get(st1) != stateMap2.get(st1)){
-					return false;
-				}
-				
-			}
-			
-			return true;
-		
-		}else{
-			return false;
-		}
-	}
-	
-	private static Map<SmellType, Integer> makeSmellMap(State s){
-		
-		Map<SmellType, Integer> map = new HashMap<SmellType, Integer>();
-		
-		for(SmellOccurance so : s.getSmells()){
-			
-			if(map.containsKey(so.getSmell())){
-				
-				int temp = map.get(so.getSmell());
-				temp++;
-				map.put(so.getSmell(), temp);
-						
-			}else{
-				map.put(so.getSmell(), 1);
-			}
-			
-		}
-		
-		return map;
-	}
-	
-		
 	public static void calculateFitness(State state){
 		
 		int fitness = 0;
@@ -151,8 +100,7 @@ public class StateProcessor {
 			fitness += currentState.getSourceRelation().getUsedRepair().getWeight();
 			currentState = currentState.getSourceRelation().getFromState();
 		}
-		
-		
+			
 		state.setFitness(fitness);
 	}
 	

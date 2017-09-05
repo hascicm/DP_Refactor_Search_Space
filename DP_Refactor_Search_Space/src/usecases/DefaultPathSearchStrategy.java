@@ -38,7 +38,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		Collections.reverse(results);
 			
 		//DEBUG
-		System.out.println("");
+		/*System.out.println("");
 		System.out.println("RESULT");
 		for(Relation r : results){
 			System.out.println("-------------");
@@ -48,7 +48,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			currentState = r.getToState();
 			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
 		}
-		System.out.println(currentState);
+		System.out.println(currentState);*/
 		//DEBUG		
 		return results;
 	}
