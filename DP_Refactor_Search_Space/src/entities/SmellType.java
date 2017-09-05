@@ -1,7 +1,7 @@
 package entities;
 
 public class SmellType {
-	private int id;
+	private Integer id;
 	private String name;
 	private String description;
 	private int weight = 5; //the priority of smell : 1 - most accepted; 10 - unwanted (Default - 5)
@@ -23,12 +23,18 @@ public class SmellType {
 		this.name = name;
 		this.weight = weight;
 	}
+	
+	public SmellType(Integer id, String name, int weight) {
+		this.id = id; 
+		this.name = name;
+		this.weight = weight;
+	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

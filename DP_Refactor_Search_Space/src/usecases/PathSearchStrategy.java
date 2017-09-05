@@ -1,16 +1,20 @@
 package usecases;
 
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import entities.SmellType;
 import entities.stateSpace.Relation;
 import entities.stateSpace.State;
 
 public abstract class PathSearchStrategy {
 	
-	protected Set<State> visitedStates;
+	//protected Set<State> visitedStates;
+	protected Set<String> visitedStates;
 	protected State localMinimum = null;
 	protected PriorityQueue<GraphRelation> queue;
 	protected RelationCreator relationCreator;
@@ -29,11 +33,17 @@ public abstract class PathSearchStrategy {
 			s.setSourceRelation(rel);
 			s.setDepth(rel.getFromState().getDepth() + 1);
 			rel.setToState(s);
+			
+			
+			//TODO
+			//sort smells in new state by ID (potentially time consuming action)
+			s.getSmells().sort((o1, o2) -> o1.getSmell().getId().compareTo(o2.getSmell().getId()));
+			
 		}
 	}
 	
 	
-	protected boolean isVisited(State s){
+	/*protected boolean isVisited(State s){
 		
 		for(State visitedState : this.visitedStates){
 			
@@ -43,6 +53,12 @@ public abstract class PathSearchStrategy {
 		}
 		
 		return false;
+	}*/
+	
+	protected boolean isVisited(State s){
+		
+		return this.visitedStates.contains(StateProcessor.createHash(s)) ? true : false; 
+				
 	}
 	
 	protected int calculateHeuristic(Relation r){

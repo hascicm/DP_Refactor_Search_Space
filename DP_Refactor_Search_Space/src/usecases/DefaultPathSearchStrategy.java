@@ -37,7 +37,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 		Collections.reverse(results);
 			
-		/*//DEBUG
+		//DEBUG
 		System.out.println("");
 		System.out.println("RESULT");
 		for(Relation r : results){
@@ -49,7 +49,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
 		}
 		System.out.println(currentState);
-		//DEBUG	*/	
+		//DEBUG		
 		return results;
 	}
 
@@ -100,21 +100,19 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 		// init queue
 		this.queue = new PriorityQueue<GraphRelation>();
-		this.visitedStates = new HashSet<State>();
 
 		// init visited state
-		this.visitedStates = new HashSet<State>();
-		this.visitedStates.add(rootState);
+		this.visitedStates = new HashSet<String>();
+		this.visitedStates.add(StateProcessor.createHash(rootState));
 		this.localMinimum = rootState;
-	
-		this.visitedStates.add(rootState);		
+		
 	}
 		
 protected void expandCurrentState(State currentState){
 		
 		super.expandCurrentState(currentState);
 		
-		this.visitedStates.add(currentState);
+		this.visitedStates.add(StateProcessor.createHash(currentState));
 		
 		//add just created relations to queue
 		this.addRelationsToQueue(currentState.getRelations());

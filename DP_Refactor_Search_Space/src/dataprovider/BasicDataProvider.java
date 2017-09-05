@@ -37,16 +37,16 @@ public class BasicDataProvider implements DataProvider{
 			
 		this.smells = new LinkedList<SmellType>();
 		
-		SmellType smell_longParameterList = new SmellType("LongParameterList", 10);
-		SmellType smell_divergentChange = new SmellType("DivergentChange", 8);
-		SmellType smell_largeClass = new SmellType("LargeClass", 1);
-		SmellType smell_featureEnvy = new SmellType("FeatureEnvy", 4);
-		SmellType smell_lazyClass = new SmellType("LazyClass", 1);
-		SmellType smell_dataClass = new SmellType("DataClass", 1);
-		SmellType smell_dataClumps = new SmellType("DataClumps", 7);
-		SmellType smell_incompleteLibraryPath = new SmellType("IncompleteLibraryPath", 5);
-		SmellType smell_temporaryField= new SmellType("TemporaryField", 3);
-		SmellType smell_longMethod = new SmellType("LongMethod", 1);
+		SmellType smell_longParameterList = new SmellType(1, "LongParameterList", 10);
+		SmellType smell_divergentChange = new SmellType(2, "DivergentChange", 8);
+		SmellType smell_largeClass = new SmellType(3, "LargeClass", 1);
+		SmellType smell_featureEnvy = new SmellType(4, "FeatureEnvy", 4);
+		SmellType smell_lazyClass = new SmellType(5, "LazyClass", 1);
+		SmellType smell_dataClass = new SmellType(6, "DataClass", 1);
+		SmellType smell_dataClumps = new SmellType(7, "DataClumps", 7);
+		SmellType smell_incompleteLibraryPath = new SmellType(8, "IncompleteLibraryPath", 5);
+		SmellType smell_temporaryField= new SmellType(9, "TemporaryField", 3);
+		SmellType smell_longMethod = new SmellType(10, "LongMethod", 1);
 		
 				
 		this.smells.add(smell_longParameterList);
@@ -157,10 +157,10 @@ public class BasicDataProvider implements DataProvider{
 		this.root.getSmells().add(new SmellOccurance(smell_dataClumps));
 		this.root.getSmells().add(new SmellOccurance(smell_lazyClass));
 		this.root.getSmells().add(new SmellOccurance(smell_featureEnvy));
-		/*this.root.getSmells().add(new SmellOccurance(smell_incompleteLibraryPath));
+		this.root.getSmells().add(new SmellOccurance(smell_incompleteLibraryPath));
 		this.root.getSmells().add(new SmellOccurance(smell_longParameterList));		
 		this.root.getSmells().add(new SmellOccurance(smell_dataClass));
-		this.root.getSmells().add(new SmellOccurance(smell_largeClass));*/
+		this.root.getSmells().add(new SmellOccurance(smell_largeClass));
 		
 		/*this.root.getSmells().add(new SmellOccurance(smell_dataClumps));
 		this.root.getSmells().add(new SmellOccurance(smell_lazyClass));

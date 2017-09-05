@@ -155,4 +155,15 @@ public class StateProcessor {
 		
 		state.setFitness(fitness);
 	}
+	
+	public static String createHash(State s){
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(SmellOccurance so : s.getSmells()){
+			sb.append(so.getSmell().getId() + "_");
+		}
+		
+		return sb.toString();
+	}
 }
