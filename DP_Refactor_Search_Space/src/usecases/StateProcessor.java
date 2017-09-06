@@ -91,6 +91,7 @@ public class StateProcessor {
 			fitness += smellOccurance.getSmell().getWeight();
 		}
 		
+		fitness *= 10; 
 		fitness = (int) Math.pow(fitness, 3.0);
 		
 		fitness += state.getDepth();

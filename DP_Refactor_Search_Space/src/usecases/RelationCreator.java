@@ -1,6 +1,7 @@
 package usecases;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import entities.DependencyRepair;
@@ -58,8 +59,7 @@ public class RelationCreator {
 			for(SmellType smell : repair.getSmells()){
 				
 				if(smellOccurance.getSmell() == smell){
-					
-									
+										
 					for(Relation newRel : makeRelationsOfRepair(repair)){
 						newRel.setFixedSmellOccurance(smellOccurance);
 						relations.add(newRel);
@@ -86,7 +86,8 @@ public class RelationCreator {
 		results.add(makeBaseRepairRelation(repair));
 		
 		if(repair instanceof DependencyRepair){
-			results.addAll(makeDependencyRepairRelations((DependencyRepair)repair));
+			//results.addAll(makeDependencyRepairRelations((DependencyRepair)repair));
+			results.addAll(makeDependencyRepairRelationsONE((DependencyRepair)repair));
 		}
 		
 		
@@ -146,10 +147,97 @@ public class RelationCreator {
 		return relations;
 	}
 
-	private Relation makeBaseRepairRelation(Repair repair) {
-		
+	private Relation makeBaseRepairRelation(Repair repair) {		
 		Relation relation = new Relation();
 		relation.setUsedRepair(new Repair(repair.getName(), repair.getSmells()));
 		return relation;
 	}
+	
+	
+	//TODO - fuzzy logic for dependencies
+	/*
+	 * This method makes the combination of dependencies. 
+	 * 
+	 * Its mean - if repair causes one smell A and repairs one smells B, 
+	 * 	it creates 3 relations: causes A, repairs B, cause A and repairs B. 
+	 * 
+	 * */
+	private List<Relation> makeDependencyRepairRelationsONE(DependencyRepair repair) {
+		
+		List<Relation> relations = new ArrayList<Relation>(); 
+		List<DependencyUnit> dependencies = new ArrayList<>();
+		
+		//Create one list with dependencies
+		for(DependencyType dependencyType : repair.getDependencies().keySet()){
+			
+			for(SmellType smellType : repair.getDependencies().get(dependencyType)){
+				dependencies.add(new DependencyUnit(dependencyType, smellType));
+			}	
+		}
+		
+		List<List<DependencyUnit>> combinations = new ArrayList<List<DependencyUnit>>();
+		//Create combination of dependecies
+		for(int i = 0; i < dependencies.size(); i++){
+			combinations(dependencies, i+1, 0, new DependencyUnit[i+1], combinations);
+		}
+		
+		//Every combination is a one Relation
+		for(List<DependencyUnit> tempDependencyUnitList : combinations){
+			DependencyRepair dependencyRepair = new DependencyRepair(repair.getName(), repair.getSmells());
+			
+			for(DependencyUnit depUnit : tempDependencyUnitList){
+				dependencyRepair.addDependency(depUnit.getDependencyType(), depUnit.getSmellType());
+			}
+			
+			Relation rel = new Relation();
+			rel.setUsedRepair(dependencyRepair);
+			relations.add(rel);
+		}
+		
+				
+		return relations;
+	}
+	
+	private class DependencyUnit{
+		DependencyType dependencyType;
+		SmellType smellType;
+		
+		private DependencyUnit(DependencyType dependencyType, SmellType smellType) {
+			super();
+			this.dependencyType = dependencyType;
+			this.smellType = smellType;
+		}
+		private DependencyType getDependencyType() {
+			return dependencyType;
+		}
+		private void setDependencyType(DependencyType dependencyType) {
+			this.dependencyType = dependencyType;
+		}
+		private SmellType getSmellType() {
+			return smellType;
+		}
+		private void setSmellType(SmellType smellType) {
+			this.smellType = smellType;
+		}	
+	}
+	
+	static void combinations(List<DependencyUnit> dependencies, int len, int startPosition, 
+							 DependencyUnit[] results, List<List<DependencyUnit>> combinations){
+        if (len == 0){
+            
+        	List<DependencyUnit> tempDependencyList = new ArrayList<DependencyUnit>();
+            
+            for(DependencyUnit du : results){
+            	tempDependencyList.add(du);
+            }
+            
+            combinations.add(tempDependencyList);
+            
+            return;
+        }       
+        for (int i = startPosition; i <= dependencies.size()-len; i++){
+            results[results.length - len] = dependencies.get(i);
+            combinations(dependencies, len-1, i+1, results, combinations);
+        }
+    }
 }

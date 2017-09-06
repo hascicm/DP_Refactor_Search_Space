@@ -60,6 +60,7 @@ public class BasicDataProvider implements DataProvider{
 		this.smells.add(smell_temporaryField);
 		this.smells.add(smell_longMethod);
 		
+		//TODO - check if it works correctly 
 		List<SmellType> badClassContent = new ArrayList<SmellType>();
 		badClassContent.add(smell_largeClass);
 		badClassContent.add(smell_dataClass);
@@ -125,14 +126,14 @@ public class BasicDataProvider implements DataProvider{
 		DependencyRepair repair_colapseHierarchy_LAZC = new DependencyRepair("ColapseHierarchy_LAZC", smell_lazyClass);
 		repair_colapseHierarchy_LAZC.setWeight(2);
 		repair_colapseHierarchy_LAZC.addDependency(DependencyType.CAUSE, smell_largeClass);
-		repair_colapseHierarchy_LAZC .addDependency(DependencyType.SOLVE, smell_dataClass);
+		repair_colapseHierarchy_LAZC.addDependency(DependencyType.SOLVE, smell_dataClass);
 		repairs.add(repair_colapseHierarchy_LAZC);
 		
 		DependencyRepair repair_inlineClass_LAZC = new DependencyRepair("InlineClass_LAZC", smell_lazyClass);
 		repair_inlineClass_LAZC.setWeight(3);
 		repair_inlineClass_LAZC.addDependency(DependencyType.CAUSE, smell_largeClass);
-		repair_inlineClass_LAZC .addDependency(DependencyType.SOLVE, smell_dataClass);
-		repair_inlineClass_LAZC .addDependency(DependencyType.SOLVE, smell_largeClass);
+		repair_inlineClass_LAZC.addDependency(DependencyType.SOLVE, smell_dataClass);
+		repair_inlineClass_LAZC.addDependency(DependencyType.SOLVE, smell_largeClass);
 		repairs.add(repair_inlineClass_LAZC);
 		
 		Repair repair_introduceForeignMethod_ILC = new Repair("IntroduceForeignMethod_ILC", smell_incompleteLibraryPath);
@@ -153,6 +154,8 @@ public class BasicDataProvider implements DataProvider{
 		//init root state
 		this.root = new State();
 		this.root.setSmells(new LinkedList<SmellOccurance>());
+		
+		
 		
 		this.root.getSmells().add(new SmellOccurance(smell_dataClumps));
 		this.root.getSmells().add(new SmellOccurance(smell_lazyClass));
