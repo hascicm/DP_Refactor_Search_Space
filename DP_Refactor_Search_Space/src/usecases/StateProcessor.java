@@ -73,7 +73,7 @@ public class StateProcessor {
 				}
 				
 				if(isSolved)
-					continue;
+					break;
 			}
 			
 			for(SmellOccurance smellOccurance : tempSmellOccurances){

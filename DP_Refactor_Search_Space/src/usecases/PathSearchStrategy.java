@@ -25,12 +25,16 @@ public abstract class PathSearchStrategy {
 			
 	protected void applyRepair(List<Relation> rels){
 		
-		for(Relation rel : rels){
+		Relation rel = null;
+		int length = rels.size();
+		for(int i = 0; i < length; i++){
+			
+			rel = rels.get(i);
 			State s = StateProcessor.applyRepair(rel.getFromState(), rel.getUsedRepair(), rel.getFixedSmellOccurance());
 			s.setSourceRelation(rel);
 			s.setDepth(rel.getFromState().getDepth() + 1);
 			rel.setToState(s);
-			
+					
 			//sort smells in new state by ID
 			s.getSmells().sort((o1, o2) -> o1.getSmell().getId().compareTo(o2.getSmell().getId()));
 			
@@ -94,12 +98,17 @@ public abstract class PathSearchStrategy {
 	
 	protected void expandCurrentState(State currentState){
 		
-		//add set of relations to actual node
 		relationCreator.addRelationsToState(currentState);
+		 
 		
+		//Long start = System.nanoTime(); 
 		//create end state of relations
 		applyRepair(currentState.getRelations());
+		//System.out.println(System.nanoTime() - start);
+		
 		calculateEndNodeFitness(currentState.getRelations());
+		
+		
 	}
 	
 }

@@ -62,18 +62,24 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 		Relation currentRelation = null;
 		State currentState = null;
+		Long count = (long) 0; 
 		
 		while(!this.queue.isEmpty()){
+			count++;
+			//startTime = System.nanoTime();
 			
 			//get next state for visiting
 			currentRelation = this.queue.remove().getRelation();
 			currentState = currentRelation.getToState();
 			
+			//Long beforeVisited = System.nanoTime() - startTime; 
 			
 			//Skip the state contains same smells as any of visited state (node)
 			if(isVisited(currentState)){
 				continue;
 			}
+			
+			//Long afterVisited = System.nanoTime() - startTime;
 			
 			currentState.setId(lastStateId++); 
 			
@@ -85,14 +91,17 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 				
 			}
 			
+			//Long beforeExpand = System.nanoTime() - startTime; 
+			
 			if(currentState.getDepth() < MAX_DEPTH){
 				expandCurrentState(currentState);
 			}
 			
+			//System.out.println(beforeVisited + ", " + afterVisited + ", " + ", "+ beforeExpand +", "+ (System.nanoTime() - startTime));
 			//System.out.println(currentState.getDepth() + ", " + currentState.getFitness() + ", " + (this.localMinimum.getDepth()+ this.localMinimum.getFitness()));
 			
 		}
-		
+		System.out.println(count);
 	}	
 
 	protected void init(State rootState, int depth) {
@@ -112,10 +121,17 @@ protected void expandCurrentState(State currentState){
 		
 		super.expandCurrentState(currentState);
 		
+		
+		
 		this.visitedStates.add(StateProcessor.createHash(currentState));
+	
+		
 		
 		//add just created relations to queue
 		this.addRelationsToQueue(currentState.getRelations());
+		
+		
+		
 	}
 	
 }

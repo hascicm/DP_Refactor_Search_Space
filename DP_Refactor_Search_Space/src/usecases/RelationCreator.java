@@ -1,7 +1,7 @@
 package usecases;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import entities.DependencyRepair;
@@ -40,7 +40,7 @@ public class RelationCreator {
 	
 	public void addRelationsToState(State state){
 		
-		List<Relation> newRelations = new ArrayList<Relation>();	
+		List<Relation> newRelations = new LinkedList<Relation>();	
 		
 		for(SmellOccurance so : state.getSmells()){
 			newRelations.addAll(this.assignRelationsToSmellOccurance(so));
@@ -94,60 +94,7 @@ public class RelationCreator {
 		return results;
 	}
 
-	/*TODO:
-	 *  Metoda vytvori kombinaciu
-	 *  1. SOLVE
-	 *  2. CAUSE
-	 *  3. SOLVE && CAUSE 
-	 * 
-	 * Ak je to mozne. 
-	 * 
-	 * TODO !!!Prerobit na nieco krajsie. :(
-	 */
-	private List<Relation> makeDependencyRepairRelations(DependencyRepair repair) {
-		
-		List<Relation> relations = new ArrayList<Relation>();
-		
-		if(repair.getDependencies().containsKey(DependencyType.CAUSE) 
-				&& repair.getDependencies().containsKey(DependencyType.SOLVE)){
-			
-			DependencyRepair rep = new DependencyRepair(repair.getName(), repair.getSmells());
-			rep.addDependency(DependencyType.CAUSE, repair.getDependencies().get(DependencyType.CAUSE));
-			rep.addDependency(DependencyType.SOLVE, repair.getDependencies().get(DependencyType.SOLVE));
-			
-			Relation rel = new Relation();
-			rel.setUsedRepair(rep);
-			relations.add(rel);
-			return relations;
-		}
-		
-		if(repair.getDependencies().containsKey(DependencyType.CAUSE) ){
-			
-			DependencyRepair rep = new DependencyRepair(repair.getName(), repair.getSmells());
-			rep.addDependency(DependencyType.CAUSE, repair.getDependencies().get(DependencyType.CAUSE));
-			
-			Relation rel = new Relation();
-			rel.setUsedRepair(rep);
-			relations.add(rel);
-			return relations;
-		}
-		
-		if(repair.getDependencies().containsKey(DependencyType.SOLVE) ){
-			
-			DependencyRepair rep = new DependencyRepair(repair.getName(), repair.getSmells());
-			rep.addDependency(DependencyType.SOLVE, repair.getDependencies().get(DependencyType.SOLVE));
-			
-			Relation rel = new Relation();
-			rel.setUsedRepair(rep);
-			relations.add(rel);
-			return relations;
-		}
-		
-		
-		return relations;
-	}
-
-	private Relation makeBaseRepairRelation(Repair repair) {		
+		private Relation makeBaseRepairRelation(Repair repair) {		
 		Relation relation = new Relation();
 		relation.setUsedRepair(new Repair(repair.getName(), repair.getSmells()));
 		return relation;

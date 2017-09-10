@@ -4,6 +4,7 @@ import dataprovider.BasicDataProvider;
 import dataprovider.DataProvider;
 import usecases.BeePathSearchStrategy;
 import usecases.DefaultPathSearchStrategy;
+import usecases.MultiAgent;
 import usecases.PathSearchStrategy;
 import usecases.RelationCreator;
 
@@ -18,8 +19,8 @@ public class RefactorProcessOptimizer {
 
 	private void init() {
 		this.dataProvider = new BasicDataProvider();
-		//this.pathSearchStrategy = new DefaultPathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
-		this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
+		this.pathSearchStrategy = new DefaultPathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
+		//this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
 	}
 
 	public void findRefactoringPath(){
