@@ -1,6 +1,5 @@
 package dataprovider;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -61,11 +60,11 @@ public class BasicDataProvider implements DataProvider{
 		this.smells.add(smell_longMethod);
 		
 		//TODO - check if it works correctly 
-		List<SmellType> badClassContent = new ArrayList<SmellType>();
+		/*List<SmellType> badClassContent = new ArrayList<SmellType>();
 		badClassContent.add(smell_largeClass);
 		badClassContent.add(smell_dataClass);
 		badClassContent.add(smell_lazyClass);
-		badClassContent.add(smell_featureEnvy);
+		badClassContent.add(smell_featureEnvy);*/
 		
 		
 		
@@ -73,7 +72,7 @@ public class BasicDataProvider implements DataProvider{
 		
 		DependencyRepair repair_introduceParameterObject_LPL = new DependencyRepair("IntroduceParameterObject_LPL", smell_longParameterList);
 		repair_introduceParameterObject_LPL.setWeight(3);
-		repair_introduceParameterObject_LPL.addDependency(DependencyType.CAUSE, badClassContent);
+		repair_introduceParameterObject_LPL.addDependency(DependencyType.CAUSE, smell_largeClass);
 		repairs.add(repair_introduceParameterObject_LPL);
 		
 		Repair repair_preserveWholeObject_LPL = new Repair("PreserveWholeObject_LPL", smell_longParameterList);
@@ -86,16 +85,20 @@ public class BasicDataProvider implements DataProvider{
 		
 		DependencyRepair repair_extractClass_DC = new DependencyRepair("ExtractClass_DC", smell_divergentChange);
 		repair_extractClass_DC.setWeight(2);
-		repair_extractClass_DC.addDependency(DependencyType.CAUSE, badClassContent);
-		repair_extractClass_DC.addDependency(DependencyType.SOLVE, smell_largeClass);
+		/*repair_extractClass_DC.addDependency(DependencyType.CAUSE, badClassContent);
+		repair_extractClass_DC.addDependency(DependencyType.SOLVE, smell_largeClass);*/
+		repair_extractClass_DC.addDependency(DependencyType.CAUSE, smell_dataClass);
+		repair_extractClass_DC.addDependency(DependencyType.CAUSE, smell_largeClass);
 		repair_extractClass_DC.addDependency(DependencyType.SOLVE, smell_dataClumps);
 		repairs.add(repair_extractClass_DC);
 		
 		
 		DependencyRepair repair_extractClass_LARC = new DependencyRepair("ExtractClass_LARC", smell_largeClass);
 		repair_extractClass_LARC.setWeight(1);
-		repair_extractClass_LARC.addDependency(DependencyType.CAUSE, badClassContent);
-		repair_extractClass_LARC.addDependency(DependencyType.SOLVE, smell_largeClass);
+		/*repair_extractClass_LARC.addDependency(DependencyType.CAUSE, badClassContent);
+		repair_extractClass_LARC.addDependency(DependencyType.SOLVE, smell_largeClass);*/
+		repair_extractClass_LARC.addDependency(DependencyType.CAUSE, smell_dataClass);
+		repair_extractClass_LARC.addDependency(DependencyType.CAUSE, smell_largeClass);
 		repair_extractClass_LARC.addDependency(DependencyType.SOLVE, smell_dataClumps);
 		repairs.add(repair_extractClass_LARC);
 		
@@ -105,21 +108,25 @@ public class BasicDataProvider implements DataProvider{
 		
 		DependencyRepair repair_extractSubClass_LARC = new DependencyRepair("ExtractSubClass_LARC", smell_largeClass);
 		repair_extractSubClass_LARC.setWeight(3);
-		repair_extractSubClass_LARC.addDependency(DependencyType.CAUSE, badClassContent);
+		/*repair_extractSubClass_LARC.addDependency(DependencyType.CAUSE, badClassContent);*/
+		repair_extractSubClass_LARC.addDependency(DependencyType.CAUSE, smell_dataClass);
+		repair_extractSubClass_LARC.addDependency(DependencyType.CAUSE, smell_largeClass);
 		repair_extractSubClass_LARC.addDependency(DependencyType.SOLVE, smell_dataClumps);
 		repairs.add(repair_extractSubClass_LARC);
 		
 		
 		DependencyRepair repair_MoveMethod_FE = new DependencyRepair("MoveMethod_FE", smell_featureEnvy);
 		repair_MoveMethod_FE.setWeight(1);
-		repair_MoveMethod_FE.addDependency(DependencyType.CAUSE, badClassContent);
+		/*repair_MoveMethod_FE.addDependency(DependencyType.CAUSE, badClassContent);*/
 		repair_MoveMethod_FE.addDependency(DependencyType.SOLVE, smell_largeClass);
+		repair_MoveMethod_FE.addDependency(DependencyType.CAUSE, smell_lazyClass);
 		repairs.add(repair_MoveMethod_FE);
 		
 		DependencyRepair repair_extractMethod_FE = new DependencyRepair("ExtractMethod_FE", smell_featureEnvy);
 		repair_extractMethod_FE.setWeight(2);
 		repair_extractMethod_FE.addDependency(DependencyType.CAUSE, smell_largeClass);
 		repair_extractMethod_FE.addDependency(DependencyType.CAUSE, smell_longMethod);
+		repair_extractMethod_FE.addDependency(DependencyType.CAUSE, smell_lazyClass);
 		repair_extractMethod_FE.addDependency(DependencyType.SOLVE, smell_longParameterList);
 		repairs.add(repair_extractMethod_FE);
 		
@@ -146,8 +153,9 @@ public class BasicDataProvider implements DataProvider{
 		
 		DependencyRepair repair_extractClass_TF = new DependencyRepair("repair_extractClass_TF", smell_temporaryField);
 		repair_extractClass_TF.setWeight(3);
-		repair_extractClass_TF.addDependency(DependencyType.CAUSE, badClassContent);
-		repair_extractClass_TF.addDependency(DependencyType.SOLVE, smell_largeClass);
+		/*repair_extractClass_TF.addDependency(DependencyType.CAUSE, badClassContent);*/
+		repair_extractClass_TF.addDependency(DependencyType.CAUSE, smell_dataClass);
+		repair_extractClass_TF.addDependency(DependencyType.CAUSE, smell_lazyClass);
 		repair_extractClass_TF.addDependency(DependencyType.SOLVE, smell_dataClumps);
 		repairs.add(repair_extractClass_TF);
 		

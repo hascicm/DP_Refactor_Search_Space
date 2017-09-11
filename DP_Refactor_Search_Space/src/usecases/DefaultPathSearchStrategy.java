@@ -12,7 +12,7 @@ import entities.stateSpace.State;
 
 public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
-	private final int MAX_DEPTH = 5;
+	private final int MAX_DEPTH = 10;
 	
 	public DefaultPathSearchStrategy(RelationCreator relationCreator) {
 		super(relationCreator);
@@ -102,6 +102,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			
 		}
 		System.out.println(count);
+		System.out.println(lastStateId);
 	}	
 
 	protected void init(State rootState, int depth) {

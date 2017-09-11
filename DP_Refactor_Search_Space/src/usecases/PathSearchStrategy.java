@@ -99,16 +99,10 @@ public abstract class PathSearchStrategy {
 	protected void expandCurrentState(State currentState){
 		
 		relationCreator.addRelationsToState(currentState);
-		 
 		
-		//Long start = System.nanoTime(); 
-		//create end state of relations
 		applyRepair(currentState.getRelations());
-		//System.out.println(System.nanoTime() - start);
 		
-		calculateEndNodeFitness(currentState.getRelations());
-		
-		
+		calculateEndNodeFitness(currentState.getRelations());	
 	}
 	
 }
