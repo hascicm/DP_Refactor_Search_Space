@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import entities.Dependency;
 import entities.DependencyRepair;
 import entities.DependencyType;
 import entities.Repair;
@@ -112,28 +113,20 @@ public class RelationCreator {
 	private List<Relation> makeDependencyRepairRelationsONE(DependencyRepair repair) {
 		
 		List<Relation> relations = new ArrayList<Relation>(); 
-		List<DependencyUnit> dependencies = new ArrayList<>();
-		
-		//Create one list with dependencies
-		for(DependencyType dependencyType : repair.getDependencies().keySet()){
+		List<Dependency> dependencies = repair.getDependencies();
 			
-			for(SmellType smellType : repair.getDependencies().get(dependencyType)){
-				dependencies.add(new DependencyUnit(dependencyType, smellType));
-			}	
-		}
-		
-		List<List<DependencyUnit>> combinations = new ArrayList<List<DependencyUnit>>();
+		List<List<Dependency>> combinations = new ArrayList<List<Dependency>>();
 		//Create combination of dependecies
 		for(int i = 0; i < dependencies.size(); i++){
-			combinations(dependencies, i+1, 0, new DependencyUnit[i+1], combinations);
+			combinations(dependencies, i+1, 0, new Dependency[i+1], combinations);
 		}
 		
 		//Every combination is a one Relation
-		for(List<DependencyUnit> tempDependencyUnitList : combinations){
+		for(List<Dependency> tempDependencyList : combinations){
 			DependencyRepair dependencyRepair = new DependencyRepair(repair.getName(), repair.getSmells());
 			
-			for(DependencyUnit depUnit : tempDependencyUnitList){
-				dependencyRepair.addDependency(depUnit.getDependencyType(), depUnit.getSmellType());
+			for(Dependency dep : tempDependencyList){
+				dependencyRepair.addDependency(dep.getType(), dep.getSmell(), 1.0);
 			}
 			
 			Relation rel = new Relation();
@@ -145,37 +138,14 @@ public class RelationCreator {
 		return relations;
 	}
 	
-	private class DependencyUnit{
-		DependencyType dependencyType;
-		SmellType smellType;
-		
-		private DependencyUnit(DependencyType dependencyType, SmellType smellType) {
-			super();
-			this.dependencyType = dependencyType;
-			this.smellType = smellType;
-		}
-		private DependencyType getDependencyType() {
-			return dependencyType;
-		}
-		private void setDependencyType(DependencyType dependencyType) {
-			this.dependencyType = dependencyType;
-		}
-		private SmellType getSmellType() {
-			return smellType;
-		}
-		private void setSmellType(SmellType smellType) {
-			this.smellType = smellType;
-		}	
-	}
-	
-	static void combinations(List<DependencyUnit> dependencies, int len, int startPosition, 
-							 DependencyUnit[] results, List<List<DependencyUnit>> combinations){
+	static void combinations(List<Dependency> dependencies, int len, int startPosition, 
+		Dependency[] results, List<List<Dependency>> combinations){
         if (len == 0){
             
-        	List<DependencyUnit> tempDependencyList = new ArrayList<DependencyUnit>();
+        	List<Dependency> tempDependencyList = new ArrayList<Dependency>();
             
-            for(DependencyUnit du : results){
-            	tempDependencyList.add(du);
+            for(Dependency d : results){
+            	tempDependencyList.add(d);
             }
             
             combinations.add(tempDependencyList);
