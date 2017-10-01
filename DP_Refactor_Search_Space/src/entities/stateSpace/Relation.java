@@ -8,7 +8,14 @@ public class Relation {
 	private State toState;
 	private SmellOccurance fixedSmellOccurance;
 	private Repair usedRepair;
+	private int pheromoneTrail;
 	
+	public int getPheromoneTrail() {
+		return pheromoneTrail;
+	}
+	public void setPheromoneTrail(int pheromoneTrail) {
+		this.pheromoneTrail = pheromoneTrail;
+	}
 	public State getFromState() {
 		return fromState;
 	}
