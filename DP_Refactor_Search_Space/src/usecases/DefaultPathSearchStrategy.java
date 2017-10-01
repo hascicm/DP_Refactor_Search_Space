@@ -62,10 +62,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 		Relation currentRelation = null;
 		State currentState = null;
-		Long count = (long) 0; 
+		//Long count = (long) 0; 
 		
 		while(!this.queue.isEmpty()){
-			count++;
+			//count++;
 			//startTime = System.nanoTime();
 			
 			//get next state for visiting
@@ -76,6 +76,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			
 			//Skip the state contains same smells as any of visited state (node)
 			if(isVisited(currentState)){
+				continue;
+			}
+			
+			if(isLowProbability(currentState)){
 				continue;
 			}
 			
@@ -101,8 +105,8 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			//System.out.println(currentState.getDepth() + ", " + currentState.getFitness() + ", " + (this.localMinimum.getDepth()+ this.localMinimum.getFitness()));
 			
 		}
-		System.out.println(count);
-		System.out.println(lastStateId);
+		//System.out.println(count);
+		//System.out.println(lastStateId);
 	}	
 
 	protected void init(State rootState, int depth) {
@@ -118,7 +122,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		
 	}
 		
-protected void expandCurrentState(State currentState){
+	protected void expandCurrentState(State currentState){
 		
 		super.expandCurrentState(currentState);
 		

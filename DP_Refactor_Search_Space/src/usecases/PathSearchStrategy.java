@@ -17,6 +17,8 @@ public abstract class PathSearchStrategy {
 	protected RelationCreator relationCreator;
 	protected int lastStateId = 0;
 	
+	private static double PROBABILITY_TRASHOLD = 0.25; 
+	
 	public PathSearchStrategy(RelationCreator relationCreator){
 		this.relationCreator = relationCreator;
 	}
@@ -43,6 +45,17 @@ public abstract class PathSearchStrategy {
 	
 	protected boolean isVisited(State s){	
 		return this.visitedStates.contains(StateProcessor.createHash(s)) ? true : false; 			
+	}
+	
+	protected boolean isLowProbability(State s){
+		
+		boolean result = false;
+		
+		if(s.getSourceRelation().getProbability() < this.PROBABILITY_TRASHOLD){
+			result = true;
+		}
+		
+		return result; 
 	}
 	
 	protected int calculateHeuristic(Relation r){
