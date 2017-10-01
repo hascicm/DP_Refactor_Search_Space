@@ -87,7 +87,7 @@ public class RelationCreator {
 		
 		if(repair instanceof DependencyRepair){
 			//results.addAll(makeDependencyRepairRelations((DependencyRepair)repair));
-			results.addAll(makeDependencyRepairRelationsONE((DependencyRepair)repair));
+			results.addAll(makeDependencyRepairRelations((DependencyRepair)repair));
 		}
 		
 		
@@ -109,7 +109,7 @@ public class RelationCreator {
 	 * 	it creates 3 relations: causes A, repairs B, cause A and repairs B. 
 	 * 
 	 * */
-	private List<Relation> makeDependencyRepairRelationsONE(DependencyRepair repair) {
+	private List<Relation> makeDependencyRepairRelations(DependencyRepair repair) {
 		
 		List<Relation> relations = new ArrayList<Relation>(); 
 		List<DependencyUnit> dependencies = new ArrayList<>();
