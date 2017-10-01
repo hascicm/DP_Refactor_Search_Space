@@ -56,6 +56,13 @@ public abstract class PathSearchStrategy {
 		}	
 	}
 	
+	protected void calculateProbabilityOfRelations(List<Relation> relations){
+		for(Relation rel : relations){
+			rel.calculateProbability();
+		}
+	}
+	
+	
 	protected class GraphRelation implements Comparable<GraphRelation>{
 		
 		private Relation relation;
@@ -93,7 +100,7 @@ public abstract class PathSearchStrategy {
 		relationCreator.addRelationsToState(rootState);
 		applyRepair(rootState.getRelations());
 		calculateEndNodeFitness(rootState.getRelations());
-		
+		calculateProbabilityOfRelations(rootState.getRelations());
 	}
 	
 	protected void expandCurrentState(State currentState){
@@ -102,7 +109,8 @@ public abstract class PathSearchStrategy {
 		
 		applyRepair(currentState.getRelations());
 		
-		calculateEndNodeFitness(currentState.getRelations());	
+		calculateEndNodeFitness(currentState.getRelations());
+		calculateProbabilityOfRelations(currentState.getRelations());
 	}
 	
 }

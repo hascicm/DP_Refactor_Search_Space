@@ -44,7 +44,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			System.out.println("-------------");
 			currentState = r.getFromState();
 			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
-			System.out.println(r.getUsedRepair().getName());
+			System.out.println(r.getUsedRepair().getName() + " P: " + r.getProbability());
 			currentState = r.getToState();
 			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
 		}

@@ -30,5 +30,14 @@ public class DependencyRepair extends Repair {
 		this.dependencies.add(new Dependency(type, smell, probability));
 	}
 	
-	
+	@Override
+	public double calculateProbability() {	
+		double probability = 1.0;
+		
+		for(Dependency dep : this.dependencies){
+			probability *= dep.probability;
+		}
+		
+		return probability;
+	}
 }
