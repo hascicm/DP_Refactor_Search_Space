@@ -1,12 +1,15 @@
 package usecases;
 
+import java.nio.channels.FileLockInterruptionException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import entities.DependencyRepair;
 import entities.DependencyType;
 import entities.Repair;
 import entities.SmellType;
+import entities.stateSpace.Relation;
 import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;
 
@@ -104,7 +107,25 @@ public class StateProcessor {
 			
 		state.setFitness(fitness);
 	}
-	
+	public static void calculateFitnessForAnts(State state){
+		int fitness = 0;
+		float fit = 0;
+		for(SmellOccurance smellOccurance : state.getSmells()){
+			fitness += smellOccurance.getSmell().getWeight()*2;
+		}
+		if (fitness == 0){
+			fitness = 1;
+		}
+		fit = 1 / (float)fitness;
+	//	System.out.println((int)(fit*10000));
+		state.setFitness((int)(fit*10000) - state.getDepth());
+		
+	}
+	public static void initializeState(State state){
+		for (Relation r : state.getRelations()){
+			r.setPheromoneTrail(20);
+		}
+	}
 	public static String createHash(State s){
 		
 		StringBuilder sb = new StringBuilder();
