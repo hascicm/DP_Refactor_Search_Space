@@ -1,16 +1,12 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import java.util.List;
-import java.util.Map;
 
 public class DependencyRepair extends Repair {
 	
 	//private Map<DependencyType, List<SmellType>> dependencies;
 	private List<Dependency> dependencies; 
-	
 	
 	public DependencyRepair(String name, List<SmellType> smells) {
 		super(name, smells);

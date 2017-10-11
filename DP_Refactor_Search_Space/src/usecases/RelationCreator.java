@@ -6,7 +6,6 @@ import java.util.List;
 
 import entities.Dependency;
 import entities.DependencyRepair;
-import entities.DependencyType;
 import entities.Repair;
 import entities.SmellType;
 import entities.stateSpace.Relation;

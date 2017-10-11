@@ -1,15 +1,12 @@
 package usecases;
 
-import java.nio.channels.FileLockInterruptionException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
 import entities.DependencyRepair;
 import entities.DependencyType;
 import entities.Repair;
 import entities.Dependency;
-import entities.SmellType;
 import entities.stateSpace.Relation;
 import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;

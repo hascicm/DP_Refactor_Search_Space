@@ -51,7 +51,7 @@ public abstract class PathSearchStrategy {
 		
 		boolean result = false;
 		
-		if(s.getSourceRelation().getProbability() < this.PROBABILITY_THRASHOLD){
+		if(s.getSourceRelation().getProbability() < PROBABILITY_THRASHOLD){
 			result = true;
 		}
 		
