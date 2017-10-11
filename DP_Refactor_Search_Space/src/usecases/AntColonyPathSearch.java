@@ -24,7 +24,7 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 	public AntColonyPathSearch(RelationCreator relationCreator) {
 		super(relationCreator);
 		this.ants = new ArrayList<Ant>();
-		this.relations = new ArrayList<>();
+		this.relations = new ArrayList<Relation>();
 		this.exploredrelations = new HashSet<Relation>();
 		for (int i = 0; i < 2; i++)
 			ants.add(new Ant());
@@ -88,14 +88,10 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 	}
 
 	public void backtrackAnt(Ant ant, State rootState) {
-
 		State state = ant.getCurrentState();
 		Relation relation = state.getSourceRelation();
-		// TODO evaporation
 		relation.setPheromoneTrail(calculatePheromoneForRelation(ant, relation));
-
 		ant.setCurrentState(relation.getFromState());
-
 	}
 
 	private void evaporatePheromoneFromTrails(HashSet<Relation> relations) {

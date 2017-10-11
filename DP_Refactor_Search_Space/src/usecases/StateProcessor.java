@@ -107,20 +107,27 @@ public class StateProcessor {
 			
 		state.setFitness(fitness);
 	}
-	public static void calculateFitnessForAnts(State state){
+
+	public static void calculateFitnessForAnts(State state) {
 		int fitness = 0;
 		float fit = 0;
-		for(SmellOccurance smellOccurance : state.getSmells()){
-			fitness += smellOccurance.getSmell().getWeight()*2;
+		for (SmellOccurance smellOccurance : state.getSmells()) {
+			fitness += smellOccurance.getSmell().getWeight() * 2;
 		}
-		if (fitness == 0){
+		if (fitness == 0) {
 			fitness = 1;
 		}
-		fit = 1 / (float)fitness;
-	//	System.out.println((int)(fit*10000));
-		state.setFitness((int)(fit*10000) - state.getDepth());
+		fit = 1 / (float) fitness;
+		fitness = ((int) (fit * 10000));
 		
+		State currentState = state;
+		while (currentState.getSourceRelation() != null) {
+			fitness -= currentState.getSourceRelation().getUsedRepair().getWeight();
+			currentState = currentState.getSourceRelation().getFromState();
+		}
+		state.setFitness(fitness);
 	}
+	
 	public static void initializeState(State state){
 		for (Relation r : state.getRelations()){
 			r.setPheromoneTrail(20);
