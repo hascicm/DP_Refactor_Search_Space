@@ -8,7 +8,9 @@ public class Relation {
 	private State toState;
 	private SmellOccurance fixedSmellOccurance;
 	private Repair usedRepair;
+
 	private int pheromoneTrail;
+	private double probability;
 	
 	public int getPheromoneTrail() {
 		return pheromoneTrail;
@@ -41,4 +43,18 @@ public class Relation {
 		this.usedRepair = usedRepair;
 	}
 	
+	public void calculateProbability(){
+		
+		double probability = this.usedRepair.calculateProbability();
+		
+		if(this.getFromState().getSourceRelation() == null){
+			this.probability = probability;
+		}else{
+			this.probability = probability * this.getFromState().getSourceRelation().probability;
+		}
+	}
+	
+	public double getProbability() {
+		return probability;
+	}	
 }

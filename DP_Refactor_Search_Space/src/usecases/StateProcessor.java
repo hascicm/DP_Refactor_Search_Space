@@ -8,6 +8,7 @@ import java.util.List;
 import entities.DependencyRepair;
 import entities.DependencyType;
 import entities.Repair;
+import entities.Dependency;
 import entities.SmellType;
 import entities.stateSpace.Relation;
 import entities.stateSpace.SmellOccurance;
@@ -46,44 +47,32 @@ public class StateProcessor {
 	
 	private static void applyDependencies(State state, DependencyRepair repair){
 		
-		if(repair.getDependencies().containsKey(DependencyType.CAUSE)){
+		for(Dependency dep : repair.getDependencies()){
 			
-			List<SmellOccurance> newSmellOccurances = new ArrayList<SmellOccurance>();
-			
-			for(SmellType smellType : repair.getDependencies().get(DependencyType.CAUSE)){
-				newSmellOccurances.add(new SmellOccurance(smellType));
+			if(dep.getType() == DependencyType.CAUSE){
+				state.getSmells().add(new SmellOccurance(dep.getSmell()));
 			}
 			
-			state.getSmells().addAll(newSmellOccurances);
-		}
-		
-		if(repair.getDependencies().containsKey(DependencyType.SOLVE)){
-			
-			List<SmellOccurance> tempSmellOccurances = new ArrayList<SmellOccurance>();
-			for(SmellType smellType : repair.getDependencies().get(DependencyType.SOLVE)){
+			if(dep.getType() == DependencyType.SOLVE){
 				
+				SmellOccurance tempSmellOccurance = null;
 				boolean isSolved = false;
 				
 				for(SmellOccurance smellOccurance : state.getSmells()){
-				
-					if(smellOccurance.getSmell() == smellType){
-					
-						tempSmellOccurances.add(smellOccurance);
+					if(smellOccurance.getSmell() == dep.getSmell()){
+						
+						tempSmellOccurance = smellOccurance; 
 						isSolved = true;
-						break;
+						break;		
 					}
-					
 				}
 				
-				if(isSolved)
-					break;
+				if(isSolved){
+					state.getSmells().remove(tempSmellOccurance);
+				}
+				
 			}
-			
-			for(SmellOccurance smellOccurance : tempSmellOccurances){
-				state.getSmells().remove(smellOccurance);
-			}
-			
-		}	
+		}
 	}
 			
 	public static void calculateFitness(State state){

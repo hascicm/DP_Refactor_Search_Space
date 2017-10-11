@@ -47,4 +47,8 @@ public class Repair {
 		this.weight = weight;
 	}
 	
+	public double calculateProbability(){
+		return 1.0; 
+	}
+	
 }
