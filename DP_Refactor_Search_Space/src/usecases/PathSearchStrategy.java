@@ -17,7 +17,7 @@ public abstract class PathSearchStrategy {
 	protected RelationCreator relationCreator;
 	protected int lastStateId = 0;
 	
-	private static double PROBABILITY_TRASHOLD = 0.25; 
+	private static double PROBABILITY_THRASHOLD = 0.25; 
 	
 	public PathSearchStrategy(RelationCreator relationCreator){
 		this.relationCreator = relationCreator;
@@ -51,7 +51,7 @@ public abstract class PathSearchStrategy {
 		
 		boolean result = false;
 		
-		if(s.getSourceRelation().getProbability() < this.PROBABILITY_TRASHOLD){
+		if(s.getSourceRelation().getProbability() < this.PROBABILITY_THRASHOLD){
 			result = true;
 		}
 		
