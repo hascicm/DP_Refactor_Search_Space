@@ -8,39 +8,36 @@ import java.util.Map;
 
 public class DependencyRepair extends Repair {
 	
-	private Map<DependencyType, List<SmellType>> dependencies;
+	//private Map<DependencyType, List<SmellType>> dependencies;
+	private List<Dependency> dependencies; 
 	
 	
 	public DependencyRepair(String name, List<SmellType> smells) {
 		super(name, smells);
-		this.dependencies = new HashMap<DependencyType, List<SmellType>>();
+		this.dependencies = new ArrayList<Dependency>();
 	}
 		
 	public DependencyRepair(String name, SmellType smell) {
 		super(name, smell);
-		this.dependencies = new HashMap<DependencyType, List<SmellType>>();
+		this.dependencies = new ArrayList<Dependency>();
 	}
 	
-	public Map<DependencyType, List<SmellType>> getDependencies() {
+	public List<Dependency> getDependencies() {
 		return dependencies;
 	}
 	
-	public void addDependency(DependencyType type, SmellType smell){
-		
-		if(!this.dependencies.containsKey(type)){
-			this.dependencies.put(type, new ArrayList<SmellType>());
-		}
-		
-		this.dependencies.get(type).add(smell);
+	public void addDependency(DependencyType type, SmellType smell, Double probability){
+		this.dependencies.add(new Dependency(type, smell, probability));
 	}
 	
-public void addDependency(DependencyType type, List<SmellType> smells){
+	@Override
+	public double calculateProbability() {	
+		double probability = 1.0;
 		
-		if(!this.dependencies.containsKey(type)){
-			this.dependencies.put(type, new ArrayList<SmellType>());
+		for(Dependency dep : this.dependencies){
+			probability *= dep.probability;
 		}
 		
-		this.dependencies.get(type).addAll(smells);
+		return probability;
 	}
-	
 }

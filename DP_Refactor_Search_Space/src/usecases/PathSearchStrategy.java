@@ -17,6 +17,8 @@ public abstract class PathSearchStrategy {
 	protected RelationCreator relationCreator;
 	protected int lastStateId = 0;
 	
+	private static double PROBABILITY_THRASHOLD = 0.25; 
+	
 	public PathSearchStrategy(RelationCreator relationCreator){
 		this.relationCreator = relationCreator;
 	}
@@ -45,6 +47,17 @@ public abstract class PathSearchStrategy {
 		return this.visitedStates.contains(StateProcessor.createHash(s)) ? true : false; 			
 	}
 	
+	protected boolean isLowProbability(State s){
+		
+		boolean result = false;
+		
+		if(s.getSourceRelation().getProbability() < this.PROBABILITY_THRASHOLD){
+			result = true;
+		}
+		
+		return result; 
+	}
+	
 	protected int calculateHeuristic(Relation r){
 		return (int) r.getToState().getFitness(); 
 	}
@@ -55,6 +68,13 @@ public abstract class PathSearchStrategy {
 			StateProcessor.calculateFitness(rel.getToState());
 		}	
 	}
+	
+	protected void calculateProbabilityOfRelations(List<Relation> relations){
+		for(Relation rel : relations){
+			rel.calculateProbability();
+		}
+	}
+	
 	
 	protected class GraphRelation implements Comparable<GraphRelation>{
 		
@@ -93,7 +113,7 @@ public abstract class PathSearchStrategy {
 		relationCreator.addRelationsToState(rootState);
 		applyRepair(rootState.getRelations());
 		calculateEndNodeFitness(rootState.getRelations());
-		
+		calculateProbabilityOfRelations(rootState.getRelations());
 	}
 	
 	protected void expandCurrentState(State currentState){
@@ -102,7 +122,8 @@ public abstract class PathSearchStrategy {
 		
 		applyRepair(currentState.getRelations());
 		
-		calculateEndNodeFitness(currentState.getRelations());	
+		calculateEndNodeFitness(currentState.getRelations());
+		calculateProbabilityOfRelations(currentState.getRelations());
 	}
 	
 }
