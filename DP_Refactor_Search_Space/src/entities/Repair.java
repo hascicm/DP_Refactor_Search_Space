@@ -3,23 +3,23 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Repair {
 	private String name;
-	private String description;
-	List<SmellType> smells;
-	private int weight = 3; //priority of repair 1 - most used; 5 - least used. (Default - 3)
+	/*List<SmellType> smells;
+	private int weight = 3; //priority of repair 1 - most used; 5 - least used. (Default - 3)*/
 	
-	public Repair(String name, List<SmellType> smells) {
-		super();
+	private List<RepairUse> repairUses; 
+	
+	public Repair(String name) {
 		this.name = name;
-		this.smells = smells;
+		this.repairUses = new ArrayList<RepairUse>();
 	}
 	
-	public Repair(String name, SmellType smell) {
-		super();
+	public Repair(String name, List<RepairUse> repairUses) {
 		this.name = name;
-		this.smells = new ArrayList<SmellType>();
-		this.smells.add(smell);
+		this.repairUses = repairUses;
 	}
 	
 	public String getName() {
@@ -28,27 +28,61 @@ public class Repair {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDescription() {
-		return description;
+	
+	public List<SmellType> getSmells(){
+		
+		List<SmellType> result = new ArrayList<>();
+		
+		for(RepairUse ru : this.getRepairUses()){
+			result.add(ru.smell);
+		}
+		
+		return result;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	
+	public void addSmellCoverage(SmellType smell, int weight){
+		this.repairUses.add(new RepairUse(smell, weight));
 	}
-	public List<SmellType> getSmells() {
-		return smells;
+	
+	public int getWeight(SmellType smellType){
+		
+		int result = 0; 
+		
+		for(RepairUse ru : this.repairUses){
+			if(ru.smell == smellType){
+				result = ru.weight;
+				break;
+			}
+		}
+		
+		return result; 
 	}
-	public void setSmells(List<SmellType> smells) {
-		this.smells = smells;
-	}
-	public int getWeight() {
-		return weight;
-	}
-	public void setWeight(int weight) {
-		this.weight = weight;
-	}
+	
 	
 	public double calculateProbability(){
 		return 1.0; 
+	}
+	
+	public List<RepairUse> getRepairUses() {
+		return repairUses;
+	}
+
+	public void setRepairUses(List<RepairUse> repairUses) {
+		this.repairUses = repairUses;
+	}
+
+
+
+	protected class RepairUse{
+		private SmellType smell;
+		private int weight;
+		
+		public RepairUse(SmellType smell, int weight) {
+			super();
+			this.smell = smell;
+			this.weight = weight;
+		}
+			
 	}
 	
 }

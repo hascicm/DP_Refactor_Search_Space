@@ -4,6 +4,7 @@ import dataprovider.BasicDataProvider;
 import dataprovider.DataProvider;
 import usecases.BeePathSearchStrategy;
 import usecases.DefaultPathSearchStrategy;
+import usecases.MultiAgent;
 import usecases.PathSearchStrategy;
 import usecases.RelationCreator;
 

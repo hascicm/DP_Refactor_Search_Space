@@ -48,10 +48,10 @@ public class MultiAgent {
 			if(res != null){
 				
 				State bestState = res.get(res.size() - 1 ).getToState();
-				double bestValue = res.get(res.size() - 1).getUsedRepair().getWeight() + bestState.getFitness() + bestState.getDepth();
+				double bestValue = res.get(res.size() - 1).getUsedRepair().getWeight(res.get(res.size()-1).getFixedSmellOccurance().getSmell()) + bestState.getFitness() + bestState.getDepth();
 				
 				State currentState = a.getBestPath().get(a.getBestPath().size() - 1 ).getToState();
-				double currentValue = a.getBestPath().get(a.getBestPath().size() - 1).getUsedRepair().getWeight() + currentState.getFitness() + currentState.getDepth();
+				double currentValue = a.getBestPath().get(a.getBestPath().size() - 1).getUsedRepair().getWeight(a.getBestPath().get(a.getBestPath().size()-1).getFixedSmellOccurance().getSmell()) + currentState.getFitness() + currentState.getDepth();
 				
 				if(currentValue < bestValue){
 					res = a.getBestPath();

@@ -52,10 +52,10 @@ public class Agent implements Runnable{
 			if(this.bestPath != null){
 				
 				State bestState = this.bestPath.get(this.bestPath.size() - 1).getToState();
-				double bestValue = bestState.getFitness() + bestState.getDepth() + this.bestPath.get(0).getUsedRepair().getWeight();
+				double bestValue = bestState.getFitness() + bestState.getDepth() + this.bestPath.get(0).getUsedRepair().getWeight(this.getBestPath().get(0).getFixedSmellOccurance().getSmell());
 				
 				State currentState = tempPath.get(tempPath.size() - 1).getToState();
-				double currentValue = currentState.getFitness() + currentState.getDepth() + tempPath.get(tempPath.size() - 1).getUsedRepair().getWeight();
+				double currentValue = currentState.getFitness() + currentState.getDepth() + tempPath.get(tempPath.size() - 1).getUsedRepair().getWeight(tempPath.get(tempPath.size() - 1).getFixedSmellOccurance().getSmell());
 				
 				if(currentValue < bestValue){
 					this.bestPath = tempPath;

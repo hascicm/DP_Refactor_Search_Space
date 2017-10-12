@@ -8,13 +8,13 @@ public class DependencyRepair extends Repair {
 	//private Map<DependencyType, List<SmellType>> dependencies;
 	private List<Dependency> dependencies; 
 	
-	public DependencyRepair(String name, List<SmellType> smells) {
-		super(name, smells);
+	public DependencyRepair(String name) {
+		super(name);
 		this.dependencies = new ArrayList<Dependency>();
 	}
 		
-	public DependencyRepair(String name, SmellType smell) {
-		super(name, smell);
+	public DependencyRepair(String name, List<RepairUse> repairUses) {
+		super(name, repairUses);
 		this.dependencies = new ArrayList<Dependency>();
 	}
 	

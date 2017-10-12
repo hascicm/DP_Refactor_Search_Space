@@ -87,7 +87,7 @@ public class StateProcessor {
 		
 		State currentState = state;
 		while(currentState.getSourceRelation() != null){
-			fitness += currentState.getSourceRelation().getUsedRepair().getWeight();
+			fitness += currentState.getSourceRelation().getUsedRepair().getWeight(currentState.getSourceRelation().getFixedSmellOccurance().getSmell());
 			currentState = currentState.getSourceRelation().getFromState();
 		}
 			
@@ -108,7 +108,7 @@ public class StateProcessor {
 		
 		State currentState = state;
 		while (currentState.getSourceRelation() != null) {
-			fitness -= currentState.getSourceRelation().getUsedRepair().getWeight();
+			fitness -= currentState.getSourceRelation().getUsedRepair().getWeight(currentState.getSourceRelation().getFixedSmellOccurance().getSmell());
 			currentState = currentState.getSourceRelation().getFromState();
 		}
 		state.setFitness(fitness);

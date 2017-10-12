@@ -70,94 +70,83 @@ public class BasicDataProvider implements DataProvider{
 		
 		this.repairs = new LinkedList<Repair>();
 		
-		DependencyRepair repair_introduceParameterObject_LPL = new DependencyRepair("IntroduceParameterObject_LPL", smell_longParameterList);
-		repair_introduceParameterObject_LPL.setWeight(3);
-		repair_introduceParameterObject_LPL.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
-		repairs.add(repair_introduceParameterObject_LPL);
+		DependencyRepair repair_introduceParameterObject = new DependencyRepair("IntroduceParameterObject");
+		repair_introduceParameterObject.addSmellCoverage(smell_longParameterList, 3);
+		repair_introduceParameterObject.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
+		repairs.add(repair_introduceParameterObject);
 		
-		Repair repair_preserveWholeObject_LPL = new Repair("PreserveWholeObject_LPL", smell_longParameterList);
-		repair_preserveWholeObject_LPL.setWeight(1);
-		repairs.add(repair_preserveWholeObject_LPL);
-		
-		Repair repair_replaceParameterWithMethod_LPL = new Repair("ReplaceParameterWithMethod_LPL", smell_longParameterList);
-		repair_replaceParameterWithMethod_LPL.setWeight(3);
-		repairs.add(repair_replaceParameterWithMethod_LPL);
-		
-		DependencyRepair repair_extractClass_DC = new DependencyRepair("ExtractClass_DC", smell_divergentChange);
-		repair_extractClass_DC.setWeight(2);
-		/*repair_extractClass_DC.addDependency(DependencyType.CAUSE, badClassContent);
-		repair_extractClass_DC.addDependency(DependencyType.SOLVE, smell_largeClass);*/
-		repair_extractClass_DC.addDependency(DependencyType.CAUSE, smell_dataClass, 0.5);
-		repair_extractClass_DC.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
-		repair_extractClass_DC.addDependency(DependencyType.SOLVE, smell_dataClumps, 0.5);
-		repairs.add(repair_extractClass_DC);
+		Repair repair_preserveWholeObject = new Repair("PreserveWholeObject");
+		repair_preserveWholeObject.addSmellCoverage(smell_longParameterList, 1);
+		repairs.add(repair_preserveWholeObject);
 		
 		
-		DependencyRepair repair_extractClass_LARC = new DependencyRepair("ExtractClass_LARC", smell_largeClass);
-		repair_extractClass_LARC.setWeight(1);
-		/*repair_extractClass_LARC.addDependency(DependencyType.CAUSE, badClassContent);
-		repair_extractClass_LARC.addDependency(DependencyType.SOLVE, smell_largeClass);*/
-		repair_extractClass_LARC.addDependency(DependencyType.CAUSE, smell_dataClass, 0.5);
-		repair_extractClass_LARC.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
-		repair_extractClass_LARC.addDependency(DependencyType.SOLVE, smell_dataClumps, 0.5);
-		repairs.add(repair_extractClass_LARC);
+		Repair repair_replaceParameterWithMethod = new Repair("ReplaceParameterWithMethod");
+		repair_replaceParameterWithMethod.addSmellCoverage(smell_longParameterList, 3); 
+		repairs.add(repair_replaceParameterWithMethod);
 		
-		Repair repair_extractIF_LARC = new Repair("ExtractInterface_LARC", smell_largeClass);
-		repair_extractIF_LARC.setWeight(4);
-		repairs.add(repair_extractIF_LARC);
+		DependencyRepair repair_extractClass = new DependencyRepair("ExtractClass");
+		repair_extractClass.addSmellCoverage(smell_divergentChange, 2);
+		repair_extractClass.addSmellCoverage(smell_largeClass, 1);
+		repair_extractClass.addSmellCoverage(smell_temporaryField, 3);
+		/*repair_extractClass.addDependency(DependencyType.CAUSE, badClassContent);
+		repair_extractClass.addDependency(DependencyType.SOLVE, smell_largeClass);*/
+		repair_extractClass.addDependency(DependencyType.CAUSE, smell_dataClass, 0.5);
+		repair_extractClass.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
+		repair_extractClass.addDependency(DependencyType.SOLVE, smell_dataClumps, 0.5);
+		repairs.add(repair_extractClass);
+			
+		Repair repair_extractIF = new Repair("ExtractInterface");
+		repair_extractIF.addSmellCoverage(smell_largeClass, 4);
+		repairs.add(repair_extractIF);
 		
-		DependencyRepair repair_extractSubClass_LARC = new DependencyRepair("ExtractSubClass_LARC", smell_largeClass);
-		repair_extractSubClass_LARC.setWeight(3);
+		DependencyRepair repair_extractSubClass = new DependencyRepair("ExtractSubClass");
+		repair_extractSubClass.addSmellCoverage(smell_largeClass, 3);
 		/*repair_extractSubClass_LARC.addDependency(DependencyType.CAUSE, badClassContent);*/
-		repair_extractSubClass_LARC.addDependency(DependencyType.CAUSE, smell_dataClass, 0.5);
-		repair_extractSubClass_LARC.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
-		repair_extractSubClass_LARC.addDependency(DependencyType.SOLVE, smell_dataClumps, 0.5);
-		repairs.add(repair_extractSubClass_LARC);
+		repair_extractSubClass.addDependency(DependencyType.CAUSE, smell_dataClass, 0.5);
+		repair_extractSubClass.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
+		repair_extractSubClass.addDependency(DependencyType.SOLVE, smell_dataClumps, 0.5);
+		repairs.add(repair_extractSubClass);
 		
-		
-		DependencyRepair repair_MoveMethod_FE = new DependencyRepair("MoveMethod_FE", smell_featureEnvy);
-		repair_MoveMethod_FE.setWeight(1);
+		DependencyRepair repair_MoveMethod = new DependencyRepair("MoveMethod");
+		repair_MoveMethod.addSmellCoverage(smell_featureEnvy, 1);
 		/*repair_MoveMethod_FE.addDependency(DependencyType.CAUSE, badClassContent);*/
-		repair_MoveMethod_FE.addDependency(DependencyType.SOLVE, smell_largeClass, 0.5);
-		repair_MoveMethod_FE.addDependency(DependencyType.CAUSE, smell_lazyClass, 0.5);
-		repairs.add(repair_MoveMethod_FE);
+		repair_MoveMethod.addDependency(DependencyType.SOLVE, smell_largeClass, 0.5);
+		repair_MoveMethod.addDependency(DependencyType.CAUSE, smell_lazyClass, 0.5);
+		repairs.add(repair_MoveMethod); 
 		
-		DependencyRepair repair_extractMethod_FE = new DependencyRepair("ExtractMethod_FE", smell_featureEnvy);
-		repair_extractMethod_FE.setWeight(2);
-		repair_extractMethod_FE.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
-		repair_extractMethod_FE.addDependency(DependencyType.CAUSE, smell_longMethod, 0.5);
-		repair_extractMethod_FE.addDependency(DependencyType.CAUSE, smell_lazyClass, 0.5);
-		repair_extractMethod_FE.addDependency(DependencyType.SOLVE, smell_longParameterList, 0.5);
-		repairs.add(repair_extractMethod_FE);
+		DependencyRepair repair_extractMethod = new DependencyRepair("ExtractMethod");
+		repair_extractMethod.addSmellCoverage(smell_featureEnvy, 2);
+		repair_extractMethod.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
+		repair_extractMethod.addDependency(DependencyType.CAUSE, smell_longMethod, 0.5);
+		repair_extractMethod.addDependency(DependencyType.CAUSE, smell_lazyClass, 0.5);
+		repair_extractMethod.addDependency(DependencyType.SOLVE, smell_longParameterList, 0.5);
+		repairs.add(repair_extractMethod);
 		
-		DependencyRepair repair_colapseHierarchy_LAZC = new DependencyRepair("ColapseHierarchy_LAZC", smell_lazyClass);
-		repair_colapseHierarchy_LAZC.setWeight(2);
-		repair_colapseHierarchy_LAZC.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
-		repair_colapseHierarchy_LAZC.addDependency(DependencyType.SOLVE, smell_dataClass, 0.5);
-		repairs.add(repair_colapseHierarchy_LAZC);
+		DependencyRepair repair_colapseHierarchy = new DependencyRepair("ColapseHierarchy");		
+		repair_colapseHierarchy.addSmellCoverage(smell_lazyClass, 2);
+		repair_colapseHierarchy.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
+		repair_colapseHierarchy.addDependency(DependencyType.SOLVE, smell_dataClass, 0.5);
+		repairs.add(repair_colapseHierarchy);
+				
+		DependencyRepair repair_inlineClass = new DependencyRepair("InlineClass");
+		repair_inlineClass.addSmellCoverage(smell_lazyClass, 3);
+		repair_inlineClass.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
+		repair_inlineClass.addDependency(DependencyType.SOLVE, smell_dataClass, 0.5);
+		repair_inlineClass.addDependency(DependencyType.SOLVE, smell_largeClass, 0.5);
+		repairs.add(repair_inlineClass);
 		
-		DependencyRepair repair_inlineClass_LAZC = new DependencyRepair("InlineClass_LAZC", smell_lazyClass);
-		repair_inlineClass_LAZC.setWeight(3);
-		repair_inlineClass_LAZC.addDependency(DependencyType.CAUSE, smell_largeClass, 0.5);
-		repair_inlineClass_LAZC.addDependency(DependencyType.SOLVE, smell_dataClass, 0.5);
-		repair_inlineClass_LAZC.addDependency(DependencyType.SOLVE, smell_largeClass, 0.5);
-		repairs.add(repair_inlineClass_LAZC);
+		Repair repair_introduceForeignMethod = new Repair("IntroduceForeignMethod");
+		repair_introduceForeignMethod.addSmellCoverage(smell_incompleteLibraryPath, 1);
+		repairs.add(repair_introduceForeignMethod);
 		
-		Repair repair_introduceForeignMethod_ILC = new Repair("IntroduceForeignMethod_ILC", smell_incompleteLibraryPath);
-		repair_introduceForeignMethod_ILC.setWeight(1);
-		repairs.add(repair_introduceForeignMethod_ILC);
+		Repair repair_introduceNullObject = new Repair("IntroduceNullObject");
+		repair_introduceNullObject.addSmellCoverage(smell_temporaryField, 3); 
+		repairs.add(repair_introduceNullObject);
 		
-		Repair repair_introduceNullObject_TF = new Repair("IntroduceNullObject_TF", smell_temporaryField);
-		repair_introduceNullObject_TF.setWeight(3);
-		repairs.add(repair_introduceNullObject_TF );
 		
-		DependencyRepair repair_extractClass_TF = new DependencyRepair("repair_extractClass_TF", smell_temporaryField);
-		repair_extractClass_TF.setWeight(3);
-		/*repair_extractClass_TF.addDependency(DependencyType.CAUSE, badClassContent);*/
-		repair_extractClass_TF.addDependency(DependencyType.CAUSE, smell_dataClass, 0.5);
-		repair_extractClass_TF.addDependency(DependencyType.CAUSE, smell_lazyClass, 0.5);
-		repair_extractClass_TF.addDependency(DependencyType.SOLVE, smell_dataClumps, 0.5);
-		repairs.add(repair_extractClass_TF);
+		
+		
+		
 		
 		//init root state
 		this.root = new State();
