@@ -7,9 +7,6 @@ import java.util.List;
 
 public class Repair {
 	private String name;
-	/*List<SmellType> smells;
-	private int weight = 3; //priority of repair 1 - most used; 5 - least used. (Default - 3)*/
-	
 	private List<RepairUse> repairUses; 
 	
 	public Repair(String name) {
