@@ -16,7 +16,7 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 	private static final int minPheromone = 20;
 	private static final int pheromoneCalculatioCoeficient = 20;
 	private static final int pheromoneEvaporationPerCrossing = 25;
-	private static final int maxNonupdatingIterations = 2000;
+	private static final int maxNonupdatingIterations = 0;
 
 	private List<Ant> ants;
 	private State bestState;
@@ -136,7 +136,6 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 			try {
 				dataProtectionlock.lock();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			expandCurrentState(currentState);
