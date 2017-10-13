@@ -58,11 +58,12 @@ public class PostgresManager {
 	public List<Repair> getRepairs(List<SmellType> smells) {
 
 		List<Repair> repairs = new ArrayList<>();
-		String query = "select * from (select repair.id,name,weight,repairsmelltype.smell_id, '' as dependencytype, 0 as probability from repair "
-				+ "left join repairsmelltype on repair.id=repairsmelltype.repair_id " + "union "
-				+ "select repair.id,name,weight,smell_id,dependencytype,probability from repair "
+		String query = "select * from ("
+				+ "select repair.id,name,weight,repairsmelltype.smell_id, '' as dependencytype, 0 as probability from repair "
+				+ "left join repairsmelltype on repair.id=repairsmelltype.repair_id union all "
+				+ "select repair.id,name,'0' as weight,smell_id,dependencytype,probability from repair "
 				+ "join repairdependencies on repair.id=repairdependencies.repair_id "
-				+ "order by id,dependencytype desc,smell_id ) as result ";
+				+ "order by id,dependencytype desc,smell_id )  as result";
 		ResultSet rs;
 		try {
 			rs = statement.executeQuery(query);
