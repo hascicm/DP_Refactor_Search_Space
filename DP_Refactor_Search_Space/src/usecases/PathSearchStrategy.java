@@ -12,12 +12,13 @@ import entities.stateSpace.State;
 public abstract class PathSearchStrategy {
 	
 	protected Set<String> visitedStates;
-	protected State localMinimum = null;
+	protected State localMaximum = null;
 	protected PriorityQueue<GraphRelation> queue;
 	protected RelationCreator relationCreator;
 	protected int lastStateId = 0;
 	
-	private static double PROBABILITY_THRASHOLD = 0.25; 
+	private static double PROBABILITY_THRASHOLD = 0.0;
+	private long rootStateSmellsWeight = 0;
 	
 	public PathSearchStrategy(RelationCreator relationCreator){
 		this.relationCreator = relationCreator;
@@ -65,7 +66,7 @@ public abstract class PathSearchStrategy {
 	protected void calculateEndNodeFitness(List<Relation> relations) {
 		
 		for(Relation rel: relations){
-			StateProcessor.calculateFitness(rel.getToState());
+			StateProcessor.calculateFitness(rel.getToState(), this.rootStateSmellsWeight);
 		}	
 	}
 	
@@ -91,8 +92,8 @@ public abstract class PathSearchStrategy {
 		
 		@Override
 		public int compareTo(GraphRelation o) {
-				return Integer.compare(calculateHeuristic(this.getRelation()), calculateHeuristic(o.getRelation()));
-		}			
+				return Integer.compare(calculateHeuristic(o.getRelation()), calculateHeuristic(this.getRelation()));
+		}		
 	}
 	
 	protected void addRelationToQueue(Relation r){
@@ -106,10 +107,13 @@ public abstract class PathSearchStrategy {
 	
 	protected void init(State rootState, int depth) {
 		
+		//init root atributes
+		this.rootStateSmellsWeight = StateProcessor.calculateSmellsWeight(rootState);
+		
 		// init rootState
 		rootState.setDepth(depth);
 		rootState.setId(lastStateId++);
-		StateProcessor.calculateFitness(rootState);
+		StateProcessor.calculateFitness(rootState, this.rootStateSmellsWeight);
 		relationCreator.addRelationsToState(rootState);
 		applyRepair(rootState.getRelations());
 		calculateEndNodeFitness(rootState.getRelations());

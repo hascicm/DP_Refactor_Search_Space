@@ -29,7 +29,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		//RESULT
 		List<Relation> results = new ArrayList<Relation>();
 		
-		State currentState = this.localMinimum;
+		State currentState = this.localMaximum;
 		while(currentState.getSourceRelation() != null){
 			results.add(currentState.getSourceRelation());
 			currentState = currentState.getSourceRelation().getFromState();
@@ -38,17 +38,17 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		Collections.reverse(results);
 			
 		//DEBUG
-		/*System.out.println("");
+		System.out.println("");
 		System.out.println("RESULT");
 		for(Relation r : results){
 			System.out.println("-------------");
 			currentState = r.getFromState();
 			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
-			System.out.println(r.getUsedRepair().getName() + " P: " + r.getProbability());
+			System.out.println(r.getUsedRepair().getName() + " -> " + r.getFixedSmellOccurance().getSmell().getName() + " P: " + r.getProbability());
 			currentState = r.getToState();
 			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
 		}
-		System.out.println(currentState);*/
+		System.out.println(currentState);
 		//DEBUG		
 		return results;
 	}
@@ -89,9 +89,9 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			
 			
 			//if currentState is better then local minimum
-			if(currentState.getFitness() < this.localMinimum.getFitness()){
+			if(this.localMaximum.getFitness() < currentState.getFitness()){
 				
-				this.localMinimum = currentState;
+				this.localMaximum = currentState;
 				
 			}
 			
@@ -118,7 +118,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		// init visited state
 		this.visitedStates = new HashSet<String>();
 		this.visitedStates.add(StateProcessor.createHash(rootState));
-		this.localMinimum = rootState;
+		this.localMaximum = rootState;
 		
 	}
 		

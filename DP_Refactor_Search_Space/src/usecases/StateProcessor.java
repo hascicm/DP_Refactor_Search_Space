@@ -71,8 +71,39 @@ public class StateProcessor {
 			}
 		}
 	}
-			
-	public static void calculateFitness(State state){
+	
+	public static long calculateSmellsWeight(State state){	
+		long result = 0;
+		
+		for(SmellOccurance so : state.getSmells()){
+			result += so.getSmell().getWeight();
+		}
+		
+		return result; 		
+	}
+	
+	public static void calculateFitness(State state, long initSmellsWeight){
+		
+		double fitness = 0;
+		
+		fitness += initSmellsWeight - calculateSmellsWeight(state); 
+		
+		fitness = Math.pow(fitness, 3.0);
+		
+		Relation currentRel = state.getSourceRelation();
+		while(currentRel != null){
+			fitness += currentRel.getUsedRepair().getWeight(currentRel.getFixedSmellOccurance().getSmell());
+			currentRel = currentRel.getFromState().getSourceRelation();
+		}
+		
+		if(state.getSourceRelation() != null){
+			fitness *= state.getSourceRelation().getProbability();
+		}
+		
+		state.setFitness(fitness);
+	}
+	
+	/*public static void calculateFitness(State state){
 		
 		int fitness = 0;
 		
@@ -92,7 +123,7 @@ public class StateProcessor {
 		}
 			
 		state.setFitness(fitness);
-	}
+	}*/
 
 	public static void calculateFitnessForAnts(State state) {
 		int fitness = 0;

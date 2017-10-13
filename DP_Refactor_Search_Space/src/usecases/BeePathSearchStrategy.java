@@ -224,7 +224,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 
 		@Override
 		public int compareTo(Bee o) {
-			return Double.compare(this.getHeuristic(), o.getHeuristic());
+			return Double.compare(o.getHeuristic(), this.getHeuristic());
 		}
 
 		public double getProbabilityToRecruit() {

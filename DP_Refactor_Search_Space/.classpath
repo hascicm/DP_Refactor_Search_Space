@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/hasci/Desktop/DP/workspace/guava-16.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_131/jre/lib/postgresql-9.3-1102.jdbc41.jar"/>
+	<classpathentry kind="lib" path="G:/Personal_Lukas_Hamacek/School_FIIT_STU/skola/ing/DP/DP_libs/google guava/google-guava.jar"/>
+	<classpathentry kind="lib" path="G:/Personal_Lukas_Hamacek/School_FIIT_STU/skola/ing/DP/DP_libs/postgresql-42.1.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

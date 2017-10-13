@@ -48,6 +48,8 @@ public class RelationCreator {
 		
 		this.assignFromStateToRelation(newRelations, state);
 		state.setRelations(newRelations);
+		
+		calculateProbabilityForRelations(state.getRelations());
 	}
 	
 	private List<Relation> assignRelationsToSmellOccurance(SmellOccurance smellOccurance){
@@ -156,4 +158,13 @@ public class RelationCreator {
             combinations(dependencies, len-1, i+1, results, combinations);
         }
     }
+	
+	private static void calculateProbabilityForRelations(List<Relation> rels){
+		
+		for(Relation rel : rels){
+			rel.calculateProbability();
+		}
+		
+	}
+	
 }
