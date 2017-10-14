@@ -104,9 +104,9 @@ public class PostgresManager {
 						DependencyType type = null;
 						if (rs.getString("dependencytype").equals("solve")) {
 							type = DependencyType.SOLVE;
-						} else if (rs.getString("dependencytype").equals("cause")) {
+						} else
 							type = DependencyType.CAUSE;
-						}
+
 						dr.addDependency(type, smells.get(rs.getInt("smell_id") - 1), rs.getDouble("probability"));
 					} else if (!repair && rs.getString("dependencytype").equals("")) {
 						dr.addSmellCoverage(smells.get(rs.getInt("smell_id") - 1), (rs.getInt("weight")));
