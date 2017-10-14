@@ -11,11 +11,11 @@ import entities.stateSpace.State;
 public class BeePathSearchStrategy extends PathSearchStrategy {
 	
 	private static int NUM_ITER = 500;
-	private static int NUM_BEES = 8; 
-	private static int NUM_EMPLOYED_BEES = 4;
-	private static int NUM_ONLOOKER_BEES = 4;
+	private static int NUM_BEES = 64; 
+	private static int NUM_EMPLOYED_BEES = 32;
+	private static int NUM_ONLOOKER_BEES = 32;
 	private static int SCOUT_MAX_DEPTH = 20;
-	private static int PATCH_SIZE = 2;
+	private static int PATCH_SIZE = 4;
 	private List<Bee> bees;
 	
 	public BeePathSearchStrategy(RelationCreator relationCreator) {
@@ -124,7 +124,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			System.out.println("-------------");
 			currentState = r.getFromState();
 			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
-			System.out.println(r.getUsedRepair().getName());
+			System.out.println(r.getUsedRepair().getName() + " P: " + r.getProbability());
 			currentState = r.getToState();
 			System.out.println("S_" + currentState.getId()+ " [ Fitness: " + currentState.getFitness() + ", NumOfSmells: " +currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] " + currentState);
 		}
@@ -158,11 +158,17 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			
 		}		
 	}
-
+	
+	private void checkLowProbability(Bee bee){
+		if(isLowProbability(bee.getVisitedState())){
+			bee.heuristic *= (-1.0);
+		}
+	}
 
 	private void evaluatePopulation(List<Bee> bees) {
 		for(Bee b: bees){
 			b.setHeuristic(this.calculateHeuristic(b.getVisitedState().getSourceRelation()));
+			checkLowProbability(b);
 		}	
 	}
 	
@@ -191,7 +197,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			}
 				
 			indexOfSelectedRelation = random.nextInt(currentState.getRelations().size()); 
-
+			
 			currentState = currentState.getRelations().get(indexOfSelectedRelation).getToState();	
 		}
 		

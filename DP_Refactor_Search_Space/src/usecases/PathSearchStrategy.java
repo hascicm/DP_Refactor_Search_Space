@@ -17,7 +17,7 @@ public abstract class PathSearchStrategy {
 	protected RelationCreator relationCreator;
 	protected int lastStateId = 0;
 	
-	private static double PROBABILITY_THRASHOLD = 0.0;
+	private static double PROBABILITY_THRASHOLD = 0.10;
 	private long rootStateSmellsWeight = 0;
 	
 	public PathSearchStrategy(RelationCreator relationCreator){
@@ -117,7 +117,7 @@ public abstract class PathSearchStrategy {
 		relationCreator.addRelationsToState(rootState);
 		applyRepair(rootState.getRelations());
 		calculateEndNodeFitness(rootState.getRelations());
-		calculateProbabilityOfRelations(rootState.getRelations());
+		
 	}
 	
 	protected void expandCurrentState(State currentState){

@@ -86,19 +86,30 @@ public class StateProcessor {
 		
 		double fitness = 0;
 		
-		fitness += initSmellsWeight - calculateSmellsWeight(state); 
+		fitness += (initSmellsWeight - calculateSmellsWeight(state)); 
 		
 		fitness = Math.pow(fitness, 3.0);
 		
+		
 		Relation currentRel = state.getSourceRelation();
+		int count = 0;
+		int weightSum = 0;
 		while(currentRel != null){
-			fitness += currentRel.getUsedRepair().getWeight(currentRel.getFixedSmellOccurance().getSmell());
+			weightSum += currentRel.getUsedRepair().getWeight(currentRel.getFixedSmellOccurance().getSmell());
+			count++;
 			currentRel = currentRel.getFromState().getSourceRelation();
 		}
 		
-		if(state.getSourceRelation() != null){
+		if(count != 0)
+			fitness += (weightSum/count);
+		
+		fitness -= state.getDepth();
+		
+		/*if(state.getSourceRelation() != null){
 			fitness *= state.getSourceRelation().getProbability();
-		}
+		}*/
+		
+		//fitness = (state.getDepth()); 
 		
 		state.setFitness(fitness);
 	}
