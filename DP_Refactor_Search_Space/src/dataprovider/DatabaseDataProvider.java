@@ -62,7 +62,7 @@ public class DatabaseDataProvider implements DataProvider {
 		smellOccurances.add(new SmellOccurance(this.smells.get(9)));
 		//Spectacular Generality
 		smellOccurances.add(new SmellOccurance(this.smells.get(18)));
-		//Large Class
+		/*//Large Class
 		smellOccurances.add(new SmellOccurance(this.smells.get(0)));
 		//DataClumps
 		smellOccurances.add(new SmellOccurance(this.smells.get(3)));
@@ -73,7 +73,7 @@ public class DatabaseDataProvider implements DataProvider {
 		//Switch statement
 		smellOccurances.add(new SmellOccurance(this.smells.get(14)));
 		//Inpropriate intimicity
-		smellOccurances.add(new SmellOccurance(this.smells.get(19)));
+		smellOccurances.add(new SmellOccurance(this.smells.get(19)));*/
 		
 		
 		this.root = new State();

@@ -84,11 +84,11 @@ public class StateProcessor {
 	
 	public static void calculateFitness(State state, long initSmellsWeight){
 		
-		double fitness = 0;
+		long fitness = 0;
 		
 		fitness += (initSmellsWeight - calculateSmellsWeight(state)); 
 		
-		fitness = Math.pow(fitness, 3.0);
+		fitness = fitness << 2;
 		
 		
 		Relation currentRel = state.getSourceRelation();

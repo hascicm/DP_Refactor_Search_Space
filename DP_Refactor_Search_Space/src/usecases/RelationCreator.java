@@ -1,8 +1,12 @@
 package usecases;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import entities.Dependency;
 import entities.DependencyRepair;
@@ -13,31 +17,13 @@ import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;
 
 public class RelationCreator {
-	List<SmellType> smellTypes;
-	List<Repair> repairs;
+	Map<SmellType, List<Repair>> repairsMap; 
 	
 	public RelationCreator(List<SmellType> smellTypes, List<Repair> repairs) {
 		super();
-		this.smellTypes = smellTypes;
-		this.repairs = repairs;
+		initRepairMap(smellTypes, repairs); 
 	}
-	
-	public List<SmellType> getSmellTypes() {
-		return smellTypes;
-	}
-	
-	public void setSmellTypes(List<SmellType> smellTypes) {
-		this.smellTypes = smellTypes;
-	}
-	
-	public List<Repair> getRepairs() {
-		return repairs;
-	}
-	
-	public void setRepairs(List<Repair> repairs) {
-		this.repairs = repairs;
-	}
-	
+		
 	public void addRelationsToState(State state){
 		
 		List<Relation> newRelations = new LinkedList<Relation>();	
@@ -56,20 +42,13 @@ public class RelationCreator {
 		
 		List<Relation> relations = new ArrayList<Relation>();
 		
-		for(Repair repair : this.repairs){
-			
-			for(SmellType smell : repair.getSmells()){
-				
-				if(smellOccurance.getSmell() == smell){
-										
-					for(Relation newRel : makeRelationsOfRepair(repair)){
-						newRel.setFixedSmellOccurance(smellOccurance);
-						relations.add(newRel);
-					}
-				}
+		for(Repair repair : this.repairsMap.get(smellOccurance.getSmell())){
+			for(Relation newRel : makeRelationsOfRepair(repair)){
+				newRel.setFixedSmellOccurance(smellOccurance);
+				relations.add(newRel);
 			}
 		}
-		
+			
 		return relations;
 	}
 	
@@ -165,6 +144,28 @@ public class RelationCreator {
 			rel.calculateProbability();
 		}
 		
+	}
+	
+	private void initRepairMap(List<SmellType> smellTypes, List<Repair> repairs) {
+		
+		this.repairsMap = new HashMap<SmellType, List<Repair>>();	
+		
+		List<Repair> tempRepairsList;
+		for(Repair rep : repairs){
+			
+			for(SmellType smell : rep.getSmells()){
+				
+				if(!this.repairsMap.containsKey(smell)){
+					
+					tempRepairsList = new LinkedList<Repair>(); 
+					tempRepairsList.add(rep);
+					
+					this.repairsMap.put(smell, tempRepairsList);
+				}else{
+					this.repairsMap.get(smell).add(rep);
+				}
+			}
+		}	
 	}
 	
 }
