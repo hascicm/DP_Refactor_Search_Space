@@ -58,7 +58,22 @@ public class DatabaseDataProvider implements DataProvider {
 		smellOccurances.add(new SmellOccurance(this.smells.get(0)));
 		//Divergent change
 		smellOccurances.add(new SmellOccurance(this.smells.get(12)));
-		
+		//Feature envy
+		smellOccurances.add(new SmellOccurance(this.smells.get(9)));
+		//Spectacular Generality
+		smellOccurances.add(new SmellOccurance(this.smells.get(18)));
+		//Large Class
+		smellOccurances.add(new SmellOccurance(this.smells.get(0)));
+		//DataClumps
+		smellOccurances.add(new SmellOccurance(this.smells.get(3)));
+		//Large Class
+		smellOccurances.add(new SmellOccurance(this.smells.get(0)));
+		//Shotgun Surgery
+		smellOccurances.add(new SmellOccurance(this.smells.get(13)));
+		//Switch statement
+		smellOccurances.add(new SmellOccurance(this.smells.get(14)));
+		//Inpropriate intimicity
+		smellOccurances.add(new SmellOccurance(this.smells.get(19)));
 		
 		
 		this.root = new State();
