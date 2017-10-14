@@ -98,16 +98,18 @@ public class PostgresManager {
 						dr.addDependency(type, smells.get(rs.getInt("smell_id") - 1), rs.getDouble("probability"));
 					}
 				} else {
-					System.out.println(rs.getInt("smell_id"));
 					if (repair) {
 						r.addSmellCoverage(smells.get(rs.getInt("smell_id") - 1), (rs.getInt("weight")));
 					} else if (!repair && !rs.getString("dependencytype").equals("")) {
-						DependencyType type;
-						if (rs.getString("dependencytype").equals("solve"))
+						DependencyType type = null;
+						if (rs.getString("dependencytype").equals("solve")) {
 							type = DependencyType.SOLVE;
-						else
+						} else
 							type = DependencyType.CAUSE;
+
 						dr.addDependency(type, smells.get(rs.getInt("smell_id") - 1), rs.getDouble("probability"));
+					} else if (!repair && rs.getString("dependencytype").equals("")) {
+						dr.addSmellCoverage(smells.get(rs.getInt("smell_id") - 1), (rs.getInt("weight")));
 					}
 				}
 			}
