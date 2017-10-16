@@ -80,7 +80,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 			
 			currentState.setId(lastStateId++); 
 						
-			//if currentState is better then local minimum
+			//if currentState is better then local maximum
 			if(this.localMaximum.getFitness() < currentState.getFitness()){	
 				this.localMaximum = currentState;
 			}
@@ -89,6 +89,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 				expandCurrentState(currentState);
 			}	
 		}
+		System.out.println(lastStateId);
 	}	
 
 	protected void init(State rootState, int depth) {

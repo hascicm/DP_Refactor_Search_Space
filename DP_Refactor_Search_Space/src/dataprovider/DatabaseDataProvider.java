@@ -41,42 +41,54 @@ public class DatabaseDataProvider implements DataProvider {
 		List<SmellOccurance> smellOccurances = new ArrayList<SmellOccurance>();
 				
 		//DataClumps
-		smellOccurances.add(new SmellOccurance(this.smells.get(3)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(4)));
 		//LazyClass
-		smellOccurances.add(new SmellOccurance(this.smells.get(8)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(9)));
 		//FeatureEnvy
-		smellOccurances.add(new SmellOccurance(this.smells.get(9)));
-		//IncompleteLibraryPath
-		smellOccurances.add(new SmellOccurance(this.smells.get(6)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(10)));
 		//LongParameterList
-		smellOccurances.add(new SmellOccurance(this.smells.get(2)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(3)));
 		//DataClass	
-		smellOccurances.add(new SmellOccurance(this.smells.get(7)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(8)));
 		//Large class
-		smellOccurances.add(new SmellOccurance(this.smells.get(0)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(1)));
 		//Large class
-		smellOccurances.add(new SmellOccurance(this.smells.get(0)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(1)));
 		//Divergent change
-		smellOccurances.add(new SmellOccurance(this.smells.get(12)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(13)));
 		//Feature envy
-		smellOccurances.add(new SmellOccurance(this.smells.get(9)));
-		//Spectacular Generality
-		smellOccurances.add(new SmellOccurance(this.smells.get(18)));
-		/*//Large Class
-		smellOccurances.add(new SmellOccurance(this.smells.get(0)));
-		//DataClumps
-		smellOccurances.add(new SmellOccurance(this.smells.get(3)));
-		//Large Class
-		smellOccurances.add(new SmellOccurance(this.smells.get(0)));
-		//Shotgun Surgery
-		smellOccurances.add(new SmellOccurance(this.smells.get(13)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(10)));
 		//Switch statement
-		smellOccurances.add(new SmellOccurance(this.smells.get(14)));
-		//Inpropriate intimicity
+		smellOccurances.add(new SmellOccurance(this.getSmellType(15)));
+		//Large Class
+		smellOccurances.add(new SmellOccurance(this.getSmellType(1)));
+		//DataClumps
+		smellOccurances.add(new SmellOccurance(this.getSmellType(4)));
+		//Large Class
+		smellOccurances.add(new SmellOccurance(this.getSmellType(1)));
+		//Shotgun Surgery
+		smellOccurances.add(new SmellOccurance(this.getSmellType(14)));
+		//Switch statement
+		smellOccurances.add(new SmellOccurance(this.getSmellType(15)));
+		/*Inpropriate intimicity
 		smellOccurances.add(new SmellOccurance(this.smells.get(19)));*/
 		
 		
 		this.root = new State();
 		this.root.setSmells(smellOccurances);	
 	}
+	
+	private SmellType getSmellType(int id){
+		
+		SmellType result = null;
+		
+		for(SmellType st : this.smells){
+			if(st.getId() == id){
+				result = st;
+			}
+		}
+		
+		return result;
+	}
+	
 }

@@ -10,12 +10,12 @@ import entities.stateSpace.State;
 
 public class BeePathSearchStrategy extends PathSearchStrategy {
 	
-	private static int NUM_ITER = 300;
-	private static int NUM_BEES = 128; 
-	private static int NUM_EMPLOYED_BEES = 64;
-	private static int NUM_ONLOOKER_BEES = 64;
-	private static int SCOUT_MAX_DEPTH = 20;
-	private static int PATCH_SIZE = 4;
+	private static int NUM_ITER = 500;
+	private static int NUM_BEES = 200; 
+	private static int NUM_EMPLOYED_BEES = 100;
+	private static int NUM_ONLOOKER_BEES = 100;
+	private static int SCOUT_MAX_DEPTH = 30;
+	private static int PATCH_SIZE = 10;
 	private List<Bee> bees;
 	
 	public BeePathSearchStrategy(RelationCreator relationCreator) {
@@ -41,7 +41,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			
 			Collections.sort(this.bees);
 			//DEBUG
-			//printBees(bees);
+			printBees(bees);
 			//DEBUG
 			
 			//best <num> of states (employed bees)
