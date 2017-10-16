@@ -55,6 +55,14 @@ public class PostgresManager {
 		return smells;
 	}
 
+	private SmellType getSmellById(int id, List<SmellType> smells) {
+		for (SmellType s : smells) {
+			if (s.getId() == id)
+				return s;
+		}
+		return null;
+	}
+
 	public List<Repair> getRepairs(List<SmellType> smells) {
 
 		List<Repair> repairs = new ArrayList<>();
@@ -84,7 +92,7 @@ public class PostgresManager {
 						r = new Repair(rs.getString("name"));
 						name = r.getName();
 						if (rs.getInt("smell_id") != 0) {
-							r.addSmellCoverage(smells.get(rs.getInt("smell_id") - 1), (rs.getInt("weight")));
+							r.addSmellCoverage(getSmellById(rs.getInt("smell_id"), smells), (rs.getInt("weight")));
 						}
 					} else if (!rs.getString("dependencytype").equals("")) {
 						repair = false;
@@ -95,11 +103,12 @@ public class PostgresManager {
 							type = DependencyType.SOLVE;
 						else
 							type = DependencyType.CAUSE;
-						dr.addDependency(type, smells.get(rs.getInt("smell_id") - 1), rs.getDouble("probability"));
+						dr.addDependency(type, getSmellById(rs.getInt("smell_id"), smells),
+								rs.getDouble("probability"));
 					}
 				} else {
 					if (repair) {
-						r.addSmellCoverage(smells.get(rs.getInt("smell_id") - 1), (rs.getInt("weight")));
+						r.addSmellCoverage(getSmellById(rs.getInt("smell_id"), smells), (rs.getInt("weight")));
 					} else if (!repair && !rs.getString("dependencytype").equals("")) {
 						DependencyType type = null;
 						if (rs.getString("dependencytype").equals("solve")) {
@@ -107,9 +116,10 @@ public class PostgresManager {
 						} else
 							type = DependencyType.CAUSE;
 
-						dr.addDependency(type, smells.get(rs.getInt("smell_id") - 1), rs.getDouble("probability"));
+						dr.addDependency(type, getSmellById(rs.getInt("smell_id"), smells),
+								rs.getDouble("probability"));
 					} else if (!repair && rs.getString("dependencytype").equals("")) {
-						dr.addSmellCoverage(smells.get(rs.getInt("smell_id") - 1), (rs.getInt("weight")));
+						dr.addSmellCoverage(getSmellById(rs.getInt("smell_id"), smells), (rs.getInt("weight")));
 					}
 				}
 			}
