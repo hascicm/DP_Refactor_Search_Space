@@ -123,6 +123,7 @@ public class PostgresManager {
 					}
 				}
 			}
+			
 			if (repair && r != null)
 				repairs.add(r);
 			else if (!repair && dr != null)
