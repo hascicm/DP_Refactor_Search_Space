@@ -67,7 +67,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 				Bee tempBee = null;
 				for(int j = 0; j < b.getNumForRecruit(); j++){
 					tempBee = onlookerBees.get(numOfRecruitBees++);
-					exploreSpace(tempBee, b.visitedState, PATCH_SIZE);
+					exploreSpace(tempBee, b.visitedState, PATCH_SIZE, true);
 					b.getRecruitedBees().add(tempBee);
 				}
 			}
@@ -91,7 +91,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			
 			//Remaining bees are scouts and create random explore
 			for(Bee b : remainingBees){
-				exploreSpace(b, rootState, SCOUT_MAX_DEPTH);
+				exploreSpace(b, rootState, SCOUT_MAX_DEPTH, false);
 			}
 			
 			//assign new population
@@ -175,12 +175,12 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 	private void initPopulation(State rootState) {	
 		for(int i = 0; i < NUM_BEES; i++){	
 			Bee b = new Bee();
-			exploreSpace(b, rootState, SCOUT_MAX_DEPTH);
+			exploreSpace(b, rootState, SCOUT_MAX_DEPTH, false);
 			this.bees.add(b);
 		}
 	}
 
-	private void exploreSpace(Bee bee, State state, int maxDepth){
+	private void exploreSpace(Bee bee, State state, int maxDepth, boolean isOnLooker){
 		
 		Random random = new Random();
 		
@@ -192,13 +192,30 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 		for(int i = 0; i < numOfHops; i++){
 			
 			expandCurrentState(currentState);
-			if(currentState.getRelations().size() == 0){
+			
+			List<Relation> relations = null;
+			//if is onlooker bee just go to better state
+			if(isOnLooker){
+				
+				relations = new ArrayList<Relation>();
+				
+				for(Relation rel : currentState.getRelations()){
+					if(currentState.getFitness() <= rel.getToState().getFitness()){
+						relations.add(rel);
+					}
+				}
+				
+			}else{
+				relations = currentState.getRelations();
+			}
+			
+			if(relations.size() == 0){
 				break;
 			}
 				
-			indexOfSelectedRelation = random.nextInt(currentState.getRelations().size()); 
+			indexOfSelectedRelation = random.nextInt(relations.size()); 
 			
-			currentState = currentState.getRelations().get(indexOfSelectedRelation).getToState();	
+			currentState = relations.get(indexOfSelectedRelation).getToState();	
 		}
 		
 		bee.setVisitedState(currentState);
