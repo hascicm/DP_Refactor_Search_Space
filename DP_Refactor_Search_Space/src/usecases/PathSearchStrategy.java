@@ -17,7 +17,7 @@ public abstract class PathSearchStrategy {
 	protected RelationCreator relationCreator;
 	protected int lastStateId = 0;
 	
-	private static double PROBABILITY_THRASHOLD = 0.00;
+	private static double PROBABILITY_THRASHOLD = 0.30;
 	private long rootStateSmellsWeight = 0;
 	
 	public PathSearchStrategy(RelationCreator relationCreator){

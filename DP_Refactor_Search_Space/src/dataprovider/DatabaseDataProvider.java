@@ -69,9 +69,8 @@ public class DatabaseDataProvider implements DataProvider {
 		//Shotgun Surgery
 		smellOccurances.add(new SmellOccurance(this.getSmellType(14)));
 		//Switch statement
-		smellOccurances.add(new SmellOccurance(this.getSmellType(15)));
-		/*Inpropriate intimicity
-		smellOccurances.add(new SmellOccurance(this.smells.get(19)));*/
+		/*smellOccurances.add(new SmellOccurance(this.getSmellType(15)));*/
+		
 		
 		
 		this.root = new State();

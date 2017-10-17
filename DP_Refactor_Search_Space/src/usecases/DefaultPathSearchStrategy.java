@@ -63,8 +63,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		Relation currentRelation = null;
 		State currentState = null;
 		
+		long count = 1;
+		
 		while(!this.queue.isEmpty()){
-						
+			count++;			
 			//get next state for visiting
 			currentRelation = this.queue.remove().getRelation();
 			currentState = currentRelation.getToState();
@@ -89,6 +91,7 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 				expandCurrentState(currentState);
 			}	
 		}
+		System.out.println(count);
 		System.out.println(lastStateId);
 	}	
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Random;
 
 import entities.stateSpace.Relation;
@@ -12,12 +11,12 @@ import entities.stateSpace.State;
 
 public class BeePathSearchStrategy extends PathSearchStrategy {
 	
-	private static int NUM_ITER = 500;
-	private static int NUM_BEES = 128; 
-	private static int NUM_EMPLOYED_BEES = 64;
-	private static int NUM_ONLOOKER_BEES = 64;
+	private static int NUM_ITER = 100;
+	private static int NUM_BEES = 16; 
+	private static int NUM_EMPLOYED_BEES = 8;
+	private static int NUM_ONLOOKER_BEES = 8;
 	private static int SCOUT_MAX_DEPTH = 20;
-	private static int PATCH_SIZE = 2;
+	private static int PATCH_SIZE = 3;
 	private List<Bee> bees;
 	
 	public BeePathSearchStrategy(RelationCreator relationCreator) {
@@ -44,7 +43,10 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			Collections.sort(this.bees);
 			//DEBUG
 			//printBees(bees);
-			printBestBee(bees.get(0));
+			//printBestBee(bees.get(0));
+			if(bees.get(0).getHeuristic() >= 172.0){
+				break;
+			}
 			//DEBUG
 			
 			//best <num> of states (employed bees)
@@ -70,7 +72,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 				Bee tempBee = null;
 				for(int j = 0; j < b.getNumForRecruit(); j++){
 					tempBee = onlookerBees.get(numOfRecruitBees++);
-					exploreSpaceOnLooker(tempBee, b.visitedState);
+					exploreSpace(tempBee, b.visitedState, PATCH_SIZE);
 					b.getRecruitedBees().add(tempBee);
 				}
 			}
@@ -94,7 +96,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			
 			//Remaining bees are scouts and create random explore
 			for(Bee b : remainingBees){
-				exploreSpaceScout(b, rootState);
+				exploreSpace(b, rootState, SCOUT_MAX_DEPTH);
 			}
 			
 			//assign new population
@@ -184,7 +186,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 				
 		for(int i = 0; i < NUM_BEES; i++){	
 			bee = new Bee();
-			exploreSpaceScout(bee, rootState);
+			exploreSpace(bee, rootState, SCOUT_MAX_DEPTH);
 			this.bees.add(bee);
 		}
 	}
@@ -226,13 +228,13 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 		b.setVisitedState(localMaximum);
 	}
 	
-	private void exploreSpaceScout(Bee bee, State state){
+	private void exploreSpace(Bee bee, State state, int depth){
 		
 		Random random = new Random();
 		State bestFoundState = state;
 		
 		//random number between 1 - maxDepth
-		int numOfHops = random.nextInt(SCOUT_MAX_DEPTH) + 1;
+		int numOfHops = random.nextInt(depth) + 1;
 				
 		State currentState = state;
 		int indexOfSelectedRelation;
@@ -275,8 +277,17 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 	}
 
 	private void exploreSpaceOnLooker(Bee b, State s){
-		
 		/*
+		Random random = new Random();
+		
+		expandCurrentState(s);
+		
+		List<Relation> relations = filterLowProbabilityRelations(s.getRelations());
+		
+		
+		
+		
+		
 		Relation currentRelation;
 		State currentState;
 		int actualDepth = s.getDepth();

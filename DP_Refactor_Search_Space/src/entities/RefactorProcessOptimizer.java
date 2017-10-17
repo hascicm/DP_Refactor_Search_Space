@@ -27,9 +27,11 @@ public class RefactorProcessOptimizer {
 	public void findRefactoringPath(){
 		//MultiAgent ma = new MultiAgent();
 		//ma.findPath(this.dataProvider.getRootState(), this.pathSearchStrategy);
-		
+		Long startTime = System.currentTimeMillis();
 		this.pathSearchStrategy.findPath(this.dataProvider.getRootState(), 0);
-		
+		System.out.println("");
+		System.out.println("Time: ");
+		System.out.println(((startTime - System.currentTimeMillis())/1000.0));
 	}
 	
 	public void setPathSearchStrategy(PathSearchStrategy pathSearchStrategy) {
