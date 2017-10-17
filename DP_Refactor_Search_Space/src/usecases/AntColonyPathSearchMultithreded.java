@@ -16,7 +16,7 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 	private static final int minPheromone = 20;
 	private static final int pheromoneCalculatioCoeficient = 20;
 	private static final int pheromoneEvaporationPerCrossing = 25;
-	private static final int maxNonupdatingIterations = 0;
+	private static final int maxNonupdatingIterations = 5000;
 
 	private List<Ant> ants;
 	private State bestState;
@@ -38,7 +38,7 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 	@Override
 	public List<Relation> findPath(State rootState, int depth) {
 		this.rootState = rootState;
-
+		System.out.println(rootState);
 		Ant curent;
 		for (int i = 0; i < numOfThreads; i++) {
 			curent = new Ant(rootState);
@@ -60,6 +60,24 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 			}
 			Collections.reverse(results);
 		}
+
+		System.out.println("");
+		System.out.println("RESULT");
+		State currentState = null;
+		for (Relation r : results) {
+			System.out.println("-------------");
+			currentState = r.getFromState();
+			System.out.println("S_" + currentState.getId() + " [ Fitness: " + currentState.getFitness()
+					+ ", NumOfSmells: " + currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] "
+					+ currentState);
+			System.out.println(r.getUsedRepair().getName() + " -> " + r.getFixedSmellOccurance().getSmell().getName()
+					+ " P: " + r.getProbability());
+			currentState = r.getToState();
+			System.out.println("S_" + currentState.getId() + " [ Fitness: " + currentState.getFitness()
+					+ ", NumOfSmells: " + currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] "
+					+ currentState);
+		}
+		System.out.println(currentState);
 		return results;
 	}
 
@@ -116,7 +134,6 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 			while (!end) {
 				if (iterations > maxNonupdatingIterations)
 					end = true;
-				// TODO evaporation
 				if (finalState == null) {
 					makeAntMove();
 				} else {
