@@ -17,7 +17,7 @@ public abstract class PathSearchStrategy {
 	protected RelationCreator relationCreator;
 	protected int lastStateId = 0;
 	
-	private static double PROBABILITY_THRASHOLD = 0.50;
+	private static double PROBABILITY_THRASHOLD = 0.00;
 	private long rootStateSmellsWeight = 0;
 	
 	public PathSearchStrategy(RelationCreator relationCreator){
@@ -52,15 +52,24 @@ public abstract class PathSearchStrategy {
 		
 		boolean result = false;
 		
-		if(s.getSourceRelation().getProbability() < PROBABILITY_THRASHOLD){
-			result = true;
+		if(s.getSourceRelation() != null){
+			if(s.getSourceRelation().getProbability() < PROBABILITY_THRASHOLD){
+				result = true;
+			}
 		}
-		
 		return result; 
 	}
 	
 	protected int calculateHeuristic(Relation r){
-		return (int) r.getToState().getFitness(); 
+		
+		int result = 0;
+		
+		if(r != null){
+			result = (int) r.getToState().getFitness();
+		}
+		
+		
+		return result; 
 	}
 	
 	protected void calculateEndNodeFitness(List<Relation> relations) {
