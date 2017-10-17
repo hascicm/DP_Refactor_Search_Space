@@ -3,6 +3,8 @@ package usecases;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
 
 import entities.stateSpace.Relation;
@@ -11,11 +13,11 @@ import entities.stateSpace.State;
 public class BeePathSearchStrategy extends PathSearchStrategy {
 	
 	private static int NUM_ITER = 500;
-	private static int NUM_BEES = 200; 
-	private static int NUM_EMPLOYED_BEES = 100;
-	private static int NUM_ONLOOKER_BEES = 100;
-	private static int SCOUT_MAX_DEPTH = 30;
-	private static int PATCH_SIZE = 10;
+	private static int NUM_BEES = 128; 
+	private static int NUM_EMPLOYED_BEES = 64;
+	private static int NUM_ONLOOKER_BEES = 64;
+	private static int SCOUT_MAX_DEPTH = 20;
+	private static int PATCH_SIZE = 2;
 	private List<Bee> bees;
 	
 	public BeePathSearchStrategy(RelationCreator relationCreator) {
@@ -41,7 +43,8 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			
 			Collections.sort(this.bees);
 			//DEBUG
-			printBees(bees);
+			//printBees(bees);
+			printBestBee(bees.get(0));
 			//DEBUG
 			
 			//best <num> of states (employed bees)
@@ -67,7 +70,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 				Bee tempBee = null;
 				for(int j = 0; j < b.getNumForRecruit(); j++){
 					tempBee = onlookerBees.get(numOfRecruitBees++);
-					exploreSpace(tempBee, b.visitedState, PATCH_SIZE, true);
+					exploreSpaceOnLooker(tempBee, b.visitedState);
 					b.getRecruitedBees().add(tempBee);
 				}
 			}
@@ -91,7 +94,7 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			
 			//Remaining bees are scouts and create random explore
 			for(Bee b : remainingBees){
-				exploreSpace(b, rootState, SCOUT_MAX_DEPTH, false);
+				exploreSpaceScout(b, rootState);
 			}
 			
 			//assign new population
@@ -173,52 +176,142 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 	}
 	
 	private void initPopulation(State rootState) {	
+		
+		//init of one bee which find the local maximum
+		Bee bee = new Bee();
+		/*this.initSuperBee(bee, rootState);
+		this.bees.add(bee);*/ 
+				
 		for(int i = 0; i < NUM_BEES; i++){	
-			Bee b = new Bee();
-			exploreSpace(b, rootState, SCOUT_MAX_DEPTH, false);
-			this.bees.add(b);
+			bee = new Bee();
+			exploreSpaceScout(bee, rootState);
+			this.bees.add(bee);
 		}
 	}
-
-	private void exploreSpace(Bee bee, State state, int maxDepth, boolean isOnLooker){
+	
+	private void initSuperBee(Bee b, State s){
+		
+		init(s, 0);
+		
+		this.queue = new PriorityQueue<GraphRelation>();
+		expandCurrentState(s);
+		addRelationsToQueue(s.getRelations());
+		
+		this.localMaximum = s;
+		
+		Relation currentRelation;
+		State currentState;
+		while(!this.queue.isEmpty()){
+			
+			//get next state for visiting
+			currentRelation = this.queue.remove().getRelation();
+			currentState = currentRelation.getToState();
+		
+			if(isLowProbability(currentState)){
+				continue;
+			}
+			
+			if(this.localMaximum.getFitness() < currentState.getFitness()){
+				this.localMaximum = currentState;
+			}
+			
+			//remove last relations
+			this.queue.clear();
+			if(currentState.getDepth() < this.SCOUT_MAX_DEPTH){
+				expandCurrentState(currentState);
+				addRelationsToQueue(currentState.getRelations());
+			}
+		}
+		
+		b.setVisitedState(localMaximum);
+	}
+	
+	private void exploreSpaceScout(Bee bee, State state){
 		
 		Random random = new Random();
+		State bestFoundState = state;
 		
-		//rendom number between 1 - maxDepth
-		int numOfHops = random.nextInt(maxDepth) + 1;
-		
+		//random number between 1 - maxDepth
+		int numOfHops = random.nextInt(SCOUT_MAX_DEPTH) + 1;
+				
 		State currentState = state;
 		int indexOfSelectedRelation;
 		for(int i = 0; i < numOfHops; i++){
 			
 			expandCurrentState(currentState);
 			
-			List<Relation> relations = null;
-			//if is onlooker bee just go to better state
-			if(isOnLooker){
-				
-				relations = new ArrayList<Relation>();
-				
-				for(Relation rel : currentState.getRelations()){
-					if(currentState.getFitness() <= rel.getToState().getFitness()){
-						relations.add(rel);
-					}
-				}
-				
-			}else{
-				relations = currentState.getRelations();
-			}
+			List<Relation> relations = currentState.getRelations();
+			
+			relations = filterLowProbabilityRelations(relations);
 			
 			if(relations.size() == 0){
 				break;
 			}
-				
+						
 			indexOfSelectedRelation = random.nextInt(relations.size()); 
 			
-			currentState = relations.get(indexOfSelectedRelation).getToState();	
+			currentState = relations.get(indexOfSelectedRelation).getToState();
+			
+			if(bestFoundState.getFitness() < currentState.getFitness()){
+				bestFoundState = currentState;
+			}
 		}
 		
-		bee.setVisitedState(currentState);
+		bee.setVisitedState(bestFoundState);
+	}
+	
+	
+	private List<Relation> filterLowProbabilityRelations(List<Relation> relations) {
+		
+		List<Relation> result = new ArrayList<Relation>();
+		
+		for(Relation rel : relations){
+			if(!isLowProbability(rel.getToState())){
+				result.add(rel);
+			}
+		}
+		
+		return result;
+	}
+
+	private void exploreSpaceOnLooker(Bee b, State s){
+		
+		/*
+		Relation currentRelation;
+		State currentState;
+		int actualDepth = s.getDepth();
+		
+		if(this.queue == null){
+			this.queue = new PriorityQueue<GraphRelation>();
+		}
+			
+			
+		this.queue.clear();
+		
+		expandCurrentState(s);
+		addRelationsToQueue(s.getRelations());
+		
+		this.localMaximum = s;
+		
+		while(!this.queue.isEmpty()){
+			
+			//get next state for visiting
+			currentRelation = this.queue.remove().getRelation();
+			currentState = currentRelation.getToState();
+		
+			if(this.localMaximum.getFitness() < currentState.getFitness()){
+				this.localMaximum = currentState;
+			}
+			
+			if(currentState.getDepth() < (actualDepth + this.PATCH_SIZE)){
+				expandCurrentState(currentState);
+				addRelationsToQueue(currentState.getRelations());
+			}
+			
+		}
+		
+		b.setVisitedState(this.localMaximum);
+		*/
 	}
 		
 	private class Bee implements Comparable<Bee>{
@@ -276,7 +369,14 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 				
 	}
 
-	private void printBees(List<Bee> bees){		
-		System.out.println((bees.get(0).getHeuristic()));
+	private void printBees(List<Bee> bees){
+		for(Bee b : bees){
+				if(b.getVisitedState().getSourceRelation() != null)
+					System.out.println((b.getHeuristic()) + "[P:"+b.getVisitedState().getSourceRelation().getProbability()+"], ");
+		}
+	}
+	
+	private void printBestBee(Bee b){
+		System.out.println(b.getHeuristic());
 	}
 }
