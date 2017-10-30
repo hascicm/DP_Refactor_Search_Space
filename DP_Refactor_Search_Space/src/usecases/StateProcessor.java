@@ -178,7 +178,7 @@ public class StateProcessor {
 		State currentState = state;
 		while (currentState.getSourceRelation() != null) {
 			fitness -= (currentState.getSourceRelation().getUsedRepair()
-					.getWeight(currentState.getSourceRelation().getFixedSmellOccurance().getSmell()) * 2);
+					.getWeight(currentState.getSourceRelation().getFixedSmellOccurance().getSmell()) * 5);
 			currentState = currentState.getSourceRelation().getFromState();
 		}
 		state.setFitness(fitness);
@@ -186,7 +186,7 @@ public class StateProcessor {
 
 	public static void initializeState(State state) {
 		for (Relation r : state.getRelations()) {
-			r.setPheromoneTrail(20);
+			r.setPheromoneTrail(2000);
 		}
 	}
 

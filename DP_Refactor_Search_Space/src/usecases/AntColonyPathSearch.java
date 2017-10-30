@@ -8,6 +8,7 @@ import java.util.Random;
 import entities.stateSpace.Relation;
 import entities.stateSpace.State;
 
+@Deprecated
 public class AntColonyPathSearch extends PathSearchStrategy {
 
 	private static final int maxPheromone = 100;

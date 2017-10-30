@@ -11,12 +11,12 @@ import entities.stateSpace.State;
 
 public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 
-	private static final int numOfThreads = 200;
-	private static final int maxPheromone = 200;
-	private static final int minPheromone = 20;
-	private static final int pheromoneCalculatioCoeficient = 20;
-	private static final int pheromoneEvaporationPerCrossing = 25;
-	private static final int maxNonupdatingIterations = 5000;
+	private static final int numOfThreads = 1;
+	private static final int maxPheromone = 20000;
+	private static final int minPheromone = 0;
+	private static final int pheromoneCalculatioCoeficient = 10;
+	private static final int pheromoneEvaporationPerCrossing = 100000;
+	private static final int maxNonupdatingIterations = 5;
 
 	private List<Ant> ants;
 	private State bestState;
@@ -28,6 +28,11 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 	private static HashSet<Relation> exploredrelations;
 	private Lock dataProtectionlock = new Lock();
 
+	int lvl1 = 0;
+	int lvl2 = 0;
+	int lvl3 = 0;
+	int lvl4 = 0;
+
 	public AntColonyPathSearchMultithreded(RelationCreator relationCreator) {
 		super(relationCreator);
 		this.ants = new ArrayList<Ant>();
@@ -38,14 +43,18 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 	@Override
 	public List<Relation> findPath(State rootState, int depth) {
 		this.rootState = rootState;
-		System.out.println(rootState);
+		// System.out.println(rootState);
 		Ant curent;
 		for (int i = 0; i < numOfThreads; i++) {
 			curent = new Ant(rootState);
 			ants.add(curent);
 			curent.start(i);
+
+		}
+
+		for (Ant ant : ants) {
 			try {
-				curent.t.join();
+				ant.t.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -77,7 +86,8 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 					+ ", NumOfSmells: " + currentState.getSmells().size() + ", Depth: " + currentState.getDepth() + "] "
 					+ currentState);
 		}
-		System.out.println(currentState);
+		System.out.println(currentState);//
+
 		return results;
 	}
 
@@ -90,9 +100,6 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 			sum += r.getPheromoneTrail();
 
 		}
-		// System.out.println("relations");
-		// System.out.print(posibleMoves.get(0).getFromState());
-		// System.out.println();
 
 		int x = new Random().nextInt(sum);
 
@@ -110,7 +117,7 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 		for (Relation rel : relations) {
 			StateProcessor.calculateFitnessForAnts(rel.getToState());
 		}
-	}
+	}// */
 
 	private class Ant implements Runnable {
 		private Thread t;
@@ -135,13 +142,16 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 				if (iterations > maxNonupdatingIterations)
 					end = true;
 				if (finalState == null) {
+					System.out.println("move");
 					makeAntMove();
 				} else {
 					if (currentState == rootState) {
 						iterations++;
+						System.out.println("reinit");
 						reinitializeAnt(rootState);
-						evaporatePheromoneFromTrails(exploredrelations);
+						// evaporatePheromoneFromTrails(exploredrelations);
 					} else {
+						System.out.println("backtrack " + currentState);
 						backtrackAnt(rootState);
 					}
 				}
@@ -161,12 +171,19 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 
 			if (!currentState.getRelations().isEmpty()) {
 				Relation nextRelation = rouletteWheel(getCurrentState().getRelations());
+				System.out.println(
+						"move " + nextRelation.getToState() + " using  " + nextRelation.getUsedRepair().getName() + " depth: " + nextRelation.getToState().getDepth());
+
+				if (isLowProbability(nextRelation.getToState())) {
+					return;
+				}
 				setCurrentState(nextRelation.getToState());
 				if (!exploredrelations.contains(nextRelation)) {
 					// exploredrelations.add(nextRelation);
 				}
 			} else {
 				setFinalState(currentState);
+				// System.out.println("final " + currentState.getDepth());
 				if (bestState == null || getFinalState().getFitness() > bestState.getFitness()) {
 					bestState = getFinalState();
 					System.out.println("new best state in depth: " + currentState.getDepth() + " fitness:"
@@ -179,10 +196,12 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 		}
 
 		public void backtrackAnt(State rootState) {
-			State state = getCurrentState();
-			Relation relation = state.getSourceRelation();
-			relation.setPheromoneTrail(calculatePheromoneForRelation(relation));
-			setCurrentState(relation.getFromState());
+			while (currentState != rootState) {
+				State state = getCurrentState();
+				Relation relation = state.getSourceRelation();
+				relation.setPheromoneTrail(calculatePheromoneForRelation(relation));
+				setCurrentState(relation.getFromState());
+			}
 		}
 
 		private int calculatePheromoneForRelation(Relation relation) {
@@ -193,11 +212,13 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 				calculatedPheromone = maxPheromone;
 			}
 			// System.out.println(calculatedPheromone);
+
 			return calculatedPheromone;
 		}
 
 		private void calculatePheromoneForAnt() {
 			int calculatedPheromone = (int) (getFinalState().getFitness() / pheromoneCalculatioCoeficient);
+			// System.out.println(calculatedPheromone);
 			if (calculatedPheromone < minPheromone) {
 				setPheromone(minPheromone);
 			} else if (calculatedPheromone > maxPheromone) {
@@ -205,6 +226,7 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 			} else {
 				setPheromone(calculatedPheromone);
 			}
+			// System.out.println("ant " + calculatedPheromone);
 		}
 
 		private void evaporatePheromoneFromTrails(HashSet<Relation> relations) {
@@ -244,7 +266,7 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 		}
 
 		public void setPheromone(int pheromone) {
-			this.pheromone = pheromone;
+			this.pheromone += pheromone;
 		}
 	}
 

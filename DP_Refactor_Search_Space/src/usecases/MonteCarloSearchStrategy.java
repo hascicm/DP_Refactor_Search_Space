@@ -3,6 +3,7 @@ package usecases;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import entities.stateSpace.Relation;
 import entities.stateSpace.State;
@@ -11,8 +12,8 @@ import entities.stateSpace.State.MonteCarloState;
 public class MonteCarloSearchStrategy extends PathSearchStrategy {
 
 	private static final int numOfThreads = 1;
-	private static final double constant = 2;
-	private static final int maxIterations = 100000;
+	private static final double constant = 0;
+	private static final int maxIterations = 10;
 
 	private List<MonteCarloAgent> agents;
 	private MonteCarloState bestState;
@@ -31,8 +32,8 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 		this.rootState.setSmells(rootState.getSmells());
 		this.rootState.setN(0);
 		this.rootState.setT(0);
-		expandCurrentState(this.rootState);
-		StateProcessor.initializeState(this.rootState);
+		// expandCurrentState(this.rootState);
+		// StateProcessor.initializeState(this.rootState);
 		bestState = this.rootState;
 		bestState.setFitness(0);
 
@@ -84,19 +85,27 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 	public MonteCarloState UCB1(MonteCarloState s) {
 		MonteCarloState result = null;
 		double maxUCB1 = Double.MIN_VALUE;
+		int N = 0;
 		for (Relation r : s.getRelations()) {
+
 			double UCB1;
 			MonteCarloState mcs = (MonteCarloState) r.getToState();
+			double avgValue = 0;
 			if (mcs.getN() == 0) {
-				UCB1 = Double.MAX_VALUE;
+				avgValue = mcs.getFitness();
+				N = 1;
 			} else {
-				double avgValue = mcs.getT() / mcs.getN();
-				UCB1 = avgValue + constant * Math.sqrt((2 * Math.log(rootState.getN()) / mcs.getN()));
+				avgValue = mcs.getT() / mcs.getN();
+				N = mcs.getN();
 			}
+			UCB1 = avgValue + constant * Math.sqrt((Math.log(rootState.getN()) / N));
+
 			if (maxUCB1 < UCB1) {
+				System.out.println("depth: " + s.getDepth() + " avg " + avgValue);
 				maxUCB1 = UCB1;
 				result = mcs;
 			}
+
 		}
 
 		return result;
@@ -152,17 +161,19 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 				}
 				while (!isLeafNode(curentState)) {
 					moveAgent();
-					if (curentState.getFitness() > bestState.getFitness()) {
-						bestState = curentState;
-						printCurentState();
-						// System.out.println("new best ");
-					}
+					System.out.println("agent moving");
+
+				}
+				if (curentState.getFitness() > bestState.getFitness()) {
+					bestState = curentState;
+					System.out.println("new best " + curentState);
+
 				}
 				if (curentState.getN() == 0) {
-					// System.out.println("n = 0 - rollout");
+					System.out.println("n = 0 - rollout");
 					rollout();
 				} else {
-					// System.out.println("n! = 0 - move to first child");
+					System.out.println("n! = 0 - expand and move");
 					expandCurrentState(curentState);
 					moveAgentToFirstChild();
 					rollout();
@@ -172,7 +183,9 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 
 		private boolean isLeafNode(State state) {
 			if (state.getRelations() == null || state.getRelations().isEmpty()) {
-				// System.out.println("leafnode");
+				System.out.println("leafnode " + "fitness " + state.getFitness() + " T: " + curentState.getT() + " N: "
+						+ curentState.getN());
+
 				return true;
 			}
 			return false;
@@ -180,7 +193,7 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 
 		private void moveAgent() {
 			curentState = UCB1(curentState);
-
+			System.out.println("move :" + curentState.toString());
 		}
 
 		private void moveAgentToFirstChild() {
@@ -196,8 +209,7 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 		}
 
 		private void backPropagate(double simultatedFitness) {
-			// System.out.println("curent end state " +
-			// curentState.getFitness());
+
 			while (curentState != rootState) {
 				((MonteCarloState) curentState).addT(simultatedFitness);
 				((MonteCarloState) curentState).incremetN();
@@ -211,6 +223,8 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 		private double simulate() {
 			// TODO Auto-generated method stub
 			double fitnes = curentState.getFitness();
+			System.out.println("fitness " + fitnes + " T: " + curentState.getT() + " N: " + curentState.getN());
+
 			return fitnes;
 		}
 
