@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import entities.stateSpace.Relation;
+import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;
 
 
@@ -89,7 +90,9 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 						
 			if(currentState.getDepth() < MAX_DEPTH){
 				expandCurrentState(currentState);
-			}	
+			}
+			
+			
 		}
 		System.out.println(count);
 		System.out.println(lastStateId);
@@ -106,6 +109,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		this.visitedStates.add(StateProcessor.createHash(rootState));
 		this.localMaximum = rootState;
 		
+		//DEBUG
+			printAllRelation(rootState);
+		//DEBUG
+		
 	}
 		
 	protected void expandCurrentState(State currentState){
@@ -117,6 +124,31 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		//add just created relations to queue
 		this.addRelationsToQueue(currentState.getRelations());
 		
+		//DEBUG
+		//printAllRelation(currentState);
+		//DEBUG
+		
+	}
+	
+	private static void printAllRelation(State s){
+		System.out.println();
+		System.out.println("NEXT EXPAND:");
+		System.out.println();
+		
+		for(Relation r : s.getRelations()){
+			System.out.println(r.getFixedSmellOccurance().getSmell().getName() + " : " + r.getUsedRepair().getName() + "[" + r.getProbability()+ "]" +" > Fitness: " + r.getToState().getFitness());
+			printAllSmells(r.getToState().getSmells());
+			
+			System.out.println();
+			System.out.println("----------------------------------");
+			System.out.println();
+		}
+	}
+	
+	private static void printAllSmells(List<SmellOccurance> smells){
+		for(SmellOccurance s : smells){
+			System.out.println(s.getSmell().getName());
+		}
 	}
 	
 }

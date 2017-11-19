@@ -47,7 +47,7 @@ public class DatabaseDataProvider implements DataProvider {
 		//FeatureEnvy
 		smellOccurances.add(new SmellOccurance(this.getSmellType(10)));
 		//LongParameterList
-		smellOccurances.add(new SmellOccurance(this.getSmellType(3)));
+		/*smellOccurances.add(new SmellOccurance(this.getSmellType(3)));
 		//DataClass	
 		smellOccurances.add(new SmellOccurance(this.getSmellType(8)));
 		//Large class
@@ -136,7 +136,7 @@ public class DatabaseDataProvider implements DataProvider {
 		smellOccurances.add(new SmellOccurance(this.getSmellType(21)));
 		
 		//---------------------40---------------------------------------
-		
+		*/
 		
 		this.root = new State();
 		this.root.setSmells(smellOccurances);	
