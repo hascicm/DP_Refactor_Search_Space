@@ -1,4 +1,4 @@
-package entities.stateSpace;
+package entities;
 
 public enum LocationPartType {
 	PACKAGE, 

@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import entities.DependencyRepair;
 import entities.DependencyType;
+import entities.Location;
+import entities.LocationPart;
+import entities.LocationPartType;
 import entities.Repair;
+import entities.SmellType;
 import entities.Dependency;
+import entities.DependencyPlaceType;
 import entities.stateSpace.Relation;
 import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;
@@ -18,7 +23,7 @@ public class StateProcessor {
 
 		// TODO preprobit na repair.applyOnState() s vyuzitim override
 		if (repair instanceof DependencyRepair) {
-			applyDependencies(resultState, (DependencyRepair) repair);
+			applyDependencies(resultState, (DependencyRepair) repair, smellOccurance);
 		}
 
 		return resultState;
@@ -30,7 +35,7 @@ public class StateProcessor {
 
 		// TODO preprobit na repair.applyOnState() s vyuzitim override
 		if (repair instanceof DependencyRepair) {
-			applyDependencies(resultState, (DependencyRepair) repair);
+			applyDependencies(resultState, (DependencyRepair) repair, smellOccurance);
 		}
 
 		return resultState;
@@ -40,16 +45,19 @@ public class StateProcessor {
 	private static State applyBasicRepair(State baseState, Repair repair, SmellOccurance smellOccurance) {
 
 		State resultState = new State();
+		
+		List<SmellOccurance> smellOccuranceList = new ArrayList<SmellOccurance>(baseState.getSmells());
+		
+		smellOccuranceList.remove(smellOccurance);
 
-		List<SmellOccurance> smellOccuranceList = new ArrayList<SmellOccurance>();
-
-		for (SmellOccurance so : baseState.getSmells()) {
+		/*for (SmellOccurance so : baseState.getSmells()) {
 			if (so != smellOccurance) {
 				smellOccuranceList.add(so);
 			}
-		}
-
+		}*/
+		
 		resultState.setSmells(smellOccuranceList);
+		
 		return resultState;
 	}
 
@@ -70,30 +78,50 @@ public class StateProcessor {
 		return resultState;
 	}
 
-	private static void applyDependencies(State state, DependencyRepair repair) {
+	private static void applyDependencies(State state, DependencyRepair repair, SmellOccurance smellOccurance) {
 
 		for (Dependency dep : repair.getDependencies()) {
 
 			if (dep.getType() == DependencyType.CAUSE) {
-				state.getSmells().add(new SmellOccurance(dep.getSmell()));
+				
+				if(dep.getPlaceType() == DependencyPlaceType.INTERNAL){
+					SmellOccurance newSmellOccurance = new SmellOccurance(dep.getSmell());
+					
+					List<Location> locationList = new ArrayList<Location>();
+					locationList.add(smellOccurance.getLocations().get(0)); //because at the 0 index is key (source)
+					
+					newSmellOccurance.setLocations(locationList);
+				
+					state.getSmells().add(newSmellOccurance);
+				}
 			}
 
 			if (dep.getType() == DependencyType.SOLVE) {
-
-				SmellOccurance tempSmellOccurance = null;
-				boolean isSolved = false;
-
-				for (SmellOccurance smellOccurance : state.getSmells()) {
-					if (smellOccurance.getSmell() == dep.getSmell()) {
-
-						tempSmellOccurance = smellOccurance;
-						isSolved = true;
-						break;
+				
+				if(dep.getPlaceType() == DependencyPlaceType.INTERNAL){
+					SmellOccurance tempSmellOccurance = isOnSameLocation(state, smellOccurance, dep.getSmell(), dep.getActionField());
+					/*boolean isSolved = false;
+	
+					for (SmellOccurance smellOccurance : state.getSmells()) {
+						if (smellOccurance.getSmell() == dep.getSmell()) {
+	
+							tempSmellOccurance = smellOccurance;
+							isSolved = true;
+							break;
+						}
 					}
+	
+					if (isSolved) {
+						state.getSmells().remove(tempSmellOccurance);
+					}*/
+					if(tempSmellOccurance != null){
+						state.getSmells().remove(tempSmellOccurance);
+					}
+				
 				}
-
-				if (isSolved) {
-					state.getSmells().remove(tempSmellOccurance);
+				
+				if(dep.getPlaceType() == DependencyPlaceType.EXTERNAL){
+					//TODO!!!!
 				}
 
 			}
@@ -200,4 +228,33 @@ public class StateProcessor {
 
 		return sb.toString();
 	}
+	
+	public static SmellOccurance isOnSameLocation(State state, SmellOccurance baseSmellOccurance, SmellType smellType, LocationPartType placeType){
+		
+		SmellOccurance result = null;
+		List<LocationPart> tempPath;
+		
+		for(SmellOccurance smellOccurance : state.getSmells()){
+			
+			if(smellOccurance != baseSmellOccurance){
+				
+				if(smellOccurance.getSmell() == smellType){
+					
+					tempPath = PlaceComparator.findCommonDestinationPath(baseSmellOccurance.getLocations().get(0).getLocation(), 
+																			smellOccurance.getLocations().get(0).getLocation());
+					
+					if(tempPath.get(tempPath.size()-1).getLocationPartType() == placeType){
+						result = smellOccurance;
+						break;
+					}
+					
+				}
+				
+			}
+		}
+		
+		
+		return result; 
+	}
+	
 }

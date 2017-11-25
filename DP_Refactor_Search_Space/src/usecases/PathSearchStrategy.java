@@ -47,7 +47,7 @@ public abstract class PathSearchStrategy {
 	protected boolean isVisited(State s){	
 		return this.visitedStates.contains(StateProcessor.createHash(s)) ? true : false; 			
 	}
-	
+		
 	protected boolean isLowProbability(State s){
 		
 		boolean result = false;

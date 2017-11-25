@@ -1,14 +1,20 @@
 package entities;
 
 public class Dependency {
-	DependencyType type;
-	SmellType smell;
-	Double probability;
+	private DependencyType type;
+	private SmellType smell;
+	private Double probability;
+	private LocationPartType actionField; //the area, in which is dependency effective (for example in Class or Method)
+	private DependencyPlaceType placeType; 
 
-	public Dependency(DependencyType type, SmellType smell, Double propability) {
+	public Dependency(DependencyType type, SmellType smell, Double probability, LocationPartType actionField,
+						DependencyPlaceType placeType) {
+		super();
 		this.type = type;
 		this.smell = smell;
-		this.probability = propability;
+		this.probability = probability;
+		this.actionField = actionField;
+		this.placeType = placeType;
 	}
 
 	public DependencyType getType() {
@@ -35,4 +41,27 @@ public class Dependency {
 		this.probability = propability;
 	}
 
+	public LocationPartType getActionField() {
+		return actionField;
+	}
+
+	public void setActionField(LocationPartType actionField) {
+		this.actionField = actionField;
+	}
+
+	public Double getProbability() {
+		return probability;
+	}
+
+	public void setProbability(Double probability) {
+		this.probability = probability;
+	}
+
+	public DependencyPlaceType getPlaceType() {
+		return placeType;
+	}
+
+	public void setPlaceType(DependencyPlaceType placeType) {
+		this.placeType = placeType;
+	}
 }

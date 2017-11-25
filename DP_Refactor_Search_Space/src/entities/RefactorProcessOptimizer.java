@@ -19,7 +19,8 @@ public class RefactorProcessOptimizer {
 	}
 
 	private void init() {
-		this.dataProvider = new DatabaseDataProvider();
+		//this.dataProvider = new DatabaseDataProvider();
+		this.dataProvider = new BasicDataProvider(); 
 		this.pathSearchStrategy = new DefaultPathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
 		//this.pathSearchStrategy = new BeePathSearchStrategy(new RelationCreator(this.dataProvider.getSmellTypes(), this.dataProvider.getRepairs()));
 	}

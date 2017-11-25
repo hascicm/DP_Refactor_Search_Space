@@ -1,16 +1,25 @@
 package entities.stateSpace;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import entities.Location;
 import entities.SmellType;
 
 public class SmellOccurance {
 	private SmellType smell;
-	private List<LocationPart> location;
+	private List<Location> locations; //na prvom mieste sa nachadza klucova trieda?
 	
 	public SmellOccurance(SmellType smell) {
 		super();
 		this.smell = smell;
+		this.locations = new ArrayList<Location>();
+	}
+	
+	public SmellOccurance(SmellType smell, List<Location> locations) {
+		super();
+		this.smell = smell;
+		this.locations = locations;
 	}
 
 	public SmellType getSmell() {
@@ -21,11 +30,11 @@ public class SmellOccurance {
 		this.smell = smell;
 	}
 
-	public List<LocationPart> getLocation() {
-		return location;
+	public List<Location> getLocations() {
+		return locations;
 	}
 
-	public void setLocation(List<LocationPart> location) {
-		this.location = location;
-	}	
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
 }

@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import entities.Dependency;
+import entities.DependencyPlaceType;
 import entities.DependencyRepair;
+import entities.DependencyType;
 import entities.Repair;
 import entities.SmellType;
 import entities.stateSpace.Relation;
@@ -23,7 +25,7 @@ public class RelationCreator {
 		super();
 		initRepairMap(smellTypes, repairs); 
 	}
-		
+	
 	public void addRelationsToState(State state){
 		
 		List<Relation> newRelations = new LinkedList<Relation>();	
@@ -42,13 +44,15 @@ public class RelationCreator {
 		
 		List<Relation> relations = new ArrayList<Relation>();
 		
-		for(Repair repair : this.repairsMap.get(smellOccurance.getSmell())){
-			for(Relation newRel : makeRelationsOfRepair(repair)){
-				newRel.setFixedSmellOccurance(smellOccurance);
-				relations.add(newRel);
+		
+		if(this.repairsMap.containsKey(smellOccurance.getSmell())){
+			for(Repair repair : this.repairsMap.get(smellOccurance.getSmell())){
+				for(Relation newRel : makeRelationsOfRepair(repair)){
+					newRel.setFixedSmellOccurance(smellOccurance);
+					relations.add(newRel);
+				}
 			}
 		}
-			
 		return relations;
 	}
 	
@@ -94,6 +98,7 @@ public class RelationCreator {
 		
 		List<Relation> relations = new ArrayList<Relation>(); 
 		List<Dependency> dependencies = repair.getDependencies();
+				
 			
 		List<List<Dependency>> combinations = new ArrayList<List<Dependency>>();
 		//Create combination of dependecies
@@ -106,7 +111,7 @@ public class RelationCreator {
 			DependencyRepair dependencyRepair = new DependencyRepair(repair.getName(), repair.getRepairUses());
 			
 			for(Dependency dep : tempDependencyList){
-				dependencyRepair.addDependency(dep.getType(), dep.getSmell(), dep.getPropability());
+				dependencyRepair.addDependency(dep.getType(), dep.getSmell(), dep.getPropability(), dep.getActionField(), dep.getPlaceType());
 			}
 			
 			Relation rel = new Relation();
@@ -167,5 +172,4 @@ public class RelationCreator {
 			}
 		}	
 	}
-	
 }

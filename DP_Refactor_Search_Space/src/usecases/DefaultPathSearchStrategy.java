@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import entities.Location;
+import entities.LocationPart;
 import entities.stateSpace.Relation;
 import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;
@@ -136,7 +138,8 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		System.out.println();
 		
 		for(Relation r : s.getRelations()){
-			System.out.println(r.getFixedSmellOccurance().getSmell().getName() + " : " + r.getUsedRepair().getName() + "[" + r.getProbability()+ "]" +" > Fitness: " + r.getToState().getFitness());
+			System.out.println(r.getFixedSmellOccurance().getSmell().getName() + " ["+printSmellLocations(r.getFixedSmellOccurance()) +"] : " + r.getUsedRepair().getName() + "[" + r.getProbability()+ "]" +" > Fitness: " + r.getToState().getFitness());
+			System.out.println("SMELLS:");
 			printAllSmells(r.getToState().getSmells());
 			
 			System.out.println();
@@ -147,8 +150,18 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	
 	private static void printAllSmells(List<SmellOccurance> smells){
 		for(SmellOccurance s : smells){
-			System.out.println(s.getSmell().getName());
+			System.out.println(s.getSmell().getName() + " ["+printSmellLocations(s) + "]");
 		}
 	}
 	
+	private static String printSmellLocations(SmellOccurance so){
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(LocationPart lp : so.getLocations().get(0).getLocation()){
+			sb.append(lp.getId() + " <" + lp.getLocationPartType()+ "> /");
+		}
+		
+		return sb.toString();
+	}
 }

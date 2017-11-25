@@ -1,4 +1,4 @@
-package entities.stateSpace;
+package entities;
 
 public class LocationPart {
 	private LocationPartType locationPartType;
