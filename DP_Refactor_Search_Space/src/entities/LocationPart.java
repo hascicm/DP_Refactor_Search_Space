@@ -25,4 +25,8 @@ public class LocationPart {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public String toString(){
+		return "[" + this.getId() + " <" +  this.getLocationPartType() +">]";
+	}
 }

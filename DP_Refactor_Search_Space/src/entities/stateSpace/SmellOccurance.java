@@ -10,6 +10,7 @@ public class SmellOccurance {
 	private SmellType smell;
 	private List<Location> locations; //na prvom mieste sa nachadza klucova trieda?
 	
+	
 	public SmellOccurance(SmellType smell) {
 		super();
 		this.smell = smell;

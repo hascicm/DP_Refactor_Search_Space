@@ -4,8 +4,6 @@ import java.util.List;
 
 public class Location {
 	private List<LocationPart> location;
-
-	
 	
 	public Location(List<LocationPart> location) {
 		super();
@@ -18,5 +16,9 @@ public class Location {
 
 	public void setLocation(List<LocationPart> location) {
 		this.location = location;
+	}
+	
+	public String toString(){
+		return this.location.toString();
 	}
 }

@@ -38,8 +38,14 @@ public abstract class PathSearchStrategy {
 			s.setDepth(rel.getFromState().getDepth() + 1);
 			rel.setToState(s);
 					
-			//sort smells in new state by ID
-			s.getSmells().sort((o1, o2) -> o1.getSmell().getId().compareTo(o2.getSmell().getId()));
+			//sort smells in new state by ID and location (only key/source location )
+			s.getSmells().sort((o1, o2) -> {
+				if (o1.getSmell().getId().compareTo(o2.getSmell().getId()) == 0) {
+		            return o1.getLocations().get(0).toString().compareTo(o2.getLocations().get(0).toString());
+		        } else {
+		            return o1.getSmell().getId().compareTo(o2.getSmell().getId());
+		        }
+			});
 			
 		}
 	}

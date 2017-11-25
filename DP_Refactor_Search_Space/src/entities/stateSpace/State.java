@@ -2,6 +2,8 @@ package entities.stateSpace;
 
 import java.util.List;
 
+import entities.Location;
+
 public class State {
 	private long id;
 	private List<SmellOccurance> smells;
@@ -64,6 +66,7 @@ public class State {
 		sb.append("Smells: ");
 		for (SmellOccurance so : this.getSmells()) {
 			sb.append(so.getSmell().getName());
+			sb.append(so.getLocations());
 			sb.append(", ");
 		}
 

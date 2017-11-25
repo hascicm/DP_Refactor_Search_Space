@@ -224,6 +224,9 @@ public class StateProcessor {
 
 		for (SmellOccurance so : s.getSmells()) {
 			sb.append(so.getSmell().getId() + "_");
+			for(LocationPart loc : so.getLocations().get(0).getLocation()){
+				sb.append(loc.getId()+ "_" + loc.getLocationPartType() + "_" );
+			}
 		}
 
 		return sb.toString();

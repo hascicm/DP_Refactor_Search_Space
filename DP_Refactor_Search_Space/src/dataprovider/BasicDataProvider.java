@@ -88,6 +88,12 @@ public class BasicDataProvider implements DataProvider{
 		repair_A.addSmellCoverage(smell_A, 5);
 		repair_A.addDependency(DependencyType.CAUSE, smell_B, 1.0, LocationPartType.CLASS, DependencyPlaceType.INTERNAL);
 		repairs.add(repair_A);
+		
+		DependencyRepair repair_B = new DependencyRepair("Repair_B");
+		repair_B.addSmellCoverage(smell_B, 5);
+		repair_B.addDependency(DependencyType.CAUSE, smell_A, 1.0, LocationPartType.CLASS, DependencyPlaceType.INTERNAL);
+		repairs.add(repair_B);
+		
 		//DEBUG
 		
 		/*DependencyRepair repair_introduceParameterObject = new DependencyRepair("IntroduceParameterObject");
@@ -180,8 +186,14 @@ public class BasicDataProvider implements DataProvider{
 		this.root.getSmells().add(new SmellOccurance(smell_A));
 		this.root.getSmells().get(0).getLocations().add(new Location(locationParts));
 		
+		locationParts = new ArrayList<LocationPart>();
+		locationParts.add(new LocationPart(LocationPartType.PACKAGE, "default"));
+		locationParts.add(new LocationPart(LocationPartType.CLASS, "Class_B"));
+		
 		this.root.getSmells().add(new SmellOccurance(smell_B));
 		this.root.getSmells().get(1).getLocations().add(new Location(locationParts));
+		
+		//System.out.println(this.root.getSmells().get(0).getLocations().get(0).toString());
 		
 		/*this.root.getSmells().add(new SmellOccurance(smell_dataClumps));
 		this.root.getSmells().add(new SmellOccurance(smell_lazyClass));

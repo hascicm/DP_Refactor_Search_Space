@@ -127,12 +127,12 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		this.addRelationsToQueue(currentState.getRelations());
 		
 		//DEBUG
-		//printAllRelation(currentState);
+		printAllRelation(currentState);
 		//DEBUG
 		
 	}
 	
-	private static void printAllRelation(State s){
+	protected static void printAllRelation(State s){
 		System.out.println();
 		System.out.println("NEXT EXPAND:");
 		System.out.println();
