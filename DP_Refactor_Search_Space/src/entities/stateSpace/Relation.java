@@ -1,6 +1,7 @@
 package entities.stateSpace;
 
 import entities.Repair;
+import usecases.ProbabilityCalculationStrategy;
 
 public class Relation {
 	
@@ -43,15 +44,17 @@ public class Relation {
 		this.usedRepair = usedRepair;
 	}
 	
-	public void calculateProbability(){
+	public void calculateProbability(ProbabilityCalculationStrategy calculationStrategy){
 		
-		double probability = this.usedRepair.calculateProbability();
+		/*double probability = this.usedRepair.calculateProbability();
 		
 		if(this.getFromState().getSourceRelation() == null){
 			this.probability = probability;
 		}else{
 			this.probability = probability * this.getFromState().getSourceRelation().probability;
-		}
+		}*/
+		
+		this.probability = calculationStrategy.calculateProbability(this);
 	}
 	
 	public double getProbability() {
