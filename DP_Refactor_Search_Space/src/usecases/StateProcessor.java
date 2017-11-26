@@ -1,6 +1,7 @@
 package usecases;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import entities.DependencyRepair;
 import entities.DependencyType;
@@ -87,10 +88,35 @@ public class StateProcessor {
 				if(dep.getPlaceType() == DependencyPlaceType.INTERNAL){
 					SmellOccurance newSmellOccurance = new SmellOccurance(dep.getSmell());
 					
-					List<Location> locationList = new ArrayList<Location>();
-					locationList.add(smellOccurance.getLocations().get(0)); //because at the 0 index is key (source)
+					List<LocationPart> newLocationPartList = new ArrayList<LocationPart>();
 					
-					newSmellOccurance.setLocations(locationList);
+					List<LocationPart> tempLocationPartList = smellOccurance.getLocations().get(0).getLocation(); 
+					boolean isFound = false;
+					LocationPart currentPart = null;
+					
+					for(int i = tempLocationPartList.size()-1; i >= 0; i--){
+					
+						currentPart = tempLocationPartList.get(i);
+						
+						if(isFound){
+						
+							newLocationPartList.add(currentPart);
+						
+						}else{
+							
+							if(currentPart.getLocationPartType() == dep.getActionField()){
+								isFound = true;
+								newLocationPartList.add(currentPart);
+							}
+						}
+					}
+					
+					List<Location> newLocations = new ArrayList<Location>();
+					Collections.reverse(newLocationPartList);
+					Location loc = new Location(newLocationPartList);
+					newLocations.add(loc);
+					
+					newSmellOccurance.setLocations(newLocations);
 				
 					state.getSmells().add(newSmellOccurance);
 				}
@@ -246,11 +272,14 @@ public class StateProcessor {
 					tempPath = PlaceComparator.findCommonDestinationPath(baseSmellOccurance.getLocations().get(0).getLocation(), 
 																			smellOccurance.getLocations().get(0).getLocation());
 					
-					if(tempPath.get(tempPath.size()-1).getLocationPartType() == placeType){
-						result = smellOccurance;
-						break;
+					for(int i = tempPath.size()-1; i >=0; i-- ){
+						
+						if(tempPath.get(i).getLocationPartType() == placeType){
+							result = smellOccurance;
+							break;
+						}
+
 					}
-					
 				}
 				
 			}

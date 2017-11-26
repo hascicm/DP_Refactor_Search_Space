@@ -86,12 +86,12 @@ public class BasicDataProvider implements DataProvider{
 		//DEBUG
 		DependencyRepair repair_A = new DependencyRepair("Repair_A");
 		repair_A.addSmellCoverage(smell_A, 5);
-		repair_A.addDependency(DependencyType.CAUSE, smell_B, 1.0, LocationPartType.CLASS, DependencyPlaceType.INTERNAL);
+		repair_A.addDependency(DependencyType.SOLVE, smell_B, 1.0, LocationPartType.PACKAGE, DependencyPlaceType.INTERNAL);
 		repairs.add(repair_A);
 		
 		DependencyRepair repair_B = new DependencyRepair("Repair_B");
 		repair_B.addSmellCoverage(smell_B, 5);
-		repair_B.addDependency(DependencyType.CAUSE, smell_A, 1.0, LocationPartType.CLASS, DependencyPlaceType.INTERNAL);
+		repair_B.addDependency(DependencyType.CAUSE, smell_A, 1.0, LocationPartType.PACKAGE, DependencyPlaceType.INTERNAL);
 		repairs.add(repair_B);
 		
 		//DEBUG
