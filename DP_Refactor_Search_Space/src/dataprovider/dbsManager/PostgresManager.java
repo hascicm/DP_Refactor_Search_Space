@@ -10,8 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import entities.Dependency;
+import entities.DependencyPlaceType;
 import entities.DependencyRepair;
 import entities.DependencyType;
+import entities.LocationPartType;
 import entities.Repair;
 import entities.SmellType;
 
@@ -66,12 +68,13 @@ public class PostgresManager {
 	public List<Repair> getRepairs(List<SmellType> smells) {
 
 		List<Repair> repairs = new ArrayList<>();
-		String query = "select * from ("
-				+ "select repair.id,name,weight,repairsmelltype.smell_id, '' as dependencytype, 0 as probability from repair "
-				+ "left join repairsmelltype on repair.id=repairsmelltype.repair_id union all "
-				+ "select repair.id,name,'0' as weight,smell_id,dependencytype,probability from repair "
-				+ "join repairdependencies on repair.id=repairdependencies.repair_id "
-				+ "order by id,dependencytype desc,smell_id )  as result";
+		String query = "select * from (select repair.id,name,weight,repairsmelltype.smell_id, '' as dependencytype,'' as actionfield,"
+				+ "'' as locationparttype, 0 as probability " + "from repair  "
+				+ "left join repairsmelltype on repair.id=repairsmelltype.repair_id  " + "union all  "
+				+ "select repair.id,name,'0' as weight,smell_id,dependencytype, rd.actionField,rd.locationparttype, probability  "
+				+ "from repair  " + "join repairdependencies rd on repair.id=rd.repair_id "
+				+ "order by id,dependencytype desc,smell_id )   as result";
+		System.out.println(query);
 		ResultSet rs;
 		try {
 			rs = statement.executeQuery(query);
@@ -103,8 +106,10 @@ public class PostgresManager {
 							type = DependencyType.SOLVE;
 						else
 							type = DependencyType.CAUSE;
-						dr.addDependency(type, getSmellById(rs.getInt("smell_id"), smells),
-								rs.getDouble("probability"));
+						String actionField = rs.getString("actionfield");
+						String locationPartType = rs.getString("locationparttype");
+						dr.addDependency(type, getSmellById(rs.getInt("smell_id"), smells), rs.getDouble("probability"),
+								resolveActionField(actionField), resolveLocationPartType(locationPartType));
 					}
 				} else {
 					if (repair) {
@@ -115,15 +120,16 @@ public class PostgresManager {
 							type = DependencyType.SOLVE;
 						} else
 							type = DependencyType.CAUSE;
-
-						dr.addDependency(type, getSmellById(rs.getInt("smell_id"), smells),
-								rs.getDouble("probability"));
+						String actionField = rs.getString("actionfield");
+						String locationPartType = rs.getString("locationparttype");
+						dr.addDependency(type, getSmellById(rs.getInt("smell_id"), smells), rs.getDouble("probability"),
+								resolveActionField(actionField), resolveLocationPartType(locationPartType));
 					} else if (!repair && rs.getString("dependencytype").equals("")) {
 						dr.addSmellCoverage(getSmellById(rs.getInt("smell_id"), smells), (rs.getInt("weight")));
 					}
 				}
 			}
-			
+
 			if (repair && r != null)
 				repairs.add(r);
 			else if (!repair && dr != null)
@@ -131,7 +137,39 @@ public class PostgresManager {
 		} catch (SQLException e) {
 			Logger.getGlobal().log(Level.SEVERE, "database connection failed", e);
 		}
-
+		
 		return repairs;
+	}
+
+	private DependencyPlaceType resolveLocationPartType(String act) {
+		if (act == null)
+			return null;
+		if (act.equals("internal")) {
+			return DependencyPlaceType.INTERNAL;
+		} else if (act.equals("external")) {
+			return DependencyPlaceType.EXTERNAL;
+		}
+		return null;
+	}
+
+	private LocationPartType resolveActionField(String act) {
+		if (act == null)
+			return null;
+		if (act.equals("method")) {
+			return LocationPartType.METHOD;
+		} else if (act.equals("package")) {
+			return LocationPartType.PACKAGE;
+		} else if (act.equals("class")) {
+			return LocationPartType.CLASS;
+		} else if (act.equals("parameter")) {
+			return LocationPartType.PARAMETER;
+		} else if (act.equals("position")) {
+			return LocationPartType.POSITION;
+		} else if (act.equals("node")) {
+			return LocationPartType.NODE;
+		} else if (act.equals("attribute")) {
+			return LocationPartType.ATTRIBUTE;
+		}
+		return null;
 	}
 }
