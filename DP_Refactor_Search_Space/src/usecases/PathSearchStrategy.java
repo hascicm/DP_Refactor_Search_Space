@@ -17,13 +17,25 @@ public abstract class PathSearchStrategy {
 	protected RelationCreator relationCreator;
 	protected int lastStateId = 0;
 	
+	
 	private static double PROBABILITY_THRASHOLD = 0.30;
 	private long rootStateSmellsWeight = 0;
+	private ProbabilityCalculationStrategy probabolityCalculationStrategy = new AndOrProbabilityCalculationStrategy(); 
 	
 	public PathSearchStrategy(RelationCreator relationCreator){
 		this.relationCreator = relationCreator;
 	}
 	
+	//GETTERS AND SETTERS
+	public ProbabilityCalculationStrategy getProbabolityCalculationStrategy() {
+		return probabolityCalculationStrategy;
+	}
+
+	public void setProbabolityCalculationStrategy(ProbabilityCalculationStrategy probabolityCalculationStrategy) {
+		this.probabolityCalculationStrategy = probabolityCalculationStrategy;
+	}
+	//GETTERS AND SETTERS
+
 	public abstract List<Relation> findPath(State rootState, int depth);
 			
 	protected void applyRepair(List<Relation> rels){
@@ -87,7 +99,7 @@ public abstract class PathSearchStrategy {
 	
 	protected void calculateProbabilityOfRelations(List<Relation> relations){
 		for(Relation rel : relations){
-			rel.calculateProbability();
+			rel.calculateProbability(this.probabolityCalculationStrategy);
 		}
 	}
 	
@@ -132,6 +144,7 @@ public abstract class PathSearchStrategy {
 		relationCreator.addRelationsToState(rootState);
 		applyRepair(rootState.getRelations());
 		calculateEndNodeFitness(rootState.getRelations());
+		calculateProbabilityOfRelations(rootState.getRelations());
 		
 	}
 	

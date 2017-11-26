@@ -36,8 +36,6 @@ public class RelationCreator {
 		
 		this.assignFromStateToRelation(newRelations, state);
 		state.setRelations(newRelations);
-		
-		calculateProbabilityForRelations(state.getRelations());
 	}
 	
 	private List<Relation> assignRelationsToSmellOccurance(SmellOccurance smellOccurance){
@@ -143,13 +141,13 @@ public class RelationCreator {
         }
     }
 	
-	private static void calculateProbabilityForRelations(List<Relation> rels){
+	/*private static void calculateProbabilityForRelations(List<Relation> rels){
 		
 		for(Relation rel : rels){
 			rel.calculateProbability();
 		}
 		
-	}
+	}*/
 	
 	private void initRepairMap(List<SmellType> smellTypes, List<Repair> repairs) {
 		
