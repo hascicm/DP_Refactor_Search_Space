@@ -2,9 +2,11 @@ package usecases;
 
 import entities.stateSpace.Relation;
 
-public class MinMaxProbabilityCalculationStrategy extends ProbabilityCalculationStrategy {
+//REFACTOR - Lazy Class
+  public class MinMaxProbabilityCalculationStrategy extends ProbabilityCalculationStrategy {
 
-	@Override
+	//REFACTOR - Feature Envy
+  @Override
 	public double calculateProbability(Relation rel) {
 		
 		double probability = rel.getUsedRepair().calculateProbability();

@@ -38,7 +38,8 @@ public abstract class PathSearchStrategy {
 
 	public abstract List<Relation> findPath(State rootState, int depth);
 			
-	protected void applyRepair(List<Relation> rels){
+	//REFACTOR - Feature Envy
+  protected void applyRepair(List<Relation> rels){
 		
 		Relation rel = null;
 		int length = rels.size();
@@ -47,13 +48,17 @@ public abstract class PathSearchStrategy {
 			rel = rels.get(i);
 			State s = StateProcessor.applyRepair(rel.getFromState(), rel.getUsedRepair(), rel.getFixedSmellOccurance());
 			s.setSourceRelation(rel);
-			s.setDepth(rel.getFromState().getDepth() + 1);
+			s.setDepth(rel.getFromState().getDepth() + //REFACTOR - Magic Number
+  1);
 			rel.setToState(s);
 					
 			//sort smells in new state by ID and location (only key/source location )
 			s.getSmells().sort((o1, o2) -> {
-				if (o1.getSmell().getId().compareTo(o2.getSmell().getId()) == 0) {
-		            return o1.getLocations().get(0).toString().compareTo(o2.getLocations().get(0).toString());
+				if (o1.getSmell().getId().compareTo(o2.getSmell().getId()) == //REFACTOR - Magic Number
+  0) {
+		            return o1.getLocations().get(//REFACTOR - Magic Number
+  0).toString().compareTo(o2.getLocations().get(//REFACTOR - Magic Number
+  0).toString());
 		        } else {
 		            return o1.getSmell().getId().compareTo(o2.getSmell().getId());
 		        }
@@ -78,7 +83,8 @@ public abstract class PathSearchStrategy {
 		return result; 
 	}
 	
-	protected int calculateHeuristic(Relation r){
+	//REFACTOR - Feature Envy
+  protected int calculateHeuristic(Relation r){
 		
 		int result = 0;
 		
@@ -90,14 +96,16 @@ public abstract class PathSearchStrategy {
 		return result; 
 	}
 	
-	protected void calculateEndNodeFitness(List<Relation> relations) {
+	//REFACTOR - Feature Envy
+  protected void calculateEndNodeFitness(List<Relation> relations) {
 		
 		for(Relation rel: relations){
 			StateProcessor.calculateFitness(rel.getToState(), this.rootStateSmellsWeight);
 		}	
 	}
 	
-	protected void calculateProbabilityOfRelations(List<Relation> relations){
+	//REFACTOR - Feature Envy
+  protected void calculateProbabilityOfRelations(List<Relation> relations){
 		for(Relation rel : relations){
 			rel.calculateProbability(this.probabolityCalculationStrategy);
 		}
@@ -132,7 +140,9 @@ public abstract class PathSearchStrategy {
 			this.queue.add(new GraphRelation(r));
 	}
 	
-	protected void init(State rootState, int depth) {
+	//REFACTOR - Feature Envy
+  //REFACTOR - Long Method
+  protected void init(State rootState, int depth) {
 		
 		//init root atributes
 		this.rootStateSmellsWeight = StateProcessor.calculateSmellsWeight(rootState);

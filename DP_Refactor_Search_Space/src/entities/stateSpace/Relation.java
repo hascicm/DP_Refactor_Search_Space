@@ -3,7 +3,8 @@ package entities.stateSpace;
 import entities.Repair;
 import usecases.ProbabilityCalculationStrategy;
 
-public class Relation {
+//REFACTOR - Lazy Class
+  public class Relation {
 	
 	private State fromState;
 	private State toState;
@@ -44,7 +45,8 @@ public class Relation {
 		this.usedRepair = usedRepair;
 	}
 	
-	public void calculateProbability(ProbabilityCalculationStrategy calculationStrategy){
+	//REFACTOR - Feature Envy
+  public void calculateProbability(ProbabilityCalculationStrategy calculationStrategy){
 		
 		/*double probability = this.usedRepair.calculateProbability();
 		

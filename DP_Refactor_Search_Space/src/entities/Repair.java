@@ -26,7 +26,8 @@ public class Repair {
 		this.name = name;
 	}
 	
-	public List<SmellType> getSmells(){
+	//REFACTOR - Feature Envy
+  public List<SmellType> getSmells(){
 		
 		List<SmellType> result = new ArrayList<>();
 		

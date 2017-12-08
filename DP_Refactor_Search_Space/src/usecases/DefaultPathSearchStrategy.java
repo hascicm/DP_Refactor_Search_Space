@@ -22,7 +22,9 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	}
 	
 	
-	@Override
+	//REFACTOR - Feature Envy
+  //REFACTOR - Long Method
+  @Override
 	public List<Relation> findPath(State rootState, int depth) {
 			
 		init(rootState, depth);
@@ -57,9 +59,11 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	}
 
 
-	protected void start(State rootState) {
+	//REFACTOR - Long Method
+  protected void start(State rootState) {
 		
-		this.lastStateId = 0;
+		this.lastStateId = //REFACTOR - Magic Number
+  0;
 		// add relations from rootState to queue
 		this.addRelationsToQueue(rootState.getRelations());
 		
@@ -100,7 +104,8 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		System.out.println(lastStateId);
 	}	
 
-	protected void init(State rootState, int depth) {
+	//REFACTOR - Long Method
+  protected void init(State rootState, int depth) {
 		super.init(rootState, depth);
 		
 		// init queue
@@ -154,7 +159,8 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		}
 	}
 	
-	private static String printSmellLocations(SmellOccurance so){
+	//REFACTOR - Feature Envy
+  private static String printSmellLocations(SmellOccurance so){
 		
 		StringBuilder sb = new StringBuilder();
 		

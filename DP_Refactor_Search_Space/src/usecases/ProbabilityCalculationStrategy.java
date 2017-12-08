@@ -2,6 +2,7 @@ package usecases;
 
 import entities.stateSpace.Relation;
 
-public abstract class ProbabilityCalculationStrategy {
+//REFACTOR - Lazy Class
+  public abstract class ProbabilityCalculationStrategy {
 	abstract public double calculateProbability(Relation rel); 
 }

@@ -6,7 +6,8 @@ import java.util.List;
 import entities.Location;
 import entities.LocationPart;
 
-public class PlaceComparator {
+//REFACTOR - Lazy Class
+  public class PlaceComparator {
 	
 	public static List<LocationPart> findCommonDestinationPath(List<LocationPart> listA, List<LocationPart> listB){
 		

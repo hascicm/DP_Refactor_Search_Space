@@ -1,6 +1,7 @@
 package entities;
 
-public class LocationPart {
+//REFACTOR - Lazy Class
+  public class LocationPart {
 	private LocationPartType locationPartType;
 	private String id;
 	

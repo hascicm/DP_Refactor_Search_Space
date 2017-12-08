@@ -1,6 +1,8 @@
 package entities;
 
-public class SmellType {
+//REFACTOR - Lazy Class
+  //REFACTOR - Data Class
+  public class SmellType {
 	private Integer id;
 	private String name;
 	private String description;

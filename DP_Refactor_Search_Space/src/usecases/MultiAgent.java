@@ -10,14 +10,18 @@ import com.google.common.collect.Lists;
 
 import entities.stateSpace.*;
 
-public class MultiAgent {
+//REFACTOR - Lazy Class
+  public class MultiAgent {
 	
 	private static int NUM_AGENT =10;
 	
-	public List<Relation> findPath(State rootState,PathSearchStrategy strategy){
+	//REFACTOR - Feature Envy
+  //REFACTOR - Long Method
+  public List<Relation> findPath(State rootState,PathSearchStrategy strategy){
 		
 			
-		strategy.init(rootState, 0);
+		strategy.init(rootState, //REFACTOR - Magic Number
+  0);
 		
 		
 		List<Agent> agents = new ArrayList<Agent>();

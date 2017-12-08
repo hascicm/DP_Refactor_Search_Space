@@ -60,7 +60,8 @@ public class State {
 		this.depth = depth;
 	}
 
-	public String toString() {
+	//REFACTOR - Feature Envy
+  public String toString() {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("Smells: ");
