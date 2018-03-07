@@ -2,9 +2,13 @@ package usecases;
 
 import entities.stateSpace.Relation;
 
-public class AndOrProbabilityCalculationStrategy extends ProbabilityCalculationStrategy {
+//REFACTOR - Lazy Class
+  //SMELL: #SmellType(Lazy Class)
+ public class AndOrProbabilityCalculationStrategy extends ProbabilityCalculationStrategy {
 
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ @Override
 	public double calculateProbability(Relation rel) {
 		double probability = rel.getUsedRepair().calculateProbability();
 		

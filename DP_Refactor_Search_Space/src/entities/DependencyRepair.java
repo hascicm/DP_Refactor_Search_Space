@@ -26,7 +26,9 @@ public class DependencyRepair extends Repair {
 		this.dependencies.add(new Dependency(type, smell, probability, locationPartType, dependencyPlaceType));
 	}
 	
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ @Override
 	public double calculateProbability() {	
 		double probability = 1.0;
 		

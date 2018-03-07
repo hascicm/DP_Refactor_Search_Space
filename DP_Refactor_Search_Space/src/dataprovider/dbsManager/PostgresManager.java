@@ -40,7 +40,9 @@ public class PostgresManager {
 		}
 	}
 
-	public List<SmellType> getSmellTypes() {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ public List<SmellType> getSmellTypes() {
 		List<SmellType> smells = new ArrayList<>();
 		String query = "SELECT * FROM smelltype order by id";
 		ResultSet rs;
@@ -65,7 +67,9 @@ public class PostgresManager {
 		return null;
 	}
 
-	public List<Repair> getRepairs(List<SmellType> smells) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ public List<Repair> getRepairs(List<SmellType> smells) {
 
 		List<Repair> repairs = new ArrayList<>();
 		String query = "select * from (select repair.id,name,weight,repairsmelltype.smell_id, '' as dependencytype,'' as actionfield,"

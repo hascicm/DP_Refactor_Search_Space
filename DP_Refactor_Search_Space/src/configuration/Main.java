@@ -3,9 +3,13 @@ package configuration;
 import entities.RefactorProcessOptimizer;
 
 
-public class Main {
+//REFACTOR - Lazy Class
+  //SMELL: #SmellType(Lazy Class)
+ public class Main {
 	
-	public static void main(String[] args) {	
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ public static void main(String[] args) {	
 		RefactorProcessOptimizer model = new RefactorProcessOptimizer();
 		model.findRefactoringPath();	
 	}

@@ -2,7 +2,9 @@ package entities;
 
 import java.util.List;
 
-public class Location {
+//REFACTOR - Lazy Class
+  //SMELL: #SmellType(Lazy Class)
+ public class Location {
 	private List<LocationPart> location;
 	
 	public Location(List<LocationPart> location) {

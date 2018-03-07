@@ -26,7 +26,9 @@ public class RelationCreator {
 		initRepairMap(smellTypes, repairs); 
 	}
 	
-	public void addRelationsToState(State state){
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ public void addRelationsToState(State state){
 		
 		List<Relation> newRelations = new LinkedList<Relation>();	
 		
@@ -38,7 +40,9 @@ public class RelationCreator {
 		state.setRelations(newRelations);
 	}
 	
-	private List<Relation> assignRelationsToSmellOccurance(SmellOccurance smellOccurance){
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private List<Relation> assignRelationsToSmellOccurance(SmellOccurance smellOccurance){
 		
 		List<Relation> relations = new ArrayList<Relation>();
 		
@@ -54,14 +58,18 @@ public class RelationCreator {
 		return relations;
 	}
 	
-	private void assignFromStateToRelation(List<Relation> rels, State state){
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private void assignFromStateToRelation(List<Relation> rels, State state){
 		
 		for(Relation r : rels){
 			r.setFromState(state);
 		}		
 	}	
 	
-	private List<Relation> makeRelationsOfRepair(Repair repair){
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private List<Relation> makeRelationsOfRepair(Repair repair){
 		
 		List<Relation> results = new ArrayList<Relation>();
 		
@@ -77,7 +85,9 @@ public class RelationCreator {
 		return results;
 	}
 
-	private Relation makeBaseRepairRelation(Repair repair) {		
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private Relation makeBaseRepairRelation(Repair repair) {		
 		Relation relation = new Relation();
 		relation.setUsedRepair(new Repair(repair.getName(), repair.getRepairUses()));
 		return relation;
@@ -92,7 +102,10 @@ public class RelationCreator {
 	 * 	it creates 3 relations: causes A, repairs B, cause A and repairs B. 
 	 * 
 	 * */
-	private List<Relation> makeDependencyRepairRelations(DependencyRepair repair) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  private List<Relation> makeDependencyRepairRelations(DependencyRepair repair) {
 		
 		List<Relation> relations = new ArrayList<Relation>(); 
 		List<Dependency> dependencies = repair.getDependencies();
@@ -101,7 +114,13 @@ public class RelationCreator {
 		List<List<Dependency>> combinations = new ArrayList<List<Dependency>>();
 		//Create combination of dependecies
 		for(int i = 0; i < dependencies.size(); i++){
-			combinations(dependencies, i+1, 0, new Dependency[i+1], combinations);
+			combinations(dependencies, i+//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1, //REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0, new Dependency[i+//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1], combinations);
 		}
 		
 		//Every combination is a one Relation
@@ -121,7 +140,9 @@ public class RelationCreator {
 		return relations;
 	}
 	
-	static void combinations(List<Dependency> dependencies, int len, int startPosition, 
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ static void combinations(List<Dependency> dependencies, int len, int startPosition, 
 		Dependency[] results, List<List<Dependency>> combinations){
         if (len == 0){
             
@@ -137,7 +158,11 @@ public class RelationCreator {
         }       
         for (int i = startPosition; i <= dependencies.size()-len; i++){
             results[results.length - len] = dependencies.get(i);
-            combinations(dependencies, len-1, i+1, results, combinations);
+            combinations(dependencies, len-//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1, i+//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1, results, combinations);
         }
     }
 	

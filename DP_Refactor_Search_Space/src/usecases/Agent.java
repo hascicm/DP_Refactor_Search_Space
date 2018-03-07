@@ -4,7 +4,9 @@ import java.util.List;
 
 import entities.stateSpace.*;
 
-public class Agent implements Runnable{
+//REFACTOR - Lazy Class
+  //SMELL: #SmellType(Lazy Class)
+ public class Agent implements Runnable{
 
 	private PathSearchStrategy pathSearchStrategy;
 	private List<Relation> rootRelations;
@@ -47,7 +49,9 @@ public class Agent implements Runnable{
 		for(Relation rel : this.rootRelations){
 			
 			//TODO prerobit depth parameter
-			tempPath = this.pathSearchStrategy.findPath(rel.getToState(), 1);
+			tempPath = this.pathSearchStrategy.findPath(rel.getToState(), //REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1);
 			
 			if(this.bestPath != null){
 				

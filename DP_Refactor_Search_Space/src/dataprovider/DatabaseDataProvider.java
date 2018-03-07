@@ -38,16 +38,26 @@ public class DatabaseDataProvider implements DataProvider {
 		return root;
 	}
 
-	private void initRoot() {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  //SMELL: #SmellType(Long Method)
+ private void initRoot() {
 
 		List<SmellOccurance> smellOccurances = new ArrayList<SmellOccurance>();
 
 		// DataClumps
-		smellOccurances.add(new SmellOccurance(this.getSmellType(4)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 4)));
 		// LazyClass
-		smellOccurances.add(new SmellOccurance(this.getSmellType(9)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 9)));
 		// FeatureEnvy
-		smellOccurances.add(new SmellOccurance(this.getSmellType(10)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 10)));
 		// LongParameterList
 		/*
 		 * smellOccurances.add(new SmellOccurance(this.getSmellType(3)));

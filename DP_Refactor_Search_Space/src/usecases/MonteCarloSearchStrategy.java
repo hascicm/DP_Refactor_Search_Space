@@ -26,16 +26,25 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 		agents = new ArrayList<MonteCarloAgent>();
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  @Override
 	public List<Relation> findPath(State rootState, int depth) {
 		this.rootState = State.getMonteCarloStateInstance();
 		this.rootState.setSmells(rootState.getSmells());
-		this.rootState.setN(0);
-		this.rootState.setT(0);
+		this.rootState.setN(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0);
+		this.rootState.setT(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0);
 		// expandCurrentState(this.rootState);
 		// StateProcessor.initializeState(this.rootState);
 		bestState = this.rootState;
-		bestState.setFitness(0);
+		bestState.setFitness(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0);
 
 		MonteCarloAgent curent;
 
@@ -93,7 +102,9 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 			double avgValue = 0;
 			if (mcs.getN() == 0) {
 				avgValue = mcs.getFitness();
-				N = 1;
+				N = //REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1;
 			} else {
 				avgValue = mcs.getT() / mcs.getN();
 				N = mcs.getN();
@@ -111,7 +122,9 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 		return result;
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ @Override
 	protected void applyRepair(List<Relation> rels) {
 		Relation rel = null;
 		int length = rels.size();
@@ -121,7 +134,9 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 			State s = StateProcessor.applyRepairMonteCarlo(rel.getFromState(), rel.getUsedRepair(),
 					rel.getFixedSmellOccurance());
 			s.setSourceRelation(rel);
-			s.setDepth(rel.getFromState().getDepth() + 1);
+			s.setDepth(rel.getFromState().getDepth() + //REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1);
 			rel.setToState(s);
 
 			// sort smells in new state by ID
@@ -130,7 +145,9 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 		}
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ @Override
 	protected void calculateEndNodeFitness(List<Relation> relations) {
 		for (Relation rel : relations) {
 			StateProcessor.calculateFitnessForAnts(rel.getToState());
@@ -196,9 +213,13 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 			System.out.println("move :" + curentState.toString());
 		}
 
-		private void moveAgentToFirstChild() {
+		//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private void moveAgentToFirstChild() {
 			if (!curentState.getRelations().isEmpty() && curentState.getRelations().get(0) != null) {
-				curentState = (MonteCarloState) curentState.getRelations().get(0).getToState();
+				curentState = (MonteCarloState) curentState.getRelations().get(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0).getToState();
 			}
 		}
 

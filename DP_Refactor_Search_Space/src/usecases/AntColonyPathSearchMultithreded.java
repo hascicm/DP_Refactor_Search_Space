@@ -40,7 +40,10 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 		exploredrelations = new HashSet<Relation>();
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  @Override
 	public List<Relation> findPath(State rootState, int depth) {
 		this.rootState = rootState;
 		// System.out.println(rootState);
@@ -91,7 +94,9 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 		return results;
 	}
 
-	private Relation rouletteWheel(List<Relation> posibleMoves) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private Relation rouletteWheel(List<Relation> posibleMoves) {
 		int sum = 0;
 		int partialsum = 0;
 		Relation output = null;
@@ -112,7 +117,9 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 		return output;
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ @Override
 	protected void calculateEndNodeFitness(List<Relation> relations) {
 		for (Relation rel : relations) {
 			StateProcessor.calculateFitnessForAnts(rel.getToState());
@@ -189,7 +196,9 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 					System.out.println("new best state in depth: " + currentState.getDepth() + " fitness:"
 							+ currentState.getFitness() + " newiteration: " + iterations + " "
 							+ currentState.toString());
-					iterations = 0;
+					iterations = //REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0;
 				}
 				calculatePheromoneForAnt();
 			}
@@ -229,7 +238,9 @@ public class AntColonyPathSearchMultithreded extends PathSearchStrategy {
 			// System.out.println("ant " + calculatedPheromone);
 		}
 
-		private void evaporatePheromoneFromTrails(HashSet<Relation> relations) {
+		//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private void evaporatePheromoneFromTrails(HashSet<Relation> relations) {
 			for (Relation r : relations) {
 				int calculatedPheromone = r.getPheromoneTrail() - pheromoneEvaporationPerCrossing;
 				if (calculatedPheromone < minPheromone) {

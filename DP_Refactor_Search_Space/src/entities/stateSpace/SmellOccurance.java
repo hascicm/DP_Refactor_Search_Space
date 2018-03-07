@@ -6,7 +6,11 @@ import java.util.List;
 import entities.Location;
 import entities.SmellType;
 
-public class SmellOccurance {
+//REFACTOR - Lazy Class
+  //SMELL: #SmellType(Lazy Class)
+ //REFACTOR - Data Class
+  //SMELL: #SmellType(Data Class)
+ public class SmellOccurance {
 	private SmellType smell;
 	private List<Location> locations; //na prvom mieste sa nachadza klucova trieda?
 	

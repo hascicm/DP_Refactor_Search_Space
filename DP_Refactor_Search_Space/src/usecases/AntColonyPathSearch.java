@@ -65,7 +65,9 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 		a.setCurrentState(rootState);
 	}
 
-	public void makeAntMove(Ant ant) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ public void makeAntMove(Ant ant) {
 
 		State currentState = ant.getCurrentState();
 		expandCurrentState(currentState);
@@ -88,14 +90,18 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 		}
 	}
 
-	public void backtrackAnt(Ant ant, State rootState) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ public void backtrackAnt(Ant ant, State rootState) {
 		State state = ant.getCurrentState();
 		Relation relation = state.getSourceRelation();
 		relation.setPheromoneTrail(calculatePheromoneForRelation(ant, relation));
 		ant.setCurrentState(relation.getFromState());
 	}
 
-	private void evaporatePheromoneFromTrails(HashSet<Relation> relations) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private void evaporatePheromoneFromTrails(HashSet<Relation> relations) {
 		for (Relation r : relations) {
 			int calculatedPheromone = r.getPheromoneTrail() - pheromoneEvaporationPerCycle;
 			if (calculatedPheromone < minPheromone) {
@@ -106,7 +112,9 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 		}
 	}
 
-	private void calculateAntPheromoneForAnt(Ant ant) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private void calculateAntPheromoneForAnt(Ant ant) {
 		int calculatedPheromone = (int) (ant.getFinalState().getFitness() / pheromoneCalculatioCoeficient);
 		// System.out.println(root.getFitness() /
 		// pheromoneCalculatioCoeficient);
@@ -131,7 +139,9 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 		return calculatedPheromone;
 	}
 
-	private Relation rouletteWheel(List<Relation> posibleMoves) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private Relation rouletteWheel(List<Relation> posibleMoves) {
 		int sum = 0;
 		int partialsum = 0;
 		Relation output = null;
@@ -150,7 +160,9 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 		return output;
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ @Override
 	protected void calculateEndNodeFitness(List<Relation> relations) {
 
 		for (Relation rel : relations) {

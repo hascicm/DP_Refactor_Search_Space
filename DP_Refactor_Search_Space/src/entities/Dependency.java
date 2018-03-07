@@ -1,6 +1,10 @@
 package entities;
 
-public class Dependency {
+//REFACTOR - Lazy Class
+  //SMELL: #SmellType(Lazy Class)
+ //REFACTOR - Data Class
+  //SMELL: #SmellType(Data Class)
+ public class Dependency {
 	private DependencyType type;
 	private SmellType smell;
 	private Double probability;

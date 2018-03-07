@@ -9,7 +9,9 @@ import java.util.Random;
 import entities.stateSpace.Relation;
 import entities.stateSpace.State;
 
-public class BeePathSearchStrategy extends PathSearchStrategy {
+//REFACTOR - Large Class
+  //SMELL: #SmellType(Large Class)
+ public class BeePathSearchStrategy extends PathSearchStrategy {
 	
 	private static int NUM_ITER = 200;
 	private static int NUM_BEES = 80; 
@@ -24,7 +26,10 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 		this.bees = new ArrayList<Bee>();
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  @Override
 	public List<Relation> findPath(State rootState, int depth) {
 		
 		List<Bee> employeeBees = new ArrayList<Bee>();
@@ -86,7 +91,9 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 				
 				Collections.sort(b.getRecruitedBees());
 				//fittest bee on index O
-				fittestBees.add(b.getRecruitedBees().get(0));
+				fittestBees.add(b.getRecruitedBees().get(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0));
 				
 				//others go to remaining bees
 				for(int j = 1; j < b.getRecruitedBees().size(); j++){
@@ -139,7 +146,9 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 		return results;
 	}
 
-	private void calculateProbabilityForRecruit(List<Bee> employeeBees) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private void calculateProbabilityForRecruit(List<Bee> employeeBees) {
 		double sum = 0.0;
 		for(Bee b : employeeBees){
 			sum += b.getHeuristic();
@@ -150,13 +159,19 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 			
 			//25% for 2 recruited bee
 			if(employeeBees.indexOf(b) < employeeBees.size()/4){
-				b.setNumForRecruit(2);
+				b.setNumForRecruit(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 2);
 			}else{
 				
 				if(employeeBees.indexOf(b) < ((employeeBees.size()/4) * 3)){
-					b.setNumForRecruit(1);
+					b.setNumForRecruit(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1);
 				}else{
-					b.setNumForRecruit(0);
+					b.setNumForRecruit(//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0);
 				}
 				
 			}
@@ -166,7 +181,9 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 	
 	private void checkLowProbability(Bee bee){
 		if(isLowProbability(bee.getVisitedState())){
-			bee.heuristic *= (-1.0);
+			bee.heuristic *= (-//REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 1.0);
 		}
 	}
 
@@ -191,9 +208,12 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 		}
 	}
 	
-	private void initSuperBee(Bee b, State s){
+	//REFACTOR - Long Method
+  private void initSuperBee(Bee b, State s){
 		
-		init(s, 0);
+		init(s, //REFACTOR - Magic Number
+  //SMELL: #SmellType(Magic Numbers)
+ 0);
 		
 		this.queue = new PriorityQueue<GraphRelation>();
 		expandCurrentState(s);
@@ -228,7 +248,8 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 		b.setVisitedState(localMaximum);
 	}
 	
-	private void exploreSpace(Bee bee, State state, int depth){
+	//REFACTOR - Long Method
+  private void exploreSpace(Bee bee, State state, int depth){
 		
 		Random random = new Random();
 		State bestFoundState = state;
@@ -263,7 +284,9 @@ public class BeePathSearchStrategy extends PathSearchStrategy {
 	}
 	
 	
-	private List<Relation> filterLowProbabilityRelations(List<Relation> relations) {
+	//REFACTOR - Feature Envy
+  //SMELL: #SmellType(Feature Envy)
+ private List<Relation> filterLowProbabilityRelations(List<Relation> relations) {
 		
 		List<Relation> result = new ArrayList<Relation>();
 		
