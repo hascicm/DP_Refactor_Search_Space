@@ -22,7 +22,10 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 	}
 	
 	
-	@Override
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE24 //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  @Override
 	public List<Relation> findPath(State rootState, int depth) {
 			
 		init(rootState, depth);
@@ -54,12 +57,15 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		System.out.println(currentState);
 		//DEBUG		
 		return results;
-	}
+	}// smelltag start : FE24 
 
 
-	protected void start(State rootState) {
+	//REFACTOR - Long Method
+  protected void start(State rootState) {
 		
-		this.lastStateId = 0;
+		this.lastStateId = //REFACTOR - Magic Number
+  // smelltag end   : MAGIC20 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC20 ;
 		// add relations from rootState to queue
 		this.addRelationsToQueue(rootState.getRelations());
 		
@@ -100,7 +106,8 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		System.out.println(lastStateId);
 	}	
 
-	protected void init(State rootState, int depth) {
+	//REFACTOR - Long Method
+  protected void init(State rootState, int depth) {
 		super.init(rootState, depth);
 		
 		// init queue
@@ -154,7 +161,9 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		}
 	}
 	
-	private static String printSmellLocations(SmellOccurance so){
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE25 //SMELL: #SmellType(Feature Envy)
+ private static String printSmellLocations(SmellOccurance so){
 		
 		StringBuilder sb = new StringBuilder();
 		
@@ -163,5 +172,5 @@ public class DefaultPathSearchStrategy extends PathSearchStrategy{
 		}
 		
 		return sb.toString();
-	}
+	}// smelltag start : FE25 
 }

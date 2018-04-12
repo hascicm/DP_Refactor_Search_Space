@@ -38,7 +38,9 @@ public abstract class PathSearchStrategy {
 
 	public abstract List<Relation> findPath(State rootState, int depth);
 			
-	protected void applyRepair(List<Relation> rels){
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE32 //SMELL: #SmellType(Feature Envy)
+ protected void applyRepair(List<Relation> rels){
 		
 		Relation rel = null;
 		int length = rels.size();
@@ -47,20 +49,28 @@ public abstract class PathSearchStrategy {
 			rel = rels.get(i);
 			State s = StateProcessor.applyRepair(rel.getFromState(), rel.getUsedRepair(), rel.getFixedSmellOccurance());
 			s.setSourceRelation(rel);
-			s.setDepth(rel.getFromState().getDepth() + 1);
+			s.setDepth(rel.getFromState().getDepth() + //REFACTOR - Magic Number
+  // smelltag end   : MAGIC28 //SMELL: #SmellType(Magic Numbers)
+ 1// smelltag start : MAGIC28 );
 			rel.setToState(s);
 					
 			//sort smells in new state by ID and location (only key/source location )
 			s.getSmells().sort((o1, o2) -> {
-				if (o1.getSmell().getId().compareTo(o2.getSmell().getId()) == 0) {
-		            return o1.getLocations().get(0).toString().compareTo(o2.getLocations().get(0).toString());
+				if (o1.getSmell().getId().compareTo(o2.getSmell().getId()) == //REFACTOR - Magic Number
+  // smelltag end   : MAGIC29 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC29 ) {
+		            return o1.getLocations().get(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC30 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC30 ).toString().compareTo(o2.getLocations().get(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC31 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC31 ).toString());
 		        } else {
 		            return o1.getSmell().getId().compareTo(o2.getSmell().getId());
 		        }
 			});
 			
 		}
-	}
+	}// smelltag start : FE32 
 	
 	protected boolean isVisited(State s){	
 		return this.visitedStates.contains(StateProcessor.createHash(s)) ? true : false; 			
@@ -78,7 +88,9 @@ public abstract class PathSearchStrategy {
 		return result; 
 	}
 	
-	protected int calculateHeuristic(Relation r){
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE33 //SMELL: #SmellType(Feature Envy)
+ protected int calculateHeuristic(Relation r){
 		
 		int result = 0;
 		
@@ -88,20 +100,24 @@ public abstract class PathSearchStrategy {
 		
 		
 		return result; 
-	}
+	}// smelltag start : FE33 
 	
-	protected void calculateEndNodeFitness(List<Relation> relations) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE34 //SMELL: #SmellType(Feature Envy)
+ protected void calculateEndNodeFitness(List<Relation> relations) {
 		
 		for(Relation rel: relations){
 			StateProcessor.calculateFitness(rel.getToState(), this.rootStateSmellsWeight);
 		}	
-	}
+	}// smelltag start : FE34 
 	
-	protected void calculateProbabilityOfRelations(List<Relation> relations){
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE35 //SMELL: #SmellType(Feature Envy)
+ protected void calculateProbabilityOfRelations(List<Relation> relations){
 		for(Relation rel : relations){
 			rel.calculateProbability(this.probabolityCalculationStrategy);
 		}
-	}
+	}// smelltag start : FE35 
 	
 	
 	protected class GraphRelation implements Comparable<GraphRelation>{
@@ -132,7 +148,10 @@ public abstract class PathSearchStrategy {
 			this.queue.add(new GraphRelation(r));
 	}
 	
-	protected void init(State rootState, int depth) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE36 //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  protected void init(State rootState, int depth) {
 		
 		//init root atributes
 		this.rootStateSmellsWeight = StateProcessor.calculateSmellsWeight(rootState);
@@ -146,7 +165,7 @@ public abstract class PathSearchStrategy {
 		calculateEndNodeFitness(rootState.getRelations());
 		calculateProbabilityOfRelations(rootState.getRelations());
 		
-	}
+	}// smelltag start : FE36 
 	
 	protected void expandCurrentState(State currentState){
 		

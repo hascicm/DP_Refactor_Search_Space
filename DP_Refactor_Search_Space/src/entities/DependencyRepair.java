@@ -26,7 +26,9 @@ public class DependencyRepair extends Repair {
 		this.dependencies.add(new Dependency(type, smell, probability, locationPartType, dependencyPlaceType));
 	}
 	
-	@Override
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE6 //SMELL: #SmellType(Feature Envy)
+ @Override
 	public double calculateProbability() {	
 		double probability = 1.0;
 		
@@ -35,5 +37,5 @@ public class DependencyRepair extends Repair {
 		}
 		
 		return probability;
-	}
+	}// smelltag start : FE6 
 }

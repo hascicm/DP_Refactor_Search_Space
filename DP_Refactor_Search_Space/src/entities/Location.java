@@ -2,7 +2,9 @@ package entities;
 
 import java.util.List;
 
-public class Location {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC5 //SMELL: #SmellType(Lazy Class)
+ public class Location {
 	private List<LocationPart> location;
 	
 	public Location(List<LocationPart> location) {
@@ -21,4 +23,4 @@ public class Location {
 	public String toString(){
 		return this.location.toString();
 	}
-}
+}// smelltag start : LAZC5 

@@ -26,16 +26,25 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 		agents = new ArrayList<MonteCarloAgent>();
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE27 //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  @Override
 	public List<Relation> findPath(State rootState, int depth) {
 		this.rootState = State.getMonteCarloStateInstance();
 		this.rootState.setSmells(rootState.getSmells());
-		this.rootState.setN(0);
-		this.rootState.setT(0);
+		this.rootState.setN(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC21 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC21 );
+		this.rootState.setT(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC22 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC22 );
 		// expandCurrentState(this.rootState);
 		// StateProcessor.initializeState(this.rootState);
 		bestState = this.rootState;
-		bestState.setFitness(0);
+		bestState.setFitness(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC23 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC23 );
 
 		MonteCarloAgent curent;
 
@@ -80,7 +89,7 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 
 		return results;
 
-	}
+	}// smelltag start : FE27 
 
 	public MonteCarloState UCB1(MonteCarloState s) {
 		MonteCarloState result = null;
@@ -93,7 +102,9 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 			double avgValue = 0;
 			if (mcs.getN() == 0) {
 				avgValue = mcs.getFitness();
-				N = 1;
+				N = //REFACTOR - Magic Number
+  // smelltag end   : MAGIC24 //SMELL: #SmellType(Magic Numbers)
+ 1// smelltag start : MAGIC24 ;
 			} else {
 				avgValue = mcs.getT() / mcs.getN();
 				N = mcs.getN();
@@ -111,7 +122,9 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 		return result;
 	}
 
-	@Override
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE28 //SMELL: #SmellType(Feature Envy)
+ @Override
 	protected void applyRepair(List<Relation> rels) {
 		Relation rel = null;
 		int length = rels.size();
@@ -121,21 +134,25 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 			State s = StateProcessor.applyRepairMonteCarlo(rel.getFromState(), rel.getUsedRepair(),
 					rel.getFixedSmellOccurance());
 			s.setSourceRelation(rel);
-			s.setDepth(rel.getFromState().getDepth() + 1);
+			s.setDepth(rel.getFromState().getDepth() + //REFACTOR - Magic Number
+  // smelltag end   : MAGIC25 //SMELL: #SmellType(Magic Numbers)
+ 1// smelltag start : MAGIC25 );
 			rel.setToState(s);
 
 			// sort smells in new state by ID
 			s.getSmells().sort((o1, o2) -> o1.getSmell().getId().compareTo(o2.getSmell().getId()));
 
 		}
-	}
+	}// smelltag start : FE28 
 
-	@Override
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE29 //SMELL: #SmellType(Feature Envy)
+ @Override
 	protected void calculateEndNodeFitness(List<Relation> relations) {
 		for (Relation rel : relations) {
 			StateProcessor.calculateFitnessForAnts(rel.getToState());
 		}
-	}
+	}// smelltag start : FE29 
 
 	private class MonteCarloAgent implements Runnable {
 		MonteCarloState curentState;
@@ -196,11 +213,15 @@ public class MonteCarloSearchStrategy extends PathSearchStrategy {
 			System.out.println("move :" + curentState.toString());
 		}
 
-		private void moveAgentToFirstChild() {
+		//REFACTOR - Feature Envy
+  // smelltag end   : FE30 //SMELL: #SmellType(Feature Envy)
+ private void moveAgentToFirstChild() {
 			if (!curentState.getRelations().isEmpty() && curentState.getRelations().get(0) != null) {
-				curentState = (MonteCarloState) curentState.getRelations().get(0).getToState();
+				curentState = (MonteCarloState) curentState.getRelations().get(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC26 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC26 ).getToState();
 			}
-		}
+		}// smelltag start : FE30 
 
 		private void rollout() {
 			double terminalFitnes = simulate();

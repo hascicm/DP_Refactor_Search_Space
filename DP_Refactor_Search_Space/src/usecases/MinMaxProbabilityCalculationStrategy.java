@@ -2,9 +2,13 @@ package usecases;
 
 import entities.stateSpace.Relation;
 
-public class MinMaxProbabilityCalculationStrategy extends ProbabilityCalculationStrategy {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC12 //SMELL: #SmellType(Lazy Class)
+ public class MinMaxProbabilityCalculationStrategy extends ProbabilityCalculationStrategy {
 
-	@Override
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE26 //SMELL: #SmellType(Feature Envy)
+ @Override
 	public double calculateProbability(Relation rel) {
 		
 		double probability = rel.getUsedRepair().calculateProbability();
@@ -16,6 +20,6 @@ public class MinMaxProbabilityCalculationStrategy extends ProbabilityCalculation
 		}
 		
 		return probability;
-	}
+	}// smelltag start : FE26 
 
-}
+}// smelltag start : LAZC12 

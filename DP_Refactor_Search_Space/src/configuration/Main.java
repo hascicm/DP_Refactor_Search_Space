@@ -3,10 +3,14 @@ package configuration;
 import entities.RefactorProcessOptimizer;
 
 
-public class Main {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC1 //SMELL: #SmellType(Lazy Class)
+ public class Main {
 	
-	public static void main(String[] args) {	
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE1 //SMELL: #SmellType(Feature Envy)
+ public static void main(String[] args) {	
 		RefactorProcessOptimizer model = new RefactorProcessOptimizer();
 		model.findRefactoringPath();	
-	}
-}
+	}// smelltag start : FE1 
+}// smelltag start : LAZC1 

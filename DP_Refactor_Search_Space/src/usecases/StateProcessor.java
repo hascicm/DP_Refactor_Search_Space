@@ -43,7 +43,9 @@ public class StateProcessor {
 	}
 
 	// for the simply repair without dependency just remove smell occurance
-	private static State applyBasicRepair(State baseState, Repair repair, SmellOccurance smellOccurance) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE44 //SMELL: #SmellType(Feature Envy)
+ private static State applyBasicRepair(State baseState, Repair repair, SmellOccurance smellOccurance) {
 
 		State resultState = new State();
 		
@@ -60,10 +62,12 @@ public class StateProcessor {
 		resultState.setSmells(smellOccuranceList);
 		
 		return resultState;
-	}
+	}// smelltag start : FE44 
 
 	// for the simply repair without dependency just remove smell occurance
-	private static State applyBasicRepairMonteCarlo(State baseState, Repair repair, SmellOccurance smellOccurance) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE45 //SMELL: #SmellType(Feature Envy)
+ private static State applyBasicRepairMonteCarlo(State baseState, Repair repair, SmellOccurance smellOccurance) {
 
 		State resultState = State.getMonteCarloStateInstance();
 
@@ -77,9 +81,11 @@ public class StateProcessor {
 
 		resultState.setSmells(smellOccuranceList);
 		return resultState;
-	}
+	}// smelltag start : FE45 
 
-	private static void applyDependencies(State state, DependencyRepair repair, SmellOccurance smellOccurance) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE46 //SMELL: #SmellType(Feature Envy)
+ private static void applyDependencies(State state, DependencyRepair repair, SmellOccurance smellOccurance) {
 
 		for (Dependency dep : repair.getDependencies()) {
 
@@ -152,9 +158,11 @@ public class StateProcessor {
 
 			}
 		}
-	}
+	}// smelltag start : FE46 
 
-	public static long calculateSmellsWeight(State state) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE47 //SMELL: #SmellType(Feature Envy)
+ public static long calculateSmellsWeight(State state) {
 		long result = 0;
 
 		for (SmellOccurance so : state.getSmells()) {
@@ -162,15 +170,18 @@ public class StateProcessor {
 		}
 
 		return result;
-	}
+	}// smelltag start : FE47 
 
-	public static void calculateFitness(State state, long initSmellsWeight) {
+	//REFACTOR - Long Method
+  public static void calculateFitness(State state, long initSmellsWeight) {
 
 		long fitness = 0;
 
 		fitness += (initSmellsWeight - calculateSmellsWeight(state));
 
-		fitness = fitness << 2;
+		fitness = fitness << //REFACTOR - Magic Number
+  // smelltag end   : MAGIC37 //SMELL: #SmellType(Magic Numbers)
+ 2// smelltag start : MAGIC37 ;
 
 		Relation currentRel = state.getSourceRelation();
 		int count = 0;
@@ -217,34 +228,53 @@ public class StateProcessor {
 	 * state.setFitness(fitness); }
 	 */
 
-	public static void calculateFitnessForAnts(State state) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE48 //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  public static void calculateFitnessForAnts(State state) {
 		int fitness = 0;
 		float fit = 0;
 		for (SmellOccurance smellOccurance : state.getSmells()) {
-			fitness += smellOccurance.getSmell().getWeight() * 2;
+			fitness += smellOccurance.getSmell().getWeight() * //REFACTOR - Magic Number
+  // smelltag end   : MAGIC38 //SMELL: #SmellType(Magic Numbers)
+ 2// smelltag start : MAGIC38 ;
 		}
 		if (fitness == 0) {
-			fitness = 1;
+			fitness = //REFACTOR - Magic Number
+  // smelltag end   : MAGIC39 //SMELL: #SmellType(Magic Numbers)
+ 1// smelltag start : MAGIC39 ;
 		}
-		fit = 1 / (float) fitness;
-		fitness = ((int) (fit * 10000));
+		fit = //REFACTOR - Magic Number
+  // smelltag end   : MAGIC40 //SMELL: #SmellType(Magic Numbers)
+ 1// smelltag start : MAGIC40  / (float) fitness;
+		fitness = ((int) (fit * //REFACTOR - Magic Number
+  // smelltag end   : MAGIC41 //SMELL: #SmellType(Magic Numbers)
+ 10000// smelltag start : MAGIC41 ));
 
 		State currentState = state;
 		while (currentState.getSourceRelation() != null) {
 			fitness -= (currentState.getSourceRelation().getUsedRepair()
-					.getWeight(currentState.getSourceRelation().getFixedSmellOccurance().getSmell()) * 5);
+					.getWeight(currentState.getSourceRelation().getFixedSmellOccurance().getSmell()) * //REFACTOR - Magic Number
+  // smelltag end   : MAGIC42 //SMELL: #SmellType(Magic Numbers)
+ 5// smelltag start : MAGIC42 );
 			currentState = currentState.getSourceRelation().getFromState();
 		}
 		state.setFitness(fitness);
-	}
+	}// smelltag start : FE48 
 
-	public static void initializeState(State state) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE49 //SMELL: #SmellType(Feature Envy)
+ public static void initializeState(State state) {
 		for (Relation r : state.getRelations()) {
-			r.setPheromoneTrail(2000);
+			r.setPheromoneTrail(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC43 //SMELL: #SmellType(Magic Numbers)
+ 2000// smelltag start : MAGIC43 );
 		}
-	}
+	}// smelltag start : FE49 
 
-	public static String createHash(State s) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE50 //SMELL: #SmellType(Feature Envy)
+ public static String createHash(State s) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -256,7 +286,7 @@ public class StateProcessor {
 		}
 
 		return sb.toString();
-	}
+	}// smelltag start : FE50 
 	
 	public static SmellOccurance isOnSameLocation(State state, SmellOccurance baseSmellOccurance, SmellType smellType, LocationPartType placeType){
 		
@@ -269,8 +299,12 @@ public class StateProcessor {
 				
 				if(smellOccurance.getSmell() == smellType){
 					
-					tempPath = PlaceComparator.findCommonDestinationPath(baseSmellOccurance.getLocations().get(0).getLocation(), 
-																			smellOccurance.getLocations().get(0).getLocation());
+					tempPath = PlaceComparator.findCommonDestinationPath(baseSmellOccurance.getLocations().get(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC44 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC44 ).getLocation(), 
+																			smellOccurance.getLocations().get(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC45 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC45 ).getLocation());
 					
 					for(int i = tempPath.size()-1; i >=0; i-- ){
 						

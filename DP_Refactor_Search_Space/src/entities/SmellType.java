@@ -1,6 +1,10 @@
 package entities;
 
-public class SmellType {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC7 //SMELL: #SmellType(Lazy Class)
+ //REFACTOR - Data Class
+  // smelltag end   : DC3 //SMELL: #SmellType(Data Class)
+ public class SmellType {
 	private Integer id;
 	private String name;
 	private String description;
@@ -62,4 +66,4 @@ public class SmellType {
 		this.weight = weight;
 	}
 	
-}
+}// smelltag start : DC3 // smelltag start : LAZC7 

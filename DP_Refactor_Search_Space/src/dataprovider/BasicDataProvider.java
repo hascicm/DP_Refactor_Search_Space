@@ -15,7 +15,11 @@ import entities.SmellType;
 import entities.stateSpace.SmellOccurance;
 import entities.stateSpace.State;
 
-public class BasicDataProvider implements DataProvider{
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC2 //SMELL: #SmellType(Lazy Class)
+ //REFACTOR - Data Class
+  // smelltag end   : DC1 //SMELL: #SmellType(Data Class)
+ public class BasicDataProvider implements DataProvider{
 
 	private List<Repair> repairs;
 	private List<SmellType> smells;
@@ -85,13 +89,21 @@ public class BasicDataProvider implements DataProvider{
 		
 		//DEBUG
 		DependencyRepair repair_A = new DependencyRepair("Repair_A");
-		repair_A.addSmellCoverage(smell_A, 5);
-		repair_A.addDependency(DependencyType.SOLVE, smell_B, 0.8, LocationPartType.PACKAGE, DependencyPlaceType.INTERNAL);
+		repair_A.addSmellCoverage(smell_A, //REFACTOR - Magic Number
+  // smelltag end   : MAGIC1 //SMELL: #SmellType(Magic Numbers)
+ 5// smelltag start : MAGIC1 );
+		repair_A.addDependency(DependencyType.SOLVE, smell_B, //REFACTOR - Magic Number
+  // smelltag end   : MAGIC2 //SMELL: #SmellType(Magic Numbers)
+ 0.8// smelltag start : MAGIC2 , LocationPartType.PACKAGE, DependencyPlaceType.INTERNAL);
 		repairs.add(repair_A);
 		
 		DependencyRepair repair_B = new DependencyRepair("Repair_B");
-		repair_B.addSmellCoverage(smell_B, 5);
-		repair_B.addDependency(DependencyType.CAUSE, smell_A, 0.8, LocationPartType.PACKAGE, DependencyPlaceType.INTERNAL);
+		repair_B.addSmellCoverage(smell_B, //REFACTOR - Magic Number
+  // smelltag end   : MAGIC3 //SMELL: #SmellType(Magic Numbers)
+ 5// smelltag start : MAGIC3 );
+		repair_B.addDependency(DependencyType.CAUSE, smell_A, //REFACTOR - Magic Number
+  // smelltag end   : MAGIC4 //SMELL: #SmellType(Magic Numbers)
+ 0.8// smelltag start : MAGIC4 , LocationPartType.PACKAGE, DependencyPlaceType.INTERNAL);
 		repairs.add(repair_B);
 		
 		//DEBUG
@@ -184,14 +196,18 @@ public class BasicDataProvider implements DataProvider{
 		locationParts.add(new LocationPart(LocationPartType.CLASS, "Class_A"));
 		
 		this.root.getSmells().add(new SmellOccurance(smell_A));
-		this.root.getSmells().get(0).getLocations().add(new Location(locationParts));
+		this.root.getSmells().get(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC5 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC5 ).getLocations().add(new Location(locationParts));
 		
 		locationParts = new ArrayList<LocationPart>();
 		locationParts.add(new LocationPart(LocationPartType.PACKAGE, "default"));
 		locationParts.add(new LocationPart(LocationPartType.CLASS, "Class_B"));
 		
 		this.root.getSmells().add(new SmellOccurance(smell_B));
-		this.root.getSmells().get(1).getLocations().add(new Location(locationParts));
+		this.root.getSmells().get(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC6 //SMELL: #SmellType(Magic Numbers)
+ 1// smelltag start : MAGIC6 ).getLocations().add(new Location(locationParts));
 		
 		//System.out.println(this.root.getSmells().get(0).getLocations().get(0).toString());
 		
@@ -214,4 +230,4 @@ public class BasicDataProvider implements DataProvider{
 		
 	}
 	
-}
+}// smelltag start : DC1 // smelltag start : LAZC2 

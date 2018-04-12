@@ -40,7 +40,9 @@ public class PostgresManager {
 		}
 	}
 
-	public List<SmellType> getSmellTypes() {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE4 //SMELL: #SmellType(Feature Envy)
+ public List<SmellType> getSmellTypes() {
 		List<SmellType> smells = new ArrayList<>();
 		String query = "SELECT * FROM smelltype order by id";
 		ResultSet rs;
@@ -55,7 +57,7 @@ public class PostgresManager {
 		}
 
 		return smells;
-	}
+	}// smelltag start : FE4 
 
 	private SmellType getSmellById(int id, List<SmellType> smells) {
 		for (SmellType s : smells) {
@@ -65,7 +67,9 @@ public class PostgresManager {
 		return null;
 	}
 
-	public List<Repair> getRepairs(List<SmellType> smells) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE5 //SMELL: #SmellType(Feature Envy)
+ public List<Repair> getRepairs(List<SmellType> smells) {
 
 		List<Repair> repairs = new ArrayList<>();
 		String query = "select * from (select repair.id,name,weight,repairsmelltype.smell_id, '' as dependencytype,'' as actionfield,"
@@ -139,7 +143,7 @@ public class PostgresManager {
 		}
 		
 		return repairs;
-	}
+	}// smelltag start : FE5 
 
 	private DependencyPlaceType resolveLocationPartType(String act) {
 		if (act == null)

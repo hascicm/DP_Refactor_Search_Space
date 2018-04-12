@@ -60,7 +60,9 @@ public class State {
 		this.depth = depth;
 	}
 
-	public String toString() {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE9 //SMELL: #SmellType(Feature Envy)
+ public String toString() {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("Smells: ");
@@ -71,7 +73,7 @@ public class State {
 		}
 
 		return sb.toString();
-	}
+	}// smelltag start : FE9 
 
 	public static MonteCarloState getMonteCarloStateInstance() {
 		State s = new State();

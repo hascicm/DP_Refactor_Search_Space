@@ -1,6 +1,8 @@
 package entities;
 
-public class LocationPart {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC6 //SMELL: #SmellType(Lazy Class)
+ public class LocationPart {
 	private LocationPartType locationPartType;
 	private String id;
 	
@@ -29,4 +31,4 @@ public class LocationPart {
 	public String toString(){
 		return "[" + this.getId() + " <" +  this.getLocationPartType() +">]";
 	}
-}
+}// smelltag start : LAZC6 

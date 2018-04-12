@@ -3,7 +3,9 @@ package entities.stateSpace;
 import entities.Repair;
 import usecases.ProbabilityCalculationStrategy;
 
-public class Relation {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC8 //SMELL: #SmellType(Lazy Class)
+ public class Relation {
 	
 	private State fromState;
 	private State toState;
@@ -44,7 +46,9 @@ public class Relation {
 		this.usedRepair = usedRepair;
 	}
 	
-	public void calculateProbability(ProbabilityCalculationStrategy calculationStrategy){
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE8 //SMELL: #SmellType(Feature Envy)
+ public void calculateProbability(ProbabilityCalculationStrategy calculationStrategy){
 		
 		/*double probability = this.usedRepair.calculateProbability();
 		
@@ -55,9 +59,9 @@ public class Relation {
 		}*/
 		
 		this.probability = calculationStrategy.calculateProbability(this);
-	}
+	}// smelltag start : FE8 
 	
 	public double getProbability() {
 		return probability;
 	}	
-}
+}// smelltag start : LAZC8 

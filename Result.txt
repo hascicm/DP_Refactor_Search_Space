@@ -1,0 +1,451 @@
+NAME: FE1
+POSITION PACKAGE:configuration
+POSITION CLASS:Main
+POSITION METHOD:main
+NAME: FE2
+POSITION PACKAGE:dataprovider
+POSITION CLASS:DatabaseDataProvider
+POSITION METHOD:initRoot
+NAME: FE3
+POSITION PACKAGE:dataprovider.dbsManager
+POSITION CLASS:PostgresConnector
+POSITION METHOD:createConnection
+NAME: FE4
+POSITION PACKAGE:dataprovider.dbsManager
+POSITION CLASS:PostgresManager
+POSITION METHOD:getSmellTypes
+NAME: FE5
+POSITION PACKAGE:dataprovider.dbsManager
+POSITION CLASS:PostgresManager
+POSITION METHOD:getRepairs
+NAME: FE6
+POSITION PACKAGE:entities
+POSITION CLASS:DependencyRepair
+POSITION METHOD:calculateProbability
+NAME: FE7
+POSITION PACKAGE:entities
+POSITION CLASS:Repair
+POSITION METHOD:getSmells
+NAME: FE8
+POSITION PACKAGE:entities.stateSpace
+POSITION CLASS:Relation
+POSITION METHOD:calculateProbability
+NAME: FE9
+POSITION PACKAGE:entities.stateSpace
+POSITION CLASS:State
+POSITION METHOD:toString
+NAME: FE10
+POSITION PACKAGE:usecases
+POSITION CLASS:AndOrProbabilityCalculationStrategy
+POSITION METHOD:calculateProbability
+NAME: FE11
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearch
+POSITION METHOD:makeAntMove
+NAME: FE12
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearch
+POSITION METHOD:backtrackAnt
+NAME: FE13
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearch
+POSITION METHOD:evaporatePheromoneFromTrails
+NAME: FE14
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearch
+POSITION METHOD:calculateAntPheromoneForAnt
+NAME: FE15
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearch
+POSITION METHOD:rouletteWheel
+NAME: FE16
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearch
+POSITION METHOD:calculateEndNodeFitness
+NAME: FE17
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearchMultithreded
+POSITION METHOD:findPath
+NAME: FE18
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearchMultithreded
+POSITION METHOD:rouletteWheel
+NAME: FE19
+POSITION PACKAGE:usecases
+POSITION CLASS:AntColonyPathSearchMultithreded
+POSITION METHOD:calculateEndNodeFitness
+NAME: FE20
+POSITION PACKAGE:usecases
+POSITION CLASS:Ant
+POSITION METHOD:evaporatePheromoneFromTrails
+NAME: FE21
+POSITION PACKAGE:usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:findPath
+NAME: FE22
+POSITION PACKAGE:usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:calculateProbabilityForRecruit
+NAME: FE23
+POSITION PACKAGE:usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:filterLowProbabilityRelations
+NAME: FE24
+POSITION PACKAGE:usecases
+POSITION CLASS:DefaultPathSearchStrategy
+POSITION METHOD:findPath
+NAME: FE25
+POSITION PACKAGE:usecases
+POSITION CLASS:DefaultPathSearchStrategy
+POSITION METHOD:printSmellLocations
+NAME: FE26
+POSITION PACKAGE:usecases
+POSITION CLASS:MinMaxProbabilityCalculationStrategy
+POSITION METHOD:calculateProbability
+NAME: FE27
+POSITION PACKAGE:usecases
+POSITION CLASS:MonteCarloSearchStrategy
+POSITION METHOD:findPath
+NAME: FE28
+POSITION PACKAGE:usecases
+POSITION CLASS:MonteCarloSearchStrategy
+POSITION METHOD:applyRepair
+NAME: FE29
+POSITION PACKAGE:usecases
+POSITION CLASS:MonteCarloSearchStrategy
+POSITION METHOD:calculateEndNodeFitness
+NAME: FE30
+POSITION PACKAGE:usecases
+POSITION CLASS:MonteCarloAgent
+POSITION METHOD:moveAgentToFirstChild
+NAME: FE31
+POSITION PACKAGE:usecases
+POSITION CLASS:MultiAgent
+POSITION METHOD:findPath
+NAME: FE32
+POSITION PACKAGE:usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:applyRepair
+NAME: FE33
+POSITION PACKAGE:usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:calculateHeuristic
+NAME: FE34
+POSITION PACKAGE:usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:calculateEndNodeFitness
+NAME: FE35
+POSITION PACKAGE:usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:calculateProbabilityOfRelations
+NAME: FE36
+POSITION PACKAGE:usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:init
+NAME: FE37
+POSITION PACKAGE:usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:addRelationsToState
+NAME: FE38
+POSITION PACKAGE:usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:assignRelationsToSmellOccurance
+NAME: FE39
+POSITION PACKAGE:usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:assignFromStateToRelation
+NAME: FE40
+POSITION PACKAGE:usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:makeRelationsOfRepair
+NAME: FE41
+POSITION PACKAGE:usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:makeBaseRepairRelation
+NAME: FE42
+POSITION PACKAGE:usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:makeDependencyRepairRelations
+NAME: FE43
+POSITION PACKAGE:usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:combinations
+NAME: FE44
+POSITION PACKAGE:usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:applyBasicRepair
+NAME: FE45
+POSITION PACKAGE:usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:applyBasicRepairMonteCarlo
+NAME: FE46
+POSITION PACKAGE:usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:applyDependencies
+NAME: FE47
+POSITION PACKAGE:usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:calculateSmellsWeight
+NAME: FE48
+POSITION PACKAGE:usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:calculateFitnessForAnts
+NAME: FE49
+POSITION PACKAGE:usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:initializeState
+NAME: FE50
+POSITION PACKAGE:usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:createHash
+NAME: MAGIC1
+POSITION PACKAGE: dataprovider
+POSITION CLASS:BasicDataProvider
+POSITION METHOD:
+NAME: MAGIC2
+POSITION PACKAGE: dataprovider
+POSITION CLASS:BasicDataProvider
+POSITION METHOD:
+NAME: MAGIC3
+POSITION PACKAGE: dataprovider
+POSITION CLASS:BasicDataProvider
+POSITION METHOD:
+NAME: MAGIC4
+POSITION PACKAGE: dataprovider
+POSITION CLASS:BasicDataProvider
+POSITION METHOD:
+NAME: MAGIC5
+POSITION PACKAGE: dataprovider
+POSITION CLASS:BasicDataProvider
+POSITION METHOD:
+NAME: MAGIC6
+POSITION PACKAGE: dataprovider
+POSITION CLASS:BasicDataProvider
+POSITION METHOD:
+NAME: MAGIC7
+POSITION PACKAGE: dataprovider
+POSITION CLASS:DatabaseDataProvider
+POSITION METHOD:initRoot
+NAME: MAGIC8
+POSITION PACKAGE: dataprovider
+POSITION CLASS:DatabaseDataProvider
+POSITION METHOD:initRoot
+NAME: MAGIC9
+POSITION PACKAGE: dataprovider
+POSITION CLASS:DatabaseDataProvider
+POSITION METHOD:initRoot
+NAME: MAGIC10
+POSITION PACKAGE: entities
+POSITION CLASS:RefactorProcessOptimizer
+POSITION METHOD:findRefactoringPath
+NAME: MAGIC11
+POSITION PACKAGE: entities
+POSITION CLASS:RefactorProcessOptimizer
+POSITION METHOD:findRefactoringPath
+NAME: MAGIC12
+POSITION PACKAGE: usecases
+POSITION CLASS:Agent
+POSITION METHOD:run
+NAME: MAGIC13
+POSITION PACKAGE: usecases
+POSITION CLASS:Ant
+POSITION METHOD:makeAntMove
+NAME: MAGIC14
+POSITION PACKAGE: usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:findPath
+NAME: MAGIC15
+POSITION PACKAGE: usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:calculateProbabilityForRecruit
+NAME: MAGIC16
+POSITION PACKAGE: usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:calculateProbabilityForRecruit
+NAME: MAGIC17
+POSITION PACKAGE: usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:calculateProbabilityForRecruit
+NAME: MAGIC18
+POSITION PACKAGE: usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:checkLowProbability
+NAME: MAGIC19
+POSITION PACKAGE: usecases
+POSITION CLASS:BeePathSearchStrategy
+POSITION METHOD:initSuperBee
+NAME: MAGIC20
+POSITION PACKAGE: usecases
+POSITION CLASS:DefaultPathSearchStrategy
+POSITION METHOD:start
+NAME: MAGIC21
+POSITION PACKAGE: usecases
+POSITION CLASS:MonteCarloSearchStrategy
+POSITION METHOD:findPath
+NAME: MAGIC22
+POSITION PACKAGE: usecases
+POSITION CLASS:MonteCarloSearchStrategy
+POSITION METHOD:findPath
+NAME: MAGIC23
+POSITION PACKAGE: usecases
+POSITION CLASS:MonteCarloSearchStrategy
+POSITION METHOD:findPath
+NAME: MAGIC24
+POSITION PACKAGE: usecases
+POSITION CLASS:MonteCarloSearchStrategy
+POSITION METHOD:UCB1
+NAME: MAGIC25
+POSITION PACKAGE: usecases
+POSITION CLASS:MonteCarloSearchStrategy
+POSITION METHOD:applyRepair
+NAME: MAGIC26
+POSITION PACKAGE: usecases
+POSITION CLASS:MonteCarloAgent
+POSITION METHOD:moveAgentToFirstChild
+NAME: MAGIC27
+POSITION PACKAGE: usecases
+POSITION CLASS:MultiAgent
+POSITION METHOD:findPath
+NAME: MAGIC28
+POSITION PACKAGE: usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:applyRepair
+NAME: MAGIC29
+POSITION PACKAGE: usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:applyRepair
+NAME: MAGIC30
+POSITION PACKAGE: usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:applyRepair
+NAME: MAGIC31
+POSITION PACKAGE: usecases
+POSITION CLASS:PathSearchStrategy
+POSITION METHOD:applyRepair
+NAME: MAGIC32
+POSITION PACKAGE: usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:makeDependencyRepairRelations
+NAME: MAGIC33
+POSITION PACKAGE: usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:makeDependencyRepairRelations
+NAME: MAGIC34
+POSITION PACKAGE: usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:makeDependencyRepairRelations
+NAME: MAGIC35
+POSITION PACKAGE: usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:combinations
+NAME: MAGIC36
+POSITION PACKAGE: usecases
+POSITION CLASS:RelationCreator
+POSITION METHOD:combinations
+NAME: MAGIC37
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:calculateFitness
+NAME: MAGIC38
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:calculateFitnessForAnts
+NAME: MAGIC39
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:calculateFitnessForAnts
+NAME: MAGIC40
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:calculateFitnessForAnts
+NAME: MAGIC41
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:calculateFitnessForAnts
+NAME: MAGIC42
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:calculateFitnessForAnts
+NAME: MAGIC43
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:initializeState
+NAME: MAGIC44
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:isOnSameLocation
+NAME: MAGIC45
+POSITION PACKAGE: usecases
+POSITION CLASS:StateProcessor
+POSITION METHOD:isOnSameLocation
+NAME: LAZC1
+POSITION: CC:configuration::C:Main
+NAME: LAZC2
+POSITION: CC:dataprovider::C:BasicDataProvider
+NAME: LAZC3
+POSITION: CC:dataprovider.dbsManager::C:PostgresConnector
+NAME: LAZC4
+POSITION: CC:entities::C:Dependency
+NAME: LAZC5
+POSITION: CC:entities::C:Location
+NAME: LAZC6
+POSITION: CC:entities::C:LocationPart
+NAME: LAZC7
+POSITION: CC:entities::C:SmellType
+NAME: LAZC8
+POSITION: CC:entities.stateSpace::C:Relation
+NAME: LAZC9
+POSITION: CC:entities.stateSpace::C:SmellOccurance
+NAME: LAZC10
+POSITION: CC:usecases::C:Agent
+NAME: LAZC11
+POSITION: CC:usecases::C:AndOrProbabilityCalculationStrategy
+NAME: LAZC12
+POSITION: CC:usecases::C:MinMaxProbabilityCalculationStrategy
+NAME: LAZC13
+POSITION: CC:usecases::C:MultiAgent
+NAME: LAZC14
+POSITION: CC:usecases::C:PlaceComparator
+NAME: LAZC15
+POSITION: CC:usecases::C:ProbabilityCalculationStrategy
+NAME: LC1
+POSITION: CC:usecases
+NAME: LC2
+POSITION: CC:usecases::C:BeePathSearchStrategy
+NAME: DC1
+POSITION: CC:dataprovider::C:BasicDataProvider
+NAME: DC2
+POSITION: CC:entities::C:Dependency
+NAME: DC3
+POSITION: CC:entities::C:SmellType
+NAME: DC4
+POSITION: CC:entities.stateSpace::C:SmellOccurance
+NAME: LM1
+PATH: unit/class/block/FE2/function
+POSITION: CC:dataprovider::C:DatabaseDataProvider::M:initRootNAME: LM2
+PATH: unit/class/block/FE17/function
+POSITION: CC:usecases::C:AntColonyPathSearchMultithreded::M:findPathNAME: LM3
+PATH: unit/LC1/class/block/FE21/function
+POSITION: CC:usecases::C:BeePathSearchStrategy::M:findPathNAME: LM4
+PATH: unit/LC1/class/block/function
+POSITION: CC:usecases::C:BeePathSearchStrategy::M:initSuperBeeNAME: LM5
+PATH: unit/LC1/class/block/function
+POSITION: CC:usecases::C:BeePathSearchStrategy::M:exploreSpaceNAME: LM6
+PATH: unit/class/block/FE24/function
+POSITION: CC:usecases::C:DefaultPathSearchStrategy::M:findPathNAME: LM7
+PATH: unit/class/block/function
+POSITION: CC:usecases::C:DefaultPathSearchStrategy::M:startNAME: LM8
+PATH: unit/class/block/function
+POSITION: CC:usecases::C:DefaultPathSearchStrategy::M:initNAME: LM9
+PATH: unit/class/block/FE27/function
+POSITION: CC:usecases::C:MonteCarloSearchStrategy::M:findPathNAME: LM10
+PATH: unit/LAZC13/class/block/FE31/function
+POSITION: CC:usecases::C:MultiAgent::M:findPathNAME: LM11
+PATH: unit/class/block/FE36/function
+POSITION: CC:usecases::C:PathSearchStrategy::M:initNAME: LM12
+PATH: unit/class/block/FE42/function
+POSITION: CC:usecases::C:RelationCreator::M:makeDependencyRepairRelationsNAME: LM13
+PATH: unit/class/block/function
+POSITION: CC:usecases::C:StateProcessor::M:calculateFitnessNAME: LM14
+PATH: unit/class/block/FE48/function
+POSITION: CC:usecases::C:StateProcessor::M:calculateFitnessForAnts

@@ -1,6 +1,10 @@
 package entities;
 
-public class Dependency {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC4 //SMELL: #SmellType(Lazy Class)
+ //REFACTOR - Data Class
+  // smelltag end   : DC2 //SMELL: #SmellType(Data Class)
+ public class Dependency {
 	private DependencyType type;
 	private SmellType smell;
 	private Double probability;
@@ -64,4 +68,4 @@ public class Dependency {
 	public void setPlaceType(DependencyPlaceType placeType) {
 		this.placeType = placeType;
 	}
-}
+}// smelltag start : DC2 // smelltag start : LAZC4 

@@ -26,7 +26,9 @@ public class Repair {
 		this.name = name;
 	}
 	
-	public List<SmellType> getSmells(){
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE7 //SMELL: #SmellType(Feature Envy)
+ public List<SmellType> getSmells(){
 		
 		List<SmellType> result = new ArrayList<>();
 		
@@ -35,7 +37,7 @@ public class Repair {
 		}
 		
 		return result;
-	}
+	}// smelltag start : FE7 
 	
 	public void addSmellCoverage(SmellType smell, int weight){
 		this.repairUses.add(new RepairUse(smell, weight));

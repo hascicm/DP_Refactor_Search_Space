@@ -10,14 +10,21 @@ import com.google.common.collect.Lists;
 
 import entities.stateSpace.*;
 
-public class MultiAgent {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC13 //SMELL: #SmellType(Lazy Class)
+ public class MultiAgent {
 	
 	private static int NUM_AGENT =10;
 	
-	public List<Relation> findPath(State rootState,PathSearchStrategy strategy){
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE31 //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  public List<Relation> findPath(State rootState,PathSearchStrategy strategy){
 		
 			
-		strategy.init(rootState, 0);
+		strategy.init(rootState, //REFACTOR - Magic Number
+  // smelltag end   : MAGIC27 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC27 );
 		
 		
 		List<Agent> agents = new ArrayList<Agent>();
@@ -78,5 +85,5 @@ public class MultiAgent {
 		}
 		
 		return null;
-	}
-}
+	}// smelltag start : FE31 
+}// smelltag start : LAZC13 

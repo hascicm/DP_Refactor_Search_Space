@@ -33,10 +33,14 @@ public class RefactorProcessOptimizer {
 		//MultiAgent ma = new MultiAgent();
 		//ma.findPath(this.dataProvider.getRootState(), this.pathSearchStrategy);
 		Long startTime = System.currentTimeMillis();
-		this.pathSearchStrategy.findPath(this.dataProvider.getRootState(), 0);
+		this.pathSearchStrategy.findPath(this.dataProvider.getRootState(), //REFACTOR - Magic Number
+  // smelltag end   : MAGIC10 //SMELL: #SmellType(Magic Numbers)
+ 0// smelltag start : MAGIC10 );
 		System.out.println("");
 		System.out.println("Time: ");
-		System.out.println(((startTime - System.currentTimeMillis())/1000.0));
+		System.out.println(((startTime - System.currentTimeMillis())///REFACTOR - Magic Number
+  // smelltag end   : MAGIC11 //SMELL: #SmellType(Magic Numbers)
+ 1000.0// smelltag start : MAGIC11 ));
 	}
 	
 	public void setPathSearchStrategy(PathSearchStrategy pathSearchStrategy) {

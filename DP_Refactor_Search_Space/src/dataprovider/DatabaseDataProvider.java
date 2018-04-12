@@ -38,16 +38,26 @@ public class DatabaseDataProvider implements DataProvider {
 		return root;
 	}
 
-	private void initRoot() {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE2 //SMELL: #SmellType(Feature Envy)
+ //REFACTOR - Long Method
+  // smelltag end   : LM1 //SMELL: #SmellType(Long Method)
+ private void initRoot() {
 
 		List<SmellOccurance> smellOccurances = new ArrayList<SmellOccurance>();
 
 		// DataClumps
-		smellOccurances.add(new SmellOccurance(this.getSmellType(4)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC7 //SMELL: #SmellType(Magic Numbers)
+ 4// smelltag start : MAGIC7 )));
 		// LazyClass
-		smellOccurances.add(new SmellOccurance(this.getSmellType(9)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC8 //SMELL: #SmellType(Magic Numbers)
+ 9// smelltag start : MAGIC8 )));
 		// FeatureEnvy
-		smellOccurances.add(new SmellOccurance(this.getSmellType(10)));
+		smellOccurances.add(new SmellOccurance(this.getSmellType(//REFACTOR - Magic Number
+  // smelltag end   : MAGIC9 //SMELL: #SmellType(Magic Numbers)
+ 10// smelltag start : MAGIC9 )));
 		// LongParameterList
 		/*
 		 * smellOccurances.add(new SmellOccurance(this.getSmellType(3)));
@@ -125,7 +135,7 @@ public class DatabaseDataProvider implements DataProvider {
 
 		this.root = new State();
 		this.root.setSmells(smellOccurances);
-	}
+	}// smelltag start : LM1 // smelltag start : FE2 
 
 	private SmellType getSmellType(int id) {
 

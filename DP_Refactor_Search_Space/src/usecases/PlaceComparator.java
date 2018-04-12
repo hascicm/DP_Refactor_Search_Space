@@ -6,7 +6,9 @@ import java.util.List;
 import entities.Location;
 import entities.LocationPart;
 
-public class PlaceComparator {
+//REFACTOR - Lazy Class
+  // smelltag end   : LAZC14 //SMELL: #SmellType(Lazy Class)
+ public class PlaceComparator {
 	
 	public static List<LocationPart> findCommonDestinationPath(List<LocationPart> listA, List<LocationPart> listB){
 		
@@ -32,4 +34,4 @@ public class PlaceComparator {
 	
 		return commonPath; 
 	}
-}
+}// smelltag start : LAZC14 

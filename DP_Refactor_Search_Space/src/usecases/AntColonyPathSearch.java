@@ -65,7 +65,9 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 		a.setCurrentState(rootState);
 	}
 
-	public void makeAntMove(Ant ant) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE11 //SMELL: #SmellType(Feature Envy)
+ public void makeAntMove(Ant ant) {
 
 		State currentState = ant.getCurrentState();
 		expandCurrentState(currentState);
@@ -86,16 +88,20 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 			}
 			calculateAntPheromoneForAnt(ant);
 		}
-	}
+	}// smelltag start : FE11 
 
-	public void backtrackAnt(Ant ant, State rootState) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE12 //SMELL: #SmellType(Feature Envy)
+ public void backtrackAnt(Ant ant, State rootState) {
 		State state = ant.getCurrentState();
 		Relation relation = state.getSourceRelation();
 		relation.setPheromoneTrail(calculatePheromoneForRelation(ant, relation));
 		ant.setCurrentState(relation.getFromState());
-	}
+	}// smelltag start : FE12 
 
-	private void evaporatePheromoneFromTrails(HashSet<Relation> relations) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE13 //SMELL: #SmellType(Feature Envy)
+ private void evaporatePheromoneFromTrails(HashSet<Relation> relations) {
 		for (Relation r : relations) {
 			int calculatedPheromone = r.getPheromoneTrail() - pheromoneEvaporationPerCycle;
 			if (calculatedPheromone < minPheromone) {
@@ -104,9 +110,11 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 				r.setPheromoneTrail(calculatedPheromone);
 			}
 		}
-	}
+	}// smelltag start : FE13 
 
-	private void calculateAntPheromoneForAnt(Ant ant) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE14 //SMELL: #SmellType(Feature Envy)
+ private void calculateAntPheromoneForAnt(Ant ant) {
 		int calculatedPheromone = (int) (ant.getFinalState().getFitness() / pheromoneCalculatioCoeficient);
 		// System.out.println(root.getFitness() /
 		// pheromoneCalculatioCoeficient);
@@ -118,7 +126,7 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 		} else {
 			ant.setPheromone(calculatedPheromone);
 		}
-	}
+	}// smelltag start : FE14 
 
 	private int calculatePheromoneForRelation(Ant ant, Relation relation) {
 		int calculatedPheromone = relation.getPheromoneTrail() + ant.getPheromone();
@@ -131,7 +139,9 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 		return calculatedPheromone;
 	}
 
-	private Relation rouletteWheel(List<Relation> posibleMoves) {
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE15 //SMELL: #SmellType(Feature Envy)
+ private Relation rouletteWheel(List<Relation> posibleMoves) {
 		int sum = 0;
 		int partialsum = 0;
 		Relation output = null;
@@ -148,15 +158,17 @@ public class AntColonyPathSearch extends PathSearchStrategy {
 				break;
 		}
 		return output;
-	}
+	}// smelltag start : FE15 
 
-	@Override
+	//REFACTOR - Feature Envy
+  // smelltag end   : FE16 //SMELL: #SmellType(Feature Envy)
+ @Override
 	protected void calculateEndNodeFitness(List<Relation> relations) {
 
 		for (Relation rel : relations) {
 			StateProcessor.calculateFitnessForAnts(rel.getToState());
 		}
-	}
+	}// smelltag start : FE16 
 
 	private class Ant {
 		private int pheromone;
